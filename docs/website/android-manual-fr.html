@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BakePlanner pour Android – Manuel de l’utilisateur</title>
+<style>
+  :root {
+    --bg-top: #FAEDD1;
+    --bg-bottom: #EDCC9E;
+    --card: #FFFFFF;
+    --title: #593314;
+    --text: #2A1A0A;
+    --subtitle: #734D29;
+    --accent: #945B29;
+    --rule: #E6D3B8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-top: #291F17;
+      --bg-bottom: #17120D;
+      --card: #332921;
+      --title: #F5E6CC;
+      --text: #F2E8DA;
+      --subtitle: #D1B899;
+      --accent: #E3934F;
+      --rule: #4A3C30;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0 1rem 4rem;
+    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+    background: linear-gradient(var(--bg-top), var(--bg-bottom)) no-repeat;
+    background-attachment: fixed;
+  }
+  main { max-width: 44rem; margin: 0 auto; }
+  header { text-align: center; padding: 3rem 0 1rem; }
+  h1 { color: var(--title); font-size: 2.2rem; margin: 0 0 .3rem; }
+  .claim { color: var(--subtitle); margin: 0; }
+  nav { text-align: center; margin: 1.5rem 0 2rem; }
+  nav a {
+    display: inline-block; margin: .2rem .4rem; padding: .4rem .9rem;
+    color: var(--accent); text-decoration: none;
+    border: 1px solid var(--accent); border-radius: 999px;
+  }
+  nav a:hover, nav a:focus { text-decoration: underline; }
+  nav a[aria-current] { background: var(--accent); color: var(--card); }
+  article {
+    background: var(--card); border-radius: 16px;
+    padding: 1.5rem 1.75rem; margin-bottom: 1.5rem;
+  }
+  /* Only running text may break inside an overlong word; table cells wrap
+     at spaces, otherwise the browser squeezes the term column to a sliver. */
+  article p, article li, article figcaption { overflow-wrap: break-word; }
+  h2 { color: var(--title); font-size: 1.5rem; margin: 2rem 0 .6rem; }
+  h3 { color: var(--title); font-size: 1.15rem; margin: 1.6rem 0 .3rem; }
+  h4 { color: var(--title); font-size: 1rem; margin: 1.2rem 0 .3rem; }
+  article > h2:first-child { margin-top: 0; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--rule); margin: 2rem 0; }
+  code {
+    font: .9em ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: var(--bg-top); border-radius: 4px; padding: 0 .3em;
+  }
+  blockquote.note {
+    margin: 1rem 0; border-left: 4px solid var(--accent);
+    padding-left: 1rem; color: var(--subtitle);
+  }
+  blockquote.note p { margin: 0; }
+  .table-wrap { overflow-x: auto; margin: 1rem 0; }
+  table { border-collapse: collapse; width: 100%; font-size: .95em; }
+  th, td { text-align: left; vertical-align: top; padding: .45rem .6rem; border-bottom: 1px solid var(--rule); }
+  th { color: var(--title); }
+  col.first { width: var(--w); }
+  table.firm th:first-child, table.firm td:first-child { white-space: nowrap; }
+  @media (max-width: 480px) {
+    /* On a phone a one-line term column would leave no room for the
+       explanation, so the term may wrap at spaces and takes 40 %. */
+    table.firm th:first-child, table.firm td:first-child { white-space: normal; }
+    col.first { width: min(var(--w), 40%); }
+    /* Tables with three or more columns: smaller type, tighter padding and
+       hyphenation, so that the last column is not pushed off the screen. */
+    table.wide { font-size: .88em; }
+    table.wide th, table.wide td { padding: .35rem .4rem; hyphens: auto; }
+  }
+  figure { margin: 1.5rem 0; text-align: center; }
+  img.screenshot {
+    max-width: min(100%, 320px); height: auto;
+    border-radius: 12px; box-shadow: 0 3px 10px rgba(0,0,0,.15);
+  }
+  figcaption { color: var(--subtitle); font-size: .9em; margin-top: .5rem; }
+  footer { text-align: center; color: var(--subtitle); font-size: .9rem; }
+</style>
+</head>
+<body>
+<main id="top">
+
+<header>
+  <h1>BakePlanner pour Android – Manuel de l’utilisateur</h1>
+  <p class="claim">Mise à jour : 27/11/2026 · version Android 2.4</p>
+</header>
+
+<nav aria-label="Choisir la langue">
+  <a href="index.html#fr">Aide et contact</a>
+  <a href="android-manual-de.html" lang="de">Deutsch</a>
+  <a href="android-manual-en.html" lang="en">English</a>
+  <a href="android-manual-fr.html" lang="fr" aria-current="page">Français</a>
+  <a href="privacy.html">Confidentialité</a>
+  <a href="impressum.html">Mentions légales</a>
+</nav>
+
+<article>
+<hr>
+<h2 id="sommaire">Sommaire</h2>
+<ol><li><a href="#1-ce-que-fait-bakeplanner">Ce que fait BakePlanner</a></li><li><a href="#2-prérequis">Prérequis</a></li><li><a href="#3-notions-de-base">Notions de base</a></li><li><a href="#4-les-onglets">Les onglets</a></li><li><a href="#5-base-de-recettes">Base de recettes</a></li><li><a href="#6-mes-recettes">Mes recettes</a></li><li><a href="#7-planifier-mode-cuisson-et-rappels">Planifier, mode cuisson et rappels</a></li><li><a href="#8-créer-et-modifier-une-recette">Créer et modifier une recette</a></li><li><a href="#9-timeline-et-journée-de-cuisson">Timeline et journée de cuisson</a></li><li><a href="#10-historique-de-cuisson">Historique de cuisson</a></li><li><a href="#11-listes-de-courses">Listes de courses</a></li><li><a href="#12-réserve">Réserve</a></li><li><a href="#13-calculatrices">Calculatrices</a></li><li><a href="#14-réglages">Réglages</a></li><li><a href="#15-unités-et-quantités">Unités et quantités</a></li><li><a href="#16-données-sauvegarde-et-changement-dappareil">Données, sauvegarde et changement d’appareil</a></li><li><a href="#17-confidentialité">Confidentialité</a></li><li><a href="#18-questions-fréquentes">Questions fréquentes</a></li><li><a href="#19-ce-que-seul-liphone-propose">Ce que seul l’iPhone propose</a></li></ol>
+<hr>
+<h2 id="1-ce-que-fait-bakeplanner">1. Ce que fait BakePlanner</h2>
+<p>BakePlanner est une app de planification pour le pain, les petits pains et la pâtisserie. Ce qui la distingue d’un simple recueil de recettes, c’est qu’elle <strong>prend en charge le calcul des horaires</strong> :</p>
+<ul><li>Une recette ne se compose pas seulement d’ingrédients, mais d’<strong>étapes de préparation avec des durées</strong>.</li><li>À partir de ces durées, l’app calcule l’<strong>heure de début de chaque étape</strong>.</li><li>Vous pouvez planifier à rebours : « le pain doit être prêt à 18 h » — et l’app vous dit quand lancer le levain.</li><li>Chaque étape reçoit un <strong>rappel</strong> sous forme de notification Android, y compris les étapes insérées automatiquement « Allumer le four » et « La cuisson est terminée ».</li></ul>
+<p>S’y ajoutent : une base de recettes publique commune, vos propres recettes sur l’appareil, l’import depuis des photos, des pages web et du texte, des listes de courses triées par rayon, une réserve, un historique de cuisson avec photos, mesures et statistiques, un journal du levain avec estimation de la maturation, des variantes de recette avec comparaison, un mode cuisson qui lit à voix haute et quatre calculatrices de boulanger.</p>
+<p><strong>Sur Android, tout est gratuit.</strong> Il n’y a pas de Pro et rien à acheter.</p>
+<h3 id="démarrage-rapide--votre-premier-plan-de-cuisson-en-cinq-étapes">Démarrage rapide : votre premier plan de cuisson en cinq étapes</h3>
+<ol><li>Choisissez une recette dans l’onglet <strong>Recettes</strong> — ou créez la vôtre avec <strong>+</strong> en haut à droite.</li><li>Sur la page de la recette, touchez <strong>Planifier</strong>.</li><li>Choisissez <strong>Commencer à</strong> ou <strong>Terminé pour</strong> et réglez la date et l’heure de début.</li><li>Vérifiez les heures calculées et touchez <strong>Planifier</strong> en haut à droite.</li><li>Ouvrez l’onglet <strong>Timeline</strong> pour voir toutes les étapes sous forme de timeline ou de liste.</li></ol>
+<p>À la première planification, Android demande si BakePlanner peut envoyer des notifications. Sans cette autorisation, le plan est tout de même enregistré, mais aucun rappel n’arrive (voir <a href="#7-planifier-mode-cuisson-et-rappels">chapitre 7</a>).</p>
+<hr>
+<h2 id="2-prérequis">2. Prérequis</h2>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 15ch"></colgroup>
+<thead><tr><th>Point</th><th>Valeur</th></tr></thead>
+<tbody>
+<tr><td>Android</td><td>9.0 ou plus récent ; une langue de l’app distincte de celle du système à partir d’Android 13</td></tr>
+<tr><td>Distribution</td><td>Google Play (actuellement en test fermé)</td></tr>
+<tr><td>Taille</td><td>Environ 55–60 Mo à télécharger, environ 190 Mo une fois installée — l’app embarque son propre environnement d’exécution</td></tr>
+<tr><td>Langues</td><td>Allemand, anglais, français</td></tr>
+<tr><td>Affichage</td><td>Mode clair et sombre selon le réglage du système, taille de police selon le réglage Android « Taille de la police »</td></tr>
+<tr><td>Autorisations</td><td>Notifications (rappels), appareil photo (images de recette, photos de cuisson, import depuis des photos), Internet (base de recettes, IA cloud, import depuis des pages web)</td></tr>
+<tr><td>Internet</td><td>Seulement pour la base de recettes, l’IA cloud et l’import depuis des pages web. Vos recettes, la planification et les rappels fonctionnent hors ligne.</td></tr>
+<tr><td>Connexion</td><td>Pas nécessaire. La connexion avec Apple est facultative — elle ne sert qu’à publier des recettes (voir <a href="#14-réglages">chapitre 14</a>).</td></tr>
+</tbody></table></div>
+<blockquote class="note"><p><strong>Important :</strong> toutes vos données restent uniquement sur cet appareil. Il n’y a ni synchronisation ni sauvegarde automatique dans Google Drive. Faites donc régulièrement une sauvegarde (voir <a href="#16-données-sauvegarde-et-changement-dappareil">chapitre 16</a>).</p></blockquote>
+<hr>
+<h2 id="3-notions-de-base">3. Notions de base</h2>
+<p>Ces notions reviennent partout dans l’app :</p>
+<p><strong>Recette</strong><br>L’unité de plus haut niveau : nom, description, image, note, tags, un lien facultatif vers la source, poids total et durée de préparation.</p>
+<p><strong>Composant</strong><br>Une partie de la recette préparée à part — par exemple « Levain », « Préferment », « Pâte principale », « Échaudage ». Chaque composant a sa propre liste d’ingrédients. BakePlanner est conçu pour les pâtes en plusieurs étapes.</p>
+<p><strong>Ingrédient</strong><br>Appartient toujours à un composant : quantité, unité et nom. La quantité peut aussi être une fraction (« 1/2 », « 1 1/2 »).</p>
+<p><strong>Étape de préparation</strong><br>Une instruction avec un numéro d’étape et une durée. Vous saisissez la durée en minutes (« 90 ») ou en heures et minutes (« 1:30 », « 1h 30 », « 1,5 h »). Le numéro d’étape a une signification particulière :</p>
+<ul><li><strong>Les nombres entiers (1, 2, 3 …) sont des étapes principales.</strong> Elles se suivent dans le temps.</li><li><strong>Les décimales (2.1, 2.2, 2.3) sont des étapes parallèles au sein d’une étape principale.</strong> Elles se déroulent en même temps ; seule la durée <em>la plus longue</em> du groupe compte pour le total. Les étapes qui préparent un composant (levain, préferment, trempage …) démarrent à 5 minutes d’intervalle, pour que vous n’ayez pas tout à peser dans la même minute.</li></ul>
+<p>Exemple : si vous lancez un levain (12 h) et un échaudage (2 h) en même temps, donnez-leur les étapes 1.1 et 1.2. L’étape principale 2 commence alors après un peu plus de 12 heures, et non après 14.</p>
+<p><strong>Quantité (taille de portion)</strong><br>Un facteur pour toutes les quantités ; <strong>× 1 correspond à la recette telle qu’elle est enregistrée</strong>, × 2 double tout. Au lieu d’un facteur, vous pouvez saisir un <strong>poids de pâte</strong> en grammes. Le choix vaut pour la recette ouverte : page de la recette, planification et liste de courses l’utilisent (voir <a href="#15-unités-et-quantités">chapitre 15</a>).</p>
+<p><strong>Emplacement</strong><br>L’endroit où se trouve une recette :</p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Emplacement</th><th>Qui la voit ?</th><th>Où est-elle ?</th><th>Modifiable ?</th></tr></thead>
+<tbody>
+<tr><td><strong>Local</strong></td><td>vous seul</td><td>sur cet appareil</td><td>oui, à tout moment</td></tr>
+<tr><td><strong>Public</strong></td><td>tous les utilisateurs de l’app, sur Android comme sur l’iPhone</td><td>dans la base de recettes</td><td>oui, par vous en tant qu’auteur</td></tr>
+</tbody></table></div>
+<p>Les nouvelles recettes sont toujours d’abord locales. Vous mettez une recette dans la base avec <strong>Publier</strong> sur sa page (voir <a href="#6-mes-recettes">chapitre 6</a>). Une recette que vous n’avez pas le droit de publier — tirée d’un livre, par exemple — reste simplement locale.</p>
+<hr>
+<h2 id="4-les-onglets">4. Les onglets</h2>
+<p>Au démarrage, l’app s’ouvre sur l’onglet <strong>Recettes</strong>. Les cinq onglets se trouvent en bas :</p>
+<figure><img class="screenshot" src="images/android/rezepte.png" alt="Liste des recettes de BakePlanner sur Android avec les puces de filtre et la barre d’onglets en bas" loading="lazy">
+<figcaption>L’onglet Recettes est le point de départ : toutes les recettes, avec « Plus » et « + » pour une nouvelle recette en haut à droite.</figcaption>
+</figure>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 23ch"></colgroup>
+<thead><tr><th>Onglet</th><th>Rôle</th></tr></thead>
+<tbody>
+<tr><td><strong>Recettes</strong></td><td>Toutes les recettes dans une liste : les vôtres, celles que vous avez publiées et les recettes publiques de tous les utilisateurs (voir <a href="#5-base-de-recettes">chapitre 5</a> et <a href="#6-mes-recettes">chapitre 6</a>)</td></tr>
+<tr><td><strong>Courses</strong></td><td>Toutes les listes de courses (voir <a href="#11-listes-de-courses">chapitre 11</a>)</td></tr>
+<tr><td><strong>Historique de cuisson</strong></td><td>Les cuissons passées en liste, galerie, palmarès, nuage de photos ou statistiques (voir <a href="#10-historique-de-cuisson">chapitre 10</a>)</td></tr>
+<tr><td><strong>Timeline</strong></td><td>Toutes les étapes planifiées en timeline ou en liste, ainsi que le mode cuisson (voir <a href="#9-timeline-et-journée-de-cuisson">chapitre 9</a>)</td></tr>
+<tr><td><strong>Réserve</strong></td><td>Ce que vous avez à la maison : farines, graines, levure avec quantité et date limite (voir <a href="#12-réserve">chapitre 12</a>)</td></tr>
+</tbody></table></div>
+<p>En haut à droite de l’onglet <strong>Recettes</strong>, deux menus :</p>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 22ch"></colgroup>
+<thead><tr><th>Menu</th><th>Entrées</th></tr></thead>
+<tbody>
+<tr><td><strong>Plus</strong></td><td><strong>Réglages</strong>, <strong>Importer des recettes</strong> (lire un fichier de sauvegarde ou une recette sauvegardée seule), <strong>Exporter des recettes</strong> (vos recettes dans un fichier), <strong>Planifier une journée de cuisson</strong> et <strong>Calculatrices</strong></td></tr>
+<tr><td><strong>+</strong> (Nouvelle recette)</td><td><strong>À la main</strong>, <strong>Pourcentages boulanger</strong>, <strong>Depuis une page web</strong>, <strong>À partir de photos</strong>, <strong>À partir d’un texte</strong> (voir <a href="#8-créer-et-modifier-une-recette">chapitre 8</a>)</td></tr>
+</tbody></table></div>
+<p>La flèche retour en haut à gauche ou le geste retour d’Android vous ramène depuis n’importe quel écran. Les feuilles comme la feuille de planification ou l’éditeur se ferment avec <strong>Annuler</strong> ou <strong>Fermer</strong> en haut à gauche.</p>
+<hr>
+<h2 id="5-base-de-recettes">5. Base de recettes</h2>
+<p>La base de recettes publique est partagée par tous les utilisateurs de BakePlanner, sur Android comme sur l’iPhone. Ses recettes apparaissent dans l’onglet <strong>Recettes</strong> avec les vôtres, par ordre alphabétique. Trois puces de filtre au-dessus de la liste activent ou désactivent chaque source :</p>
+<ul><li><strong>Local</strong> — vos recettes sur cet appareil,</li><li><strong>Publiées par moi</strong> — vos propres recettes dans la base,</li><li><strong>Public</strong> — les recettes des autres utilisateurs.</li></ul>
+<p><strong>Tirer vers le bas</strong> recharge les recettes publiques. Si la liste indique « Les recettes publiques n’ont pas pu être chargées », la connexion Internet manquait — tirez la liste vers le bas encore une fois.</p>
+<p><strong>Langue.</strong> Il n’y a pas de traduction automatique sur Android. Si quelqu’un a déjà enregistré une traduction d’une recette dans la langue de votre app, l’app l’affiche ; sinon, elle montre la langue dans laquelle la recette a été écrite.</p>
+<h3 id="ouvrir-une-recette-publique">Ouvrir une recette publique</h3>
+<p>Une recette publique s’ouvre sur une page continue : image, nom et description, quantité et poids de pâte, poids total, la ligne TA, puis le total des ingrédients, les composants et les étapes de préparation. Trois boutons :</p>
+<ul><li><strong>Planifier</strong> — ouvre la feuille de planification (voir <a href="#7-planifier-mode-cuisson-et-rappels">chapitre 7</a>).</li><li><strong>Ajouter la recette à la liste de courses</strong> — voir <a href="#11-listes-de-courses">chapitre 11</a>.</li><li><strong>Enregistrer comme ma recette</strong> — crée une copie complète, image comprise, sur votre appareil. Seule cette copie peut être modifiée. Une copie déjà existante reste telle quelle.</li></ul>
+<h3 id="plus-dactions">Plus d’actions</h3>
+<p>En haut à droite, sous <strong>Plus d’actions</strong> :</p>
+<ul><li><strong>Partager la recette</strong> — crée un PDF de la recette dans la quantité choisie et ouvre le menu de partage d’Android.</li><li><strong>Signaler la recette</strong> — avec un motif (choquant, spam, droit d’auteur, autre). La recette est masquée <strong>aussitôt pour tous les utilisateurs</strong> jusqu’à ce qu’un administrateur l’ait examinée.</li><li><strong>Bloquer l'auteur</strong> — toutes les recettes de cet auteur disparaissent de la liste <strong>sur votre appareil uniquement</strong>.</li><li><strong>Modifier la recette</strong> et <strong>Supprimer ma recette</strong> — seulement pour les recettes issues de votre compte. Vous modifiez la recette dans la base ; votre version locale n’est pas touchée.</li></ul>
+<p>Vous annulez blocages et signalements sous <em>Réglages → Modération</em> (voir <a href="#14-réglages">chapitre 14</a>). Si vous êtes connecté en tant qu’<strong>administrateur</strong>, vous voyez en plus <strong>Supprimer la recette (admin)</strong> et, pour les recettes signalées, <strong>Réafficher la recette</strong>.</p>
+<hr>
+<h2 id="6-mes-recettes">6. Mes recettes</h2>
+<p>Vos recettes sont celles de votre appareil : créées par vous, importées ou reprises de la base. Désactivez les puces <strong>Publiées par moi</strong> et <strong>Public</strong>, et il ne reste que vos propres recettes.</p>
+<h3 id="rechercher-et-filtrer">Rechercher et filtrer</h3>
+<ul><li><strong>Champ de recherche</strong> en haut, en dessous le choix <strong>Nom / Tags</strong>. La recherche ignore les majuscules et trouve les parties de mots : « seigle » trouve « Pain de seigle ».</li><li><strong>Menu étoile (★)</strong> à côté : <strong>Toutes les notes</strong> ou « … étoiles et plus », <strong>Afficher les variantes / Masquer les variantes</strong> et <strong>Filtre …</strong>.</li><li><strong>Collections</strong> sous forme de puces au-dessus de la liste : <strong>Pour demain matin</strong>, <strong>Pain rapide</strong>, <strong>Levain pur</strong>, <strong>Pas cuit depuis longtemps</strong> et <strong>Favoris</strong> ; dès que la réserve contient quelque chose, aussi <strong>Avec la réserve</strong> et <strong>Écouler la réserve</strong>. Un second appui annule une collection.</li></ul>
+<h3 id="facettes">Facettes</h3>
+<p>La feuille <strong>Filtre …</strong> contient les facettes. L’app les lit dans les ingrédients et les étapes de chaque recette — vous n’avez rien à saisir :</p>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 27ch"></colgroup>
+<thead><tr><th>Facette</th><th>Choix</th></tr></thead>
+<tbody>
+<tr><td><strong>Durée</strong></td><td>Moins de 4 heures, 4 à 12 heures, Sur la nuit, Plusieurs jours</td></tr>
+<tr><td><strong>Déroulement de la journée</strong></td><td>Préparer le soir, cuire le matin ; Préparer le matin, cuire le soir ; Prêt en 2 heures</td></tr>
+<tr><td><strong>Agent levant</strong></td><td>Levain pur, Lievito madre, Levure, Levain et levure</td></tr>
+<tr><td><strong>Farine</strong></td><td>Surtout du blé, du seigle, de l’épeautre ou du complet</td></tr>
+<tr><td><strong>Rendement de la pâte (TA)</strong></td><td>Ferme (moins de TA 165), Moyen (TA 165 à 180), Souple (TA 180 et plus)</td></tr>
+<tr><td><strong>Équipement</strong></td><td>Pierre de cuisson, Moule à cake, Banneton, Cocotte</td></tr>
+<tr><td><strong>Historique de cuisson</strong></td><td>Jamais cuit, Pas cuit depuis longtemps, Favoris</td></tr>
+<tr><td><strong>Peu de travail</strong></td><td>Au plus 30 minutes de travail manuel</td></tr>
+</tbody></table></div>
+<p>Avec une réserve s’ajoutent les interrupteurs <strong>Avec la réserve</strong> (seulement les recettes dont tous les ingrédients sont là) et <strong>Écouler la réserve</strong> (les recettes qui utilisent ce qui expire bientôt ; sous chacune figure ce qu’elle consomme). <strong>Réinitialiser les filtres</strong> efface tout d’un coup.</p>
+<p><strong>Vos propres collections.</strong> Une combinaison dont vous avez souvent besoin s’enregistre dans la feuille <strong>Filtre …</strong> avec <strong>Enregistrer la collection</strong>, sous un nom. Elle apparaît comme puce après les collections prédéfinies. Sous <strong>Collections enregistrées</strong>, vous la renommez (appui) ou la supprimez (balayage) ; un appui long sur la puce propose aussi <strong>Renommer</strong> et <strong>Supprimer</strong>.</p>
+<p><strong>Terminé pour.</strong> Dans la feuille <strong>Filtre …</strong>, <strong>Terminé pour</strong> fixe la date et l’heure auxquelles le pain doit être prêt. La liste ne montre alors que les recettes encore réalisables et inscrit sous chacune le départ nécessaire : « Début aujourd’hui 17:45 », « Début demain 06:10 », avec « Étapes la nuit » le cas échéant. L’objectif figure comme première puce au-dessus de la liste ; touchez-la pour le changer.</p>
+<h3 id="supprimer-une-recette">Supprimer une recette</h3>
+<p>Balayez une de vos recettes vers la gauche dans la liste et confirmez. Son historique de cuisson et son journal du levain disparaissent avec elle. Les recettes publiques ne se suppriment pas ici.</p>
+<h3 id="la-page-dune-de-vos-recettes">La page d’une de vos recettes</h3>
+<figure><img class="screenshot" src="images/android/rezeptseite.png" alt="Page d’une recette personnelle sur Android avec image, quantité, poids de pâte, poids total et le bouton Planifier" loading="lazy">
+<figcaption>La page de recette : image et quantités en haut, puis Planifier, la liste de courses et tous les ingrédients et étapes.</figcaption>
+</figure>
+<p>De haut en bas :</p>
+<ol><li><strong>Image</strong> avec <strong>Changer l’image</strong>, <strong>Appareil photo</strong> et <strong>Supprimer l’image</strong>, en dessous la description et — s’il existe — le <strong>Lien vers la recette</strong>.</li><li><strong>Quantité</strong> (facteur) et <strong>Poids de pâte</strong>, le <strong>poids total</strong>, la <strong>durée de préparation</strong> et la ligne <strong>« TA 172 · hydratation 72 % »</strong> ; touchez-la pour le détail (voir <a href="#15-unités-et-quantités">chapitre 15</a>). Les recettes planifiées régulièrement ajoutent « Prochaine cuisson » ou « Prochain nourrissage ».</li><li><strong>Réserve</strong> — dès que la réserve contient quelque chose : « Les 5 ingrédients sont dans la réserve » ou ce qui manque (voir <a href="#12-réserve">chapitre 12</a>).</li><li><strong>Planifier</strong> et <strong>Ajouter la recette à la liste de courses</strong>.</li><li><strong>Total des ingrédients</strong>, <strong>Composants</strong> et <strong>Étapes de préparation</strong>. Les lignes de farine et de levain se touchent (voir <a href="#13-calculatrices">chapitre 13</a>).</li><li><strong>La dernière fois</strong>, <strong>Noter une cuisson</strong> et <strong>Cuissons précédentes</strong> — pour un levain, le <strong>Journal du levain</strong> à la place.</li><li><strong>Variantes</strong> — les recettes nées de celle-ci.</li></ol>
+<p>En haut à droite se trouvent <strong>Modifier</strong> (voir <a href="#8-créer-et-modifier-une-recette">chapitre 8</a>) et <strong>Plus d’actions</strong> :</p>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 24ch"></colgroup>
+<thead><tr><th>Entrée</th><th>Rôle</th></tr></thead>
+<tbody>
+<tr><td><strong>Sauvegarder la recette</strong></td><td>Écrit la recette et son image dans un fichier, sans historique — pour la transmettre à d’autres, qui la lisent avec <strong>Plus → Importer des recettes</strong></td></tr>
+<tr><td><strong>Partager la recette</strong></td><td>Crée un PDF avec image, composants, total des ingrédients et étapes dans la quantité choisie et ouvre le menu de partage</td></tr>
+<tr><td><strong>Publier</strong></td><td>Met la recette dans la base de recettes (voir ci-dessous)</td></tr>
+<tr><td><strong>Créer une variante</strong></td><td>Crée une variante (voir ci-dessous)</td></tr>
+</tbody></table></div>
+<p><strong>Publier</strong> suppose deux choses : la <strong>connexion avec Apple</strong> sous <em>Réglages → Compte</em> (sinon « Connexion requise » apparaît) et une <strong>image de la recette</strong> (sinon « Image requise »). La première fois, vous acceptez les conditions d’utilisation (voir <a href="#17-confidentialité">chapitre 17</a>) ; suit la question <strong>Publier la recette ?</strong> avec <strong>Enregistrer publiquement</strong>. Ensuite, la page indique « Publié » et l’entrée disparaît : une recette n’est publiée qu’une fois, les modifications ultérieures se font sur la version publique (voir <a href="#5-base-de-recettes">chapitre 5</a>).</p>
+<h3 id="variantes-de-recette">Variantes de recette</h3>
+<p>Les variantes sont vos propres recettes qui restent liées à leur recette d’origine — vous voyez ainsi plus tard ce qui changeait et comment le résultat a tourné.</p>
+<ul><li><strong>Créer une variante</strong> ouvre la feuille <strong>Nouvelle variante</strong> : sous « Ce qui change ? (facultatif) », vous notez la modification, et <strong>Créer</strong> copie la recette sous « Pain de campagne V1 », « Pain de campagne V2 » … puis ouvre la copie. <strong>Remplacer la farine</strong> et <strong>Ajuster la TA du levain chef</strong> créent aussi des variantes (voir <a href="#13-calculatrices">chapitre 13</a>).</li><li>Une variante affiche <strong>Variante de « … »</strong> ; <strong>Comparer</strong> liste les différences : ingrédients, TA, hydratation, poids de pâte et étapes.</li><li>Sur la recette d’origine, la carte <strong>Variantes</strong> liste chaque variante avec sa note et le résultat de son historique de cuisson.</li><li>Dans le menu étoile de la liste, <strong>Masquer les variantes</strong> les retire de la liste.</li></ul>
+<h3 id="journal-du-levain">Journal du levain</h3>
+<p>Une recette composée uniquement de levain, de farine et d’eau et qui ne cuit rien est un <strong>levain</strong> pour l’app. On le nourrit, on ne le cuit pas : au lieu de l’historique de cuisson, il a le <strong>Journal du levain</strong> :</p>
+<ul><li><strong>Ratio de nourrissage</strong> « levain : farine : eau », calculé d’après la recette.</li><li><strong>Estimation de la maturation</strong> : si vous avez noté temps de maturation et température ambiante lors des nourrissages, l’app indique quand le levain sera mûr à la <strong>Température ambiante aujourd’hui</strong> (« À 22 °C, mûr après environ 6h 30m, d’après 4 nourrissages »).</li><li><strong>Saisir un nouveau nourrissage</strong> avec date, <strong>Temps jusqu’au pic de pousse</strong>, température ambiante, <strong>Test de flottaison</strong> et note.</li><li><strong>Nourrissages précédents</strong>, le plus récent en premier. Un nourrissage planifié se complète après coup avec <strong>Noter le résultat</strong>.</li></ul>
+<p>Quand vous planifiez un levain, BakePlanner ajoute le nourrissage au journal au lieu d’une entrée dans l’historique de cuisson. Si la farine est dans la réserve, elle est déduite au moment du nourrissage.</p>
+<hr>
+<h2 id="7-planifier-mode-cuisson-et-rappels">7. Planifier, mode cuisson et rappels</h2>
+<p>C’est le cœur de l’app. <strong>Planifier</strong> sur la page de la recette ouvre la feuille de planification ; elle calcule avec la quantité réglée sur la page de la recette.</p>
+<figure><img class="screenshot" src="images/android/planen.png" alt="Feuille de planification sur Android avec le choix Commencer à / Terminé pour, la date, l’heure de début et les étapes de préparation avec leurs heures" loading="lazy">
+<figcaption>Dans la feuille de planification, vous choisissez le moment ; les heures des étapes suivent aussitôt.</figcaption>
+</figure>
+<h3 id="choisir-le-moment">Choisir le moment</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 28ch"></colgroup>
+<thead><tr><th>Élément</th><th>Fonction</th></tr></thead>
+<tbody>
+<tr><td><strong>Commencer à / Terminé pour</strong></td><td><strong>Commencer à</strong> : je commence à ce moment — quand aurai-je fini ? <strong>Terminé pour</strong> : je veux avoir fini à ce moment — quand dois-je commencer ?</td></tr>
+<tr><td><strong>Date</strong> et <strong>Heure de début</strong></td><td>Le moment de référence du plan</td></tr>
+<tr><td><strong>Four</strong> et <strong>Chaleur tournante</strong></td><td>Seulement avec deux profils de four ou plus (voir <a href="#14-réglages">chapitre 14</a>) : le four pour ce pain, prérempli avec celui des réglages, et s’il cuit en chaleur tournante</td></tr>
+<tr><td><strong>Modifier les durées</strong></td><td>Interrupteur. Activé, chaque étape reçoit un champ de durée ; <strong>Appliquer la durée</strong> enregistre les nouvelles durées dans la recette</td></tr>
+</tbody></table></div>
+<p>Changez le moment et observez comment les heures sous <strong>Étapes de préparation</strong> s’adaptent. Rien n’est enregistré avant que vous touchiez <strong>Planifier</strong> en haut à droite.</p>
+<h3 id="pousse-aujourdhui-et-maturation-aujourdhui">Pousse aujourd’hui et maturation aujourd’hui</h3>
+<p><strong>Pousse aujourd’hui.</strong> Pour un pain, la feuille de planification reconnaît les étapes de fermentation — maturation d’un préferment, pointage et apprêt — et montre pour chaque phase la durée prévue et la durée à la <strong>Température ambiante aujourd’hui</strong>, préremplie avec celle notée lors de la dernière cuisson. La fermentation va environ deux fois et demie plus vite par tranche de 10 °C ; les durées de la recette sont considérées comme écrites pour 22 °C. Chaque phase a sa propre <strong>température</strong>, par exemple quand l’apprêt se fait dans un endroit chaud. Si vos cuissons ont noté pointage ou apprêt avec la température ambiante, l’app calcule avec ces mesures. <strong>Utiliser ces temps de pousse</strong> vaut pour ce plan seulement, <strong>Utiliser les durées de la recette</strong> annule, et <strong>Reporter les durées des cuissons dans la recette</strong> inscrit durablement les valeurs mesurées dans la recette.</p>
+<p><strong>Maturation aujourd’hui.</strong> Quand vous planifiez un levain avec des nourrissages dans le journal, la feuille montre le temps de maturation estimé à la température du jour ; <strong>Reprendre la maturation comme durée</strong> l’applique à l’étape de maturation.</p>
+<h3 id="ce-que-lapp-signale-dans-le-plan">Ce que l’app signale dans le plan</h3>
+<p>Des remarques apparaissent au-dessus des étapes dès que le moment choisi mène à un plan peu pratique :</p>
+<ul><li><strong>Étapes hors de votre journée</strong> — avant le <strong>Début de journée</strong> ou après la <strong>Fin de journée</strong> des réglages. En dessous, l’app propose « Pour qu’aucune étape ne commence la nuit : » avec un moment plus tôt et un plus tard ; <strong>Appliquer</strong> le règle.</li><li><strong>Temps de cuisson qui se chevauchent</strong> — chaque four accueille une cuisson à la fois. Plus de cuissons simultanées que de fours est une erreur ; « Pour que les fours se libèrent l’un après l’autre : » propose des moments adaptés.</li><li><strong>Pause de cuisson trop courte</strong> entre deux cuissons dans le même four.</li><li><strong>Étapes avec plage de durée</strong> (voir <a href="#8-créer-et-modifier-une-recette">chapitre 8</a>) : l’app peut les allonger ou les raccourcir. « Voici comment cela tient dans les plages de durée des étapes : » montre la plus petite modification qui fait tout tenir dans votre journée et vos fours.</li></ul>
+<p>Les remarques n’empêchent rien. En cas de chevauchement des temps de cuisson, l’app demande au moment de planifier ; <strong>Planifier malgré tout</strong> pose le plan quand même.</p>
+<h3 id="planifier">Planifier</h3>
+<p>Toucher <strong>Planifier</strong> en haut à droite :</p>
+<ol><li>place toutes les étapes dans la <strong>Timeline</strong> et pose un <strong>rappel</strong> pour chacune,</li><li>ajoute <strong>« Allumer le four »</strong> le temps de préchauffage avant l’étape de cuisson — avec la température du four tirée de la recette, avec le temps de préchauffage avec pierre pour une pierre de cuisson, et avec le réglage du thermostat si vous utilisez des profils de four (« thermostat sur 240 °C »),</li><li>ajoute <strong>« Baisser le four à … »</strong> pour une température décroissante et <strong>« Évacuer la buée »</strong> le cas échéant,</li><li>planifie <strong>« La cuisson est terminée »</strong> à l’heure de fin,</li><li>crée pour vos propres recettes une <strong>entrée d’historique de cuisson</strong> à la date de fin, que vous complétez après la cuisson.</li></ol>
+<p>La confirmation <strong>Les rappels ont été définis</strong> indique quand allumer le four et quand le pain sera prêt. Sans l’autorisation des notifications, elle s’intitule <strong>Plan enregistré</strong> : le plan figure dans la timeline, mais sans rappels — accordez l’autorisation dans les réglages Android sous <em>Applications → BakePlanner → Notifications</em>.</p>
+<blockquote class="note"><p><strong>Une recette, un plan — ou plusieurs.</strong> Si la recette a déjà un plan, l’app demande : <strong>Remplacer le plan existant</strong> abandonne les anciennes étapes et leurs rappels — c’est ainsi que vous déplacez un pain à un autre jour. <strong>Planifier en plus</strong> garde le plan existant et ajoute le nouveau à côté, pour samedi et dimanche par exemple.</p></blockquote>
+<h3 id="rappels">Rappels</h3>
+<p>Chaque rappel arrive comme notification Android intitulée <strong>« Rappel de cuisson »</strong> avec le texte de l’étape. Si l’étape prépare un composant, ses ingrédients avec leurs quantités figurent en dessous. La notification propose deux actions :</p>
+<ul><li><strong>Marquer comme terminé</strong> — l’étape quitte le plan.</li><li><strong>Décaler de…</strong> — vous saisissez les minutes ; l’app demande ensuite « Voulez-vous également décaler toutes les étapes suivantes de cette recette ? » avec <strong>Uniquement cette étape</strong> et <strong>Toutes les suivantes</strong>. Le temps compte à partir de maintenant.</li></ul>
+<blockquote class="note"><p><strong>Heure de remise :</strong> Android remet les rappels par son planificateur de tâches, pas sous forme d’alarmes. Si le téléphone reste longtemps inutilisé en économie d’énergie, un rappel peut arriver quelques minutes plus tard que prévu. Pour les étapes à la minute près, laissez le <strong>mode cuisson</strong> ouvert ou réglez en plus une alarme dans l’app Horloge.</p></blockquote>
+<h3 id="mode-cuisson">Mode cuisson</h3>
+<p>Pour le travail en cuisine, lancez le <strong>mode cuisson</strong> dans l’onglet <strong>Timeline</strong> — en haut à droite pour tous les plans, ou dans la liste sous un plan pour ce plan seulement. Il affiche l’étape en cours en plein écran et en grands caractères : nom de la recette, « Étape 3 sur 12 », l’heure avec un compte à rebours, le texte de l’étape et en dessous les ingrédients du composant. Avec des profils de four s’ajoute la ligne « Thermostat sur … ».</p>
+<figure><img class="screenshot" src="images/android/backmodus.png" alt="Mode cuisson sur Android avec le texte de l’étape en grand et les boutons Retour, Lire à voix haute, Marquer comme terminé et Suivant" loading="lazy">
+<figcaption>Le mode cuisson : grands caractères et grands boutons, faciles à toucher même avec de la farine sur les mains.</figcaption>
+</figure>
+<ul><li><strong>Retour</strong> et <strong>Suivant</strong> font défiler les étapes.</li><li><strong>Lire à voix haute</strong> lit l’étape et ses ingrédients par la synthèse vocale d’Android ; <strong>Stop</strong> interrompt. S’il manque une voix dans votre langue, installez-la dans les réglages Android sous « Synthèse vocale » (Services de reconnaissance vocale Google).</li><li><strong>Marquer comme terminé</strong> retire l’étape et son rappel du plan et passe à la suivante.</li></ul>
+<p>L’écran reste allumé tant que le mode cuisson est ouvert. <strong>Fermer</strong> ramène en arrière.</p>
+<hr>
+<h2 id="8-créer-et-modifier-une-recette">8. Créer et modifier une recette</h2>
+<p>Avec <strong>+</strong> en haut à droite de l’onglet <strong>Recettes</strong>, vous choisissez comment la recette voit le jour. Chaque voie aboutit au même éditeur de recette, où vous vérifiez et enregistrez.</p>
+<h3 id="à-la-main">À la main</h3>
+<p>Ouvre l’éditeur de recette vide (voir ci-dessous).</p>
+<h3 id="à-partir-de-photos">À partir de photos</h3>
+<p>Lit une recette imprimée ou photographiée — sur Android <strong>uniquement par l’IA cloud protégée</strong> ; l’app Android n’a pas de reconnaissance de texte sur l’appareil.</p>
+<ol><li><strong>Sélectionner des images</strong> dans les fichiers de l’appareil ou <strong>Prendre une photo</strong>, page par page, jusqu’à dix. L’ordre est conservé ; sous <strong>Pages sélectionnées</strong>, vous retirez des pages.</li><li>Sous <strong>Mode d’analyse</strong> figure <strong>IA cloud protégée</strong>. Avant la première utilisation, l’app explique le transfert de données ; <strong>Accepter et analyser avec l’IA cloud</strong> donne votre consentement. Si vous choisissez <strong>Sur cet appareil uniquement</strong>, l’app explique que les photos ne peuvent pas être lues ainsi.</li><li><strong>Importer</strong> envoie les pages à l’analyse et ouvre le résultat dans l’éditeur de recette.</li></ol>
+<p>Des photos droites et bien éclairées, sans logos ni en-têtes, donnent les meilleurs résultats. L’écriture manuscrite n’est pas lue de façon fiable. Vérifiez ensuite <strong>quantités, unités, températures et durées</strong>.</p>
+<h3 id="depuis-une-page-web">Depuis une page web</h3>
+<ol><li>Saisissez l’<strong>Adresse web</strong>. C’est plus rapide depuis Chrome ou n’importe quelle autre app : <strong>Partager → BakePlanner</strong> ouvre l’import avec l’adresse remplie.</li><li>Choisissez le <strong>Mode d’analyse</strong> : l’<strong>IA cloud protégée</strong> sépare aussi préferment, levain et pâte principale en composants distincts. <strong>Sur cet appareil uniquement</strong> ne reprend que les données de recette structurées que la page fournit elle-même.</li><li><strong>Importer</strong> charge la page et ouvre la recette dans l’éditeur, avec la photo de la page et son adresse comme lien.</li></ol>
+<p>Les pages derrière une connexion, un mur payant ou un bandeau de cookies ne peuvent pas être lues. L’import depuis un texte aide alors.</p>
+<blockquote class="note"><p><strong>Droit d’auteur :</strong> vous pouvez importer n’importe quelle recette pour votre usage personnel. Ne publiez les recettes d’autrui qu’avec l’accord de leurs auteurs.</p></blockquote>
+<h3 id="à-partir-dun-texte">À partir d’un texte</h3>
+<p>Pour les recettes venant d’un message, d’une note ou d’une page que l’import web ne sait pas lire. Sélectionnez la recette du titre jusqu’à la dernière étape, copiez-la et collez-la sous <strong>Texte de la recette</strong> — ou partagez un texte sélectionné depuis une autre app vers BakePlanner. Sous <strong>Adresse Internet (facultative)</strong>, vous pouvez indiquer la source. Avec <strong>Sur cet appareil uniquement</strong>, l’app lit ingrédients et étapes selon des règles fixes : des titres comme « Ingrédients » et « Préparation », un ingrédient avec sa quantité par ligne, une étape par paragraphe, les composants sous leurs propres titres comme « Levain ». Avec l’IA cloud, la mise en forme compte moins. <strong>Importer</strong> ouvre le résultat dans l’éditeur.</p>
+<h3 id="pourcentages-boulanger">Pourcentages boulanger</h3>
+<p>Pour ceux qui pensent les recettes comme une formule : vous saisissez chaque ingrédient en part de la farine, l’app calcule les grammes.</p>
+<ol><li>Saisissez le <strong>Nom de la recette</strong>.</li><li><strong>Donnée</strong> : <strong>Farine totale</strong> (par exemple 500 g) ou <strong>Poids de pâte</strong> (par exemple 850 g) et la quantité.</li><li><strong>Composants et ingrédients</strong> en pourcentage ; tous les pourcentages se rapportent à la farine totale de la recette, et les farines doivent faire 100 pour cent ensemble. D’autres composants s’ajoutent avec <strong>Nouveau composant</strong> et <strong>Ajouter</strong>. Les grammes calculés figurent à côté de chaque ligne.</li><li><strong>Suivant</strong> ouvre l’éditeur de recette avec les grammes. Vous y ajoutez temps de repos, façonnage et cuisson.</li></ol>
+<p>Tant que quelque chose ne va pas, <strong>Suivant</strong> reste désactivé et une remarque en donne la raison (« Les farines font 95 pour cent au lieu de 100. »).</p>
+<h3 id="léditeur-de-recette">L’éditeur de recette</h3>
+<p>L’éditeur — « Nouvelle recette » à la création, « Modifier » lors d’un changement — comporte ces sections :</p>
+<ul><li><strong>Nom</strong> — obligatoire.</li><li><strong>Image de la recette</strong> — <strong>Ajouter une image</strong> depuis les fichiers ou <strong>Appareil photo</strong>. Les photos sont réduites à la taille de l’écran dès leur sélection. Publier demande une image.</li><li><strong>Description</strong>.</li><li><strong>Note</strong> — cinq étoiles ; toucher à nouveau la même étoile annule la note. En dessous, <strong>Tags, séparés par des virgules</strong>.</li><li><strong>Planifier régulièrement</strong> (pour un levain <strong>Rafraîchir régulièrement</strong>) avec « tous les … jours » : après la dernière cuisson, l’app planifie d’elle-même la date suivante, à la même heure que le début de la première étape. Ces dates n’apparaissent dans la timeline que deux jours avant ; les rappels arrivent tout de même à l’heure.</li><li><strong>Composant</strong> — par composant un nom et ses ingrédients avec <strong>Quantité</strong>, <strong>Unité</strong> et <strong>Ingrédient</strong>. La quantité peut être une fraction (« 1/2 », « 1 1/2 »), l’unité une abréviation du <a href="#15-unités-et-quantités">chapitre 15</a>. <strong>Ajouter un ingrédient</strong>, <strong>Supprimer le composant</strong>, en dessous <strong>Ajouter un composant</strong>. Balayez une ligne d’ingrédient pour la supprimer.</li><li><strong>Étapes de préparation</strong> — par étape le <strong>N°</strong>, le texte et la durée en <strong>Minutes</strong> (aussi « 1:30 » ou « 1,5 h »). <strong>Ajouter une étape</strong> passe au nombre entier suivant, <strong>Ajouter une sous-étape</strong> crée une étape parallèle comme 3.1. Balayez pour supprimer.</li></ul>
+<p>Les champs en rouge ne sont pas valides, par exemple une durée que l’app ne sait pas lire ; tant qu’ils le restent, <strong>Enregistrer</strong> est désactivé.</p>
+<p><strong>Plage de durée.</strong> Une étape que le planificateur peut allonger — un apprêt au réfrigérateur de 12 à 18 heures — a les champs <strong>Au moins</strong> et <strong>Au plus</strong>. Laissés vides, la durée est fixe. Si la plage figure déjà dans le texte (« 12–18 heures au réfrigérateur »), l’app la reconnaît sans les champs.</p>
+<p><strong>Four.</strong> Une étape qui cuit, préchauffe ou indique une température de four a les champs <strong>Four</strong> (°C) et <strong>Descendant à</strong> ainsi que le choix <strong>Buée</strong> (Non indiqué, Avec buée, Sans buée). Les champs priment sur le texte ; laissés vides, l’app lit le four dans le texte (« cuire à 250 °C descendant à 220 °C avec buée »).</p>
+<p><strong>Enregistrer</strong> en haut à droite enregistre la recette, <strong>Annuler</strong> abandonne les modifications.</p>
+<h3 id="modifier-une-recette">Modifier une recette</h3>
+<p><strong>Modifier</strong> en haut à droite d’une de vos recettes ouvre le même éditeur. Vous pouvez aussi changer l’image directement sur la page de la recette. Un plan déjà posé reste tel quel : la timeline affiche alors « … a été modifiée depuis la planification » avec <strong>Replanifier</strong>.</p>
+<hr>
+<h2 id="9-timeline-et-journée-de-cuisson">9. Timeline et journée de cuisson</h2>
+<p>L’onglet <strong>Timeline</strong> (intitulé « Prochaines étapes ») réunit toutes les étapes planifiées de toutes les recettes. En haut, vous basculez entre <strong>Timeline</strong> et <strong>Liste</strong>. En haut à droite se trouvent <strong>Démarrer le mode cuisson</strong> et <strong>Tout supprimer</strong>.</p>
+<figure><img class="screenshot" src="images/android/zeitleiste.png" alt="Onglet Timeline sur Android : une piste par plan, des barres de la longueur des étapes, des couleurs selon le type d’étape" loading="lazy">
+<figcaption>La timeline montre chaque plan comme une piste et chaque étape comme une barre.</figcaption>
+</figure>
+<h3 id="timeline">Timeline</h3>
+<p>Chaque plan a sa piste avec l’image et le nom de la recette, chaque étape une barre aussi longue qu’elle dure. La couleur indique ce qu’il y a à faire — pétrir, repos, façonnage, cuire ; une légende figure en haut, à côté le <strong>zoom</strong> en trois niveaux (S, M, L). Les sous-étapes comme les rabats pendant le pointage ou « Allumer le four » pendant l’apprêt apparaissent comme repère sur la barre de leur étape, un drapeau marque « La cuisson est terminée », une ligne rouge le moment présent. Les longues pauses sans étape — la nuit pendant laquelle le levain mûrit — sont resserrées en une bande hachurée.</p>
+<p>Toucher une barre ouvre le détail de l’étape avec début, durée, description et — pour une étape de pétrissage — les ingrédients. Un appui long propose <strong>Marquer comme terminé</strong> et <strong>Décaler</strong>.</p>
+<h3 id="liste">Liste</h3>
+<p>Tout en haut figure l’étape <strong>À suivre</strong>, ou <strong>À faire maintenant</strong> avec le temps écoulé. Viennent ensuite les plans, chacun avec ses étapes : heure, jour, durée et instruction. Chaque ligne porte trois symboles :</p>
+<ul><li><strong>Coche</strong> — marquer l’étape comme terminée ; elle quitte le plan avec son rappel.</li><li><strong>i</strong> — afficher les ingrédients du composant, dans la quantité avec laquelle vous avez planifié. Seulement pour les étapes qui préparent un composant.</li><li><strong>Calendrier</strong> — décaler l’étape (voir ci-dessous).</li></ul>
+<p>Sous chaque plan se trouvent <strong>Démarrer le mode cuisson</strong> (pour ce plan seulement) et <strong>Supprimer les étapes planifiées</strong> (ce plan seulement, après confirmation). <strong>Tout supprimer</strong> en haut à droite retire tous les plans avec leurs rappels.</p>
+<h3 id="décaler-une-étape">Décaler une étape</h3>
+<p>La feuille <strong>Décaler l’étape</strong> montre <strong>Actuellement</strong> et, dès que vous avez saisi des minutes, <strong>Nouveau</strong> :</p>
+<ol><li>Saisissez les <strong>Minutes</strong>.</li><li><strong>Direction</strong> : <strong>Plus tôt</strong> ou <strong>Plus tard</strong>.</li><li><strong>Étapes concernées</strong> : <strong>Uniquement cette étape</strong> ou <strong>Toutes les suivantes</strong> — toutes les étapes ultérieures du même plan se déplacent alors aussi.</li><li><strong>Appliquer</strong>.</li></ol>
+<p>Les rappels suivent. Si le nouveau moment est dans le passé, l’app signale « Décalage impossible ».</p>
+<p>Sans étape planifiée, l’onglet indique « Aucune étape planifiée — Ouvrez une recette et touchez « Planifier ». »</p>
+<h3 id="planifier-une-journée-de-cuisson">Planifier une journée de cuisson</h3>
+<p><strong>Recettes → Plus → Planifier une journée de cuisson</strong> planifie plusieurs pains à la fois :</p>
+<ol><li>Sous <strong>Recettes</strong>, vous choisissez les pains ; les recettes de levain ne sont pas proposées.</li><li><strong>Terminé pour</strong> — l’heure à laquelle le dernier doit être prêt — et les <strong>Fours</strong> (préremplis d’après les réglages ; avec des profils de four, un choix « Four » par pain).</li><li><strong>Calculer la journée de cuisson</strong> fixe les heures de début : le pain à la plus longue cuisson est prêt à l’heure voulue, chaque autre reçoit le dernier quart d’heure avant auquel il tient encore dans un four. La <strong>pause de cuisson</strong> est respectée, et jamais deux pâtes ne sont pétries, rabattues ou façonnées en même temps. Les cuissons déjà planifiées comptent aussi.</li><li>Chaque pain affiche son début, sa fin et son créneau de four, avec des remarques en texte : « Étapes la nuit », « Le travail manuel coïncide avec un autre pain », « Aucun four libre – chevauche une autre cuisson », « Devrait déjà être en cours – choisissez une heure plus tard » ou « A déjà un plan – il sera remplacé ». Si la réserve ne suffit pas pour tous les pains, l’app dit ce qui manque.</li><li><strong>Tout planifier</strong> crée étapes, rappels et entrée d’historique de cuisson pour chaque pain.</li></ol>
+<hr>
+<h2 id="10-historique-de-cuisson">10. Historique de cuisson</h2>
+<p>L’onglet <strong>Historique de cuisson</strong> réunit toutes vos cuissons. Sous <strong>Affichage</strong>, vous choisissez :</p>
+<ul><li><strong>Liste</strong> — la plus récente en premier, avec date, nom de la recette, commentaire, mesures et photos,</li><li><strong>Galerie</strong> — des vignettes avec la première photo,</li><li><strong>Palmarès</strong> — les recettes par nombre de cuissons, vos classiques en tête,</li><li><strong>Nuage de photos</strong> — chaque recette comme un cercle avec la photo de sa dernière cuisson, d’autant plus grand qu’elle a été souvent cuite,</li><li><strong>Statistiques</strong> — voir ci-dessous.</li></ul>
+<figure><img class="screenshot" src="images/android/backhistorie.png" alt="Historique de cuisson sur Android sous forme de liste avec date, nom de recette, commentaire, mesures et photos" loading="lazy">
+<figcaption>L’historique de cuisson garde trace de ce que vous avez cuit et du résultat.</figcaption>
+</figure>
+<p>Le champ de recherche (nom/tags) et le filtre de note valent pour tous les affichages. Balayez une entrée vers la gauche pour la supprimer.</p>
+<h3 id="noter-une-cuisson">Noter une cuisson</h3>
+<p>Une entrée se crée automatiquement quand vous planifiez une de vos recettes — d’abord sans commentaire. Après la cuisson, la carte <strong>La dernière fois</strong> sur la page de la recette vous rappelle de la compléter (<strong>Compléter</strong> ou <strong>Noter maintenant</strong>). Une cuisson sans plan s’ajoute sur la page de la recette avec <strong>Noter une cuisson</strong>.</p>
+<p>L’entrée (« Notes de cuisson ») comporte :</p>
+<ul><li><strong>Recette</strong> — la recette à laquelle elle appartient ; c’est ici que vous déplacez une entrée vers une autre recette.</li><li><strong>Date de cuisson</strong> et <strong>Commentaire</strong>.</li><li><strong>Mesures et résultat</strong> : <strong>Note</strong> (1 à 5 étoiles), <strong>Température ambiante</strong> et <strong>Température de la pâte</strong> en °C, <strong>Pointage</strong> et <strong>Apprêt</strong> en minutes, <strong>Farine</strong> en texte libre et <strong>Mie / développement</strong> en mots-clés — en dessous, des puces de mots comme « ouverte », « moelleuse » ou « bon développement » à toucher.</li><li><strong>Photos</strong> — <strong>Ajouter une image</strong> depuis les fichiers ou <strong>Appareil photo</strong>.</li></ul>
+<p><strong>Enregistrer</strong> sauvegarde l’entrée. La page de la recette montre les mesures sous <strong>La dernière fois</strong> ; pointage et apprêt avec la température ambiante alimentent la carte <strong>Pousse aujourd’hui</strong> à la prochaine planification.</p>
+<h3 id="statistiques">Statistiques</h3>
+<p><strong>Affichage → Statistiques</strong> additionne ce que donnent les cuissons affichées, déjà passées : en haut <strong>Pains au total</strong>, <strong>Cette année</strong>, <strong>Par mois</strong> et la note moyenne, en dessous <strong>Pains par mois</strong>, <strong>Les plus cuits</strong>, <strong>Notes</strong>, <strong>Apprêt et température ambiante</strong> (un point par cuisson) et <strong>Mie et développement au four</strong>. Les graphiques sont de simples barres et points sans légende d’axe. Plus vous notez de mesures, plus les statistiques en montrent.</p>
+<h3 id="historique-de-cuisson-à-partir-de-photos">Historique de cuisson à partir de photos</h3>
+<p>Le symbole photo en haut de l’onglet <strong>Historique de cuisson</strong> fait entrer d’anciennes photos de pain dans l’historique :</p>
+<ol><li><strong>Choisir des photos</strong>.</li><li>De chaque photo, l’app lit la <strong>date</strong> et, s’il existe, le <strong>titre ou la description</strong>. Elle propose la recette <strong>d’après ce titre</strong> (« Proposée d’après le titre ») — pas d’après la ressemblance avec l’image de la recette. Inscrivez donc le nom de la recette dans la photo, par exemple dans Google Photos sous <em>Infos → Description</em>. Android lit date et titre dans les fichiers JPEG.</li><li>Vérifiez chaque ligne : choisissez une date là où figure « Pas de date dans la photo – en choisir une », choisissez ou changez la recette. Les lignes marquées « Déjà dans l’historique ce jour-là » sont ignorées.</li><li><strong>Créer</strong> écrit les entrées avec leurs photos.</li></ol>
+<hr>
+<h2 id="11-listes-de-courses">11. Listes de courses</h2>
+<h3 id="mettre-des-ingrédients-sur-une-liste">Mettre des ingrédients sur une liste</h3>
+<p><strong>Page de la recette → Ajouter la recette à la liste de courses</strong> — pour vos recettes comme pour les recettes publiques. Les ingrédients vont sur la liste dans la quantité réglée sur la page de la recette.</p>
+<ol><li><strong>Destination</strong> : <strong>Nouvelle liste</strong> avec une date, ou <strong>Liste existante</strong>. S’il existe déjà une liste pour cette date, les ingrédients y sont ajoutés.</li><li><strong>Déduire la réserve</strong> (activé par défaut) : ce qui est dans la réserve ne va pas sur la liste, les quantités partielles sont réduites. Si tout est là, l’app le dit au lieu de créer une liste vide.</li><li><strong>Créer</strong>. L’app confirme par « Les ingrédients ont été ajoutés à la liste de courses ».</li></ol>
+<h3 id="ce-qui-va-sur-la-liste--et-ce-qui-ny-va-pas">Ce qui va sur la liste — et ce qui n’y va pas</h3>
+<ul><li><strong>Ne sont pas repris</strong> l’eau, le sel et tout ce que l’on prépare soi-même : levain chef, levain, levain liquide, lievito madre, poolish, biga — dans toutes les langues. Ce qui n’en a que le nom (eau de rose, levain en poudre) reste sur la liste.</li><li><strong>Ne sont pas repris</strong> les ingrédients sans unité ou sans quantité.</li><li><strong>Les œufs</strong> sont comptés à la pièce : « 120 g d’œufs » deviennent « 2 pce œufs ».</li><li><strong>Les ingrédients identiques sont regroupés</strong> : « lait 30 °C » et « lait », « levure fraîche » et « levure », « farine de blé type 550 » et « farine de blé 550 ». Les unités de même base sont additionnées (0,5 kg + 200 g).</li><li>Les noms d’ingrédients figurent sur la liste tels qu’ils sont nommés dans la recette ; Android ne les traduit pas.</li></ul>
+<h3 id="consulter-les-listes-de-courses">Consulter les listes de courses</h3>
+<figure><img class="screenshot" src="images/android/einkauf.png" alt="Liste de courses sur Android, regroupée par rayon, avec les tailles d’emballage et le bouton Acheté" loading="lazy">
+<figcaption>La liste de courses est triée par rayon et indique l’emballage que vous achetez vraiment.</figcaption>
+</figure>
+<p>Dans l’onglet <strong>Courses</strong>, chaque liste affiche « Liste de courses du … », les recettes qu’elle contient et les ingrédients <strong>regroupés par rayon</strong> : farines et céréales, produits laitiers et œufs, ingrédients de pâtisserie, noix, graines et fruits secs, fruits et légumes, épices et herbes, huiles, matières grasses et liquides, divers.</p>
+<p><strong>Tailles d’emballage.</strong> Devant l’ingrédient figure l’emballage habituel qui couvre le besoin, le besoin lui-même entre parenthèses : « 1 kg farine de blé 550 (200 g) », « 42 g levure fraîche (6 g) », « 6 pièces œufs (2 pce) ».</p>
+<ul><li>Toucher un ingrédient ouvre <strong>Modifier la quantité</strong> : quantité et unité ne valent que pour cette liste, la recette reste inchangée. <strong>Mettre dans la réserve</strong> et <strong>Retirer l’ingrédient</strong> s’y trouvent aussi.</li><li><strong>Acheté</strong> en haut de la liste met toute la liste dans la réserve (voir <a href="#12-réserve">chapitre 12</a>).</li><li>Balayez une liste vers la gauche pour la supprimer (<strong>Supprimer la liste de courses</strong>).</li></ul>
+<hr>
+<h2 id="12-réserve">12. Réserve</h2>
+<p>L’onglet <strong>Réserve</strong> recense ce que vous avez à la maison — selon les mêmes rayons que la liste de courses.</p>
+<figure><img class="screenshot" src="images/android/vorrat.png" alt="Réserve sur Android avec les articles par rayon, les quantités et les dates limites" loading="lazy">
+<figcaption>La réserve : les articles par rayon, avec quantité et date limite.</figcaption>
+</figure>
+<ul><li><strong>Ajouter un article</strong> (+ en haut à droite) : <strong>Nom</strong> — avec des <strong>Suggestions tirées de vos recettes</strong>, pour que réserve et recettes désignent la même chose —, <strong>Quantité</strong> en g, kg ou pièces, <strong>Date limite</strong> et <strong>Note</strong> ; <strong>Enregistrer</strong>.</li><li>Touchez un article pour le modifier, balayez-le vers la gauche pour le retirer.</li><li><strong>À consommer bientôt</strong> : les articles qui expirent dans les 14 prochains jours ou ont déjà expiré figurent en haut, marqués en couleur.</li><li>À partir de 1000 g, la réserve affiche les quantités en kilogrammes.</li></ul>
+<h3 id="de-la-liste-de-courses-à-la-réserve">De la liste de courses à la réserve</h3>
+<p><strong>Acheté</strong> sur la liste ou <strong>Mettre dans la réserve</strong> sur une ligne ouvre la feuille <strong>Acheté</strong> : chaque ligne montre « Nécessaire : … » et la <strong>Quantité achetée</strong>, préremplie avec l’emballage de la liste — saisissez ce que vous avez vraiment acheté. <strong>Enregistrer</strong> ajoute chaque ligne à l’article du même nom ou le crée, et la retire de la liste. Les lignes sans quantité restent ; s’il ne reste rien, la liste est terminée.</p>
+<h3 id="réserve-et-recettes">Réserve et recettes</h3>
+<ul><li><strong>Page de la recette :</strong> la carte <strong>Réserve</strong> dit si tous les ingrédients sont là ou nomme ce qui manque (« Il manque 200 g de farine de seigle 1150 »), dans la quantité choisie. L’eau, le sel et le levain ne comptent pas. Les ingrédients se rapprochent par leur nom ; « levure fraîche » et « levure », « type 550 » et « 550 » comptent comme identiques.</li><li><strong>Liste de courses :</strong> <strong>Déduire la réserve</strong> (voir <a href="#11-listes-de-courses">chapitre 11</a>).</li><li><strong>Liste des recettes :</strong> les collections <strong>Avec la réserve</strong> et <strong>Écouler la réserve</strong> (voir <a href="#6-mes-recettes">chapitre 6</a>).</li><li><strong>Réservations :</strong> dès que vous planifiez un pain, l’app réserve ce qu’il consommera. Carte de recette, liste de courses et journée de cuisson calculent avec le disponible. Si le plan est supprimé ou remplacé, la quantité redevient libre. Quand le plan arrive à sa fin, la réservation devient une déduction et le stock baisse.</li><li><strong>Les nourrissages</strong> d’un levain déduisent leur farine de la même façon.</li><li><strong>Dernières déductions</strong> liste les déductions des plans terminés ; <strong>Annuler</strong> remet une quantité en stock si un pain n’a finalement pas été cuit.</li></ul>
+<p>La sauvegarde complète emporte la réserve (voir <a href="#16-données-sauvegarde-et-changement-dappareil">chapitre 16</a>).</p>
+<hr>
+<h2 id="13-calculatrices">13. Calculatrices</h2>
+<p><strong>Recettes → Plus → Calculatrices</strong> ouvre une page avec quatre calculatrices de boulanger. Deux d’entre elles s’atteignent aussi directement depuis une recette.</p>
+<h3 id="température-de-la-pâte">Température de la pâte</h3>
+<p>Calcule la température que doit avoir l’<strong>eau</strong> pour que la pâte atteigne la température voulue après le pétrissage. Vous saisissez la <strong>Température cible</strong> de la pâte, la température ambiante, celle de la farine (en général la même que la pièce) et, si besoin, celle du levain ou du préferment. La <strong>Chaleur de pétrissage</strong> est la chaleur que la pâte prend en pétrissant ; calibrez-la une fois en mesurant après le pétrissage, et elle vaut pour toutes les recettes.</p>
+<h3 id="remplacer-la-farine">Remplacer la farine</h3>
+<p>Les farines s’échangent <strong>1:1 au poids</strong> ; ce qui change, c’est l’eau, car chaque farine absorbe différemment. Sur la page de la recette, les lignes de farine se touchent (« Appuyez sur une farine pour la remplacer. ») : la feuille <strong>Remplacer la farine</strong> montre la farine reconnue, vous laisse choisir la farine de remplacement et calcule la variation d’eau, le rendement de la pâte et l’hydratation. <strong>Créer une copie avec la substitution</strong> inscrit l’échange dans une nouvelle variante ; dans une telle copie, le bouton s’intitule <strong>Appliquer la modification</strong>. Des conseils de conduite s’y ajoutent, comme pétrir l’épeautre moins longtemps ou acidifier le seigle.</p>
+<h3 id="ta-du-levain-chef">TA du levain chef</h3>
+<p>Si une recette demande « 100 g de levain chef TA 150 » mais que vous conduisez le vôtre à TA 210, l’app compense pour que la farine apportée par le levain reste la même : plus de levain, moins d’eau dans le même composant. Sur la page de la recette, les lignes de levain se touchent : <strong>Ajuster la TA du levain chef</strong> montre la TA reconnue (d’après le nom de l’ingrédient ou les réglages), vos <strong>TA de levain chef</strong> en choix rapide et le résultat. <strong>Créer une copie avec l’ajustement</strong> crée une variante.</p>
+<h3 id="poids-de-pâte">Poids de pâte</h3>
+<p>Calcule la quantité de pâte qui tient dans un moule ou un banneton : <strong>Moule à cake</strong> et <strong>Moule rond</strong> d’après les mesures intérieures et le <strong>Facteur de remplissage</strong> du <strong>Type de pâte</strong> (blé clair, pain de mie ; pain mixte ; seigle, complet, graines), <strong>Banneton rond</strong> et <strong>Banneton ovale</strong> d’après les tailles nominales au bord supérieur. Sur la page de la recette, le symbole balance à côté de <strong>Poids de pâte</strong> ouvre la même calculatrice avec le type de pâte tiré de la recette ; <strong>Reprendre comme poids de pâte</strong> reporte le résultat.</p>
+<hr>
+<h2 id="14-réglages">14. Réglages</h2>
+<p><strong>Recettes → Plus → Réglages.</strong> Les réglages ne valent que pour cet appareil.</p>
+<h3 id="général">Général</h3>
+<p><strong>Langue</strong> ouvre le réglage Android « Langue de l’application » (à partir d’Android 13). Vous y choisissez l’allemand, l’anglais ou le français indépendamment de la langue de l’appareil ; sans choix, l’app suit la langue du système. Il n’y a pas de sélecteur de langue dans l’app elle-même.</p>
+<h3 id="recettes">Recettes</h3>
+<div class="table-wrap"><table>
+<colgroup><col class="first" style="--w: 38%"></colgroup>
+<thead><tr><th>Réglage</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td><strong>Taille de portion par défaut</strong></td><td>0,5 / 1,0 / 1,5 / 2,0 — les recettes s’ouvrent à cette taille. Par défaut : 1,0</td></tr>
+<tr><td><strong>Levain chef</strong></td><td>La TA de votre levain, pour répartir en farine et eau une quantité de levain sans TA indiquée. Par défaut : TA 200</td></tr>
+<tr><td><strong>Lievito madre</strong></td><td>Idem pour le lievito madre. Par défaut : TA 150</td></tr>
+<tr><td><strong>Afficher les pourcentages boulanger</strong></td><td>Affiche pour chaque ingrédient pesé sa part de la farine du composant. Par défaut : désactivé</td></tr>
+<tr><td><strong>Mes TA de levain chef</strong></td><td>Séparées par des virgules ; le choix rapide pour ajuster la TA du levain chef</td></tr>
+<tr><td><strong>Unités personnalisées</strong></td><td>Mène à leur gestion, voir <a href="#15-unités-et-quantités">chapitre 15</a></td></tr>
+</tbody></table></div>
+<h3 id="sauvegarde">Sauvegarde</h3>
+<p><strong>Créer une sauvegarde complète</strong> et <strong>Restaurer une sauvegarde</strong> — voir <a href="#16-données-sauvegarde-et-changement-dappareil">chapitre 16</a>.</p>
+<h3 id="fours">Fours</h3>
+<p>Vos fours sous forme de profils : <strong>Nom</strong>, <strong>Temps de préchauffage</strong>, <strong>Temps de préchauffage avec pierre</strong>, l’<strong>Écart</strong> (si le four chauffe plus ou moins que ce qu’indique le thermostat) et la <strong>Réduction chaleur tournante</strong>. <strong>Planification avec</strong> est le four que proposent la feuille de planification et la journée de cuisson ; <strong>Ajouter un four</strong> en crée un autre, <strong>Supprimer le four</strong> le retire. Avec des profils de four, les étapes du four indiquent le réglage du thermostat (« Allumer le four (250 °C, thermostat sur 240 °C) »), et le nombre de fours est le nombre de profils. La recette ne mémorise pas le four ; celui des réglages est toujours prérempli.</p>
+<h3 id="planification-de-cuisson">Planification de cuisson</h3>
+<div class="table-wrap"><table>
+<colgroup><col class="first" style="--w: 38%"></colgroup>
+<thead><tr><th>Réglage</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td><strong>Temps de préchauffage</strong></td><td>0 à 120 minutes avant l’étape de cuisson pour « Allumer le four ». Par défaut : 15 minutes (seulement sans profils de four)</td></tr>
+<tr><td><strong>Temps de préchauffage avec pierre</strong></td><td>0 à 180 minutes quand une étape mentionne une pierre ou un acier de cuisson. Par défaut : 45 minutes (seulement sans profils de four)</td></tr>
+<tr><td><strong>Pause de cuisson</strong></td><td>Écart minimal entre deux cuissons dans le même four. Par défaut : 10 minutes</td></tr>
+<tr><td><strong>Fours</strong></td><td>Combien de cuissons peuvent se dérouler en même temps. Par défaut : 1 (seulement sans profils de four)</td></tr>
+<tr><td><strong>Début de journée</strong> et <strong>Fin de journée</strong></td><td>Quand vous êtes disponible. Par défaut : 6 h et 23 h</td></tr>
+</tbody></table></div>
+<blockquote class="note"><p>Seuls les temps de préchauffage déplacent des étapes. Pause de cuisson, fours, début et fin de journée ne modifient pas le plan — l’app le vérifie par rapport à eux et avertit dans la feuille de planification.</p></blockquote>
+<h3 id="compte">Compte</h3>
+<p>La connexion est <strong>facultative</strong>. <strong>Se connecter avec Apple</strong> ouvre la connexion Apple dans le navigateur puis revient dans l’app ; ni nom ni adresse e-mail ne sont demandés. Avec elle, vos recettes publiées appartiennent à votre compte Apple, sur Android comme sur l’iPhone : une recette publiée depuis l’iPhone peut ainsi être modifiée aussi depuis l’appareil Android. Sur Android, la connexion est en outre nécessaire pour <strong>Publier</strong>.</p>
+<ul><li><strong>Se déconnecter</strong> — retour à l’utilisation anonyme ; les recettes sur l’appareil ne sont pas touchées.</li><li><strong>Supprimer le compte</strong> — après confirmation. Les recettes publiées restent visibles pour tous mais n’appartiennent plus à aucun compte ; supprimez-les avant si vous ne voulez pas les laisser dans la base. Les recettes sur l’appareil sont conservées. C’est irréversible.</li></ul>
+<h3 id="confidentialité-et-ia">Confidentialité et IA</h3>
+<p><strong>Analyse IA à l’importation de recettes</strong> affiche <strong>Autorisée</strong> ou <strong>Local uniquement</strong> ; touchez pour ouvrir la page <strong>Confidentialité de l’IA</strong> (voir <a href="#17-confidentialité">chapitre 17</a>). <strong>Retirer le consentement à l’IA cloud</strong> annule le consentement.</p>
+<h3 id="modération">Modération</h3>
+<p><strong>Auteurs bloqués</strong> avec <strong>Débloquer tous les auteurs</strong> — leurs recettes réapparaissent aussitôt — et <strong>Recettes que vous avez signalées</strong> avec <strong>Effacer les signalements sur cet appareil</strong>. Une recette signalée reste masquée pour tous jusqu’à ce qu’un administrateur l’ait examinée ; effacer votre signalement ne prend effet qu’ensuite.</p>
+<h3 id="aide">Aide</h3>
+<p>Ouvre dans le navigateur le <strong>Manuel de l’utilisateur</strong>, <strong>Aide et contact</strong>, la <strong>Politique de confidentialité</strong> et les <strong>Mentions légales</strong>.</p>
+<hr>
+<h2 id="15-unités-et-quantités">15. Unités et quantités</h2>
+<h3 id="quantité-ou-poids-de-pâte">Quantité ou poids de pâte</h3>
+<p>Sur la page de la recette, vous mettez une recette à l’échelle de deux façons :</p>
+<ul><li><strong>Quantité</strong> — un facteur par demi-pas (× 0,5, × 1, × 1,5 …) ; × 1 est la recette enregistrée.</li><li><strong>Poids de pâte</strong> — un poids cible en grammes, par exemple 2000 ; l’app convertit tous les ingrédients. Le symbole balance à côté le calcule d’après votre moule (voir <a href="#13-calculatrices">chapitre 13</a>).</li></ul>
+<p>L’arrondi suit la pesée : à partir de 10 g au gramme entier, en dessous à une décimale (« 2,7 g de levure »). Le choix vaut pour la page de la recette, la planification, la liste de courses et les ingrédients des rappels. Il ne touche <strong>pas</strong> aux durées — la pâte ne lève pas plus vite parce qu’on en fait moins — et ne modifie pas la recette.</p>
+<h3 id="rendement-de-la-pâte-et-hydratation">Rendement de la pâte et hydratation</h3>
+<p>La ligne <strong>« TA 172 · hydratation 72 % »</strong> sur la page de la recette indique le rendement de la pâte (farine plus eau pour 100 g de farine) et l’hydratation sur l’ensemble des composants. Touchez-la pour le détail avec farine et eau en grammes, les composants, les parts de levain, la <strong>farine préfermentée</strong>, les ingrédients <strong>non comptés</strong> et des <strong>remarques</strong> quand le sel ou la levure s’écartent nettement des pourcentages boulanger habituels.</p>
+<ul><li><strong>Farine</strong> : ce qui porte « farine », « semoule », « mouture » dans son nom, ainsi que le vieux pain — pas la graine de lin moulue, les flocons, le son ou les farines de noix.</li><li><strong>Les liquides comptent entièrement</strong> : eau, lait, babeurre, bière, petit-lait, jus.</li><li><strong>Le levain est réparti</strong> : 20 g à TA 200 font 10 g de farine et 10 g d’eau. La TA vient du nom de l’ingrédient (« levain chef TA 150 ») ou des réglages ; biga, poolish et pâte fermentée ont leur TA par définition.</li><li><strong>Chaque composant compte exactement une fois.</strong></li></ul>
+<h3 id="pourcentages-boulanger">Pourcentages boulanger</h3>
+<p>Avec <em>Réglages → Recettes → Afficher les pourcentages boulanger</em>, chaque ingrédient pesé affiche sa part de la farine du composant, par exemple « 319 g d’eau · 62 % ».</p>
+<h3 id="unités-disponibles">Unités disponibles</h3>
+<p>Dans l’éditeur de recette, vous saisissez l’unité sous forme d’<strong>abréviation</strong>. Utilisez les abréviations de la colonne « Enregistrée comme » — une unité que l’app ne connaît pas n’a pas de conversion et n’entre pas dans le poids total. S’il vous en manque une, créez-la comme unité personnalisée. En anglais et en français, l’app affiche les mêmes unités avec leurs propres abréviations (« c. à c. » pour TL) ; ce qui est enregistré est toujours l’abréviation du tableau.</p>
+<p><strong>Au poids (base : grammes)</strong></p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Abrév.</th><th>Unité</th><th>Enregistrée comme</th><th>Équivaut à</th></tr></thead>
+<tbody>
+<tr><td>g</td><td>gramme</td><td>g</td><td>1 g</td></tr>
+<tr><td>kg</td><td>kilogramme</td><td>kg</td><td>1000 g</td></tr>
+<tr><td>mg</td><td>milligramme</td><td>mg</td><td>0,001 g</td></tr>
+<tr><td>livre</td><td>livre (500 g)</td><td>pfd</td><td>500 g</td></tr>
+<tr><td>pincée</td><td>pincée</td><td>Pr</td><td>1 g</td></tr>
+<tr><td>pointe</td><td>pointe de couteau</td><td>Msp</td><td>0,05 g</td></tr>
+<tr><td>botte</td><td>botte</td><td>Bd</td><td>10 g</td></tr>
+<tr><td>tranche</td><td>tranche</td><td>Sc</td><td>25 g</td></tr>
+<tr><td>rouleau</td><td>rouleau</td><td>Rolle</td><td>275 g</td></tr>
+<tr><td>sachet</td><td>sachet</td><td>Pck</td><td>11 g</td></tr>
+<tr><td>poignée</td><td>poignée</td><td>Handvoll</td><td>25 g</td></tr>
+<tr><td>œuf</td><td>œuf</td><td>ei</td><td>60 g</td></tr>
+<tr><td>œuf (S)</td><td>œuf, calibre S</td><td>ei(s)</td><td>50 g</td></tr>
+<tr><td>œuf (M)</td><td>œuf, calibre M</td><td>ei(m)</td><td>60 g</td></tr>
+<tr><td>œuf (L)</td><td>œuf, calibre L</td><td>ei(l)</td><td>70 g</td></tr>
+<tr><td>œuf (XL)</td><td>œuf, calibre XL</td><td>ei(xl)</td><td>80 g</td></tr>
+</tbody></table></div>
+<p><strong>Au volume (base : millilitres)</strong></p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Abrév.</th><th>Unité</th><th>Enregistrée comme</th><th>Équivaut à</th></tr></thead>
+<tbody>
+<tr><td>ml</td><td>millilitre</td><td>ml</td><td>1 ml</td></tr>
+<tr><td>cl</td><td>centilitre</td><td>cl</td><td>10 ml</td></tr>
+<tr><td>dl</td><td>décilitre</td><td>dl</td><td>100 ml</td></tr>
+<tr><td>l</td><td>litre</td><td>l</td><td>1000 ml</td></tr>
+<tr><td>Mass</td><td>Mass (1 l)</td><td>mass</td><td>1000 ml</td></tr>
+<tr><td>c. à c.</td><td>cuillère à café</td><td>TL</td><td>5 ml</td></tr>
+<tr><td>c. à s.</td><td>cuillère à soupe</td><td>EL</td><td>15 ml</td></tr>
+<tr><td>tasse</td><td>tasse</td><td>Tas</td><td>200 ml</td></tr>
+<tr><td>giclée</td><td>giclée</td><td>Ss</td><td>10 ml</td></tr>
+<tr><td>trait</td><td>trait</td><td>Sp</td><td>0,27 ml</td></tr>
+<tr><td>goutte</td><td>goutte</td><td>Tr</td><td>0,067 ml</td></tr>
+</tbody></table></div>
+<p><strong>Comptées</strong></p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Abrév.</th><th>Unité</th><th>Enregistrée comme</th><th>Équivaut à</th></tr></thead>
+<tbody>
+<tr><td>pce</td><td>pièce</td><td>St</td><td>compté</td></tr>
+</tbody></table></div>
+<p>Pour le poids total, l’app convertit les volumes en grammes d’après la densité des ingrédients courants — farine 0,66, eau et lait 1,0, huile 0,8, miel 1,3. Une tasse de farine compte donc 200 ml × 0,66 = 132 g.</p>
+<h3 id="unités-personnalisées">Unités personnalisées</h3>
+<p><em>Réglages → Recettes → Unités personnalisées → Ajouter une unité</em> : <strong>Nom</strong> (par exemple « pot »), <strong>Abréviation</strong> (encore libre), <strong>Mesurée en</strong> (grammes, millilitres ou pièces) et la <strong>Conversion</strong> — ce que contient une unité. La conversion est obligatoire, car le total des ingrédients, les pourcentages boulanger et la liste de courses en dépendent. Les unités personnalisées ne valent que sur cet appareil et ne suivent pas la sauvegarde.</p>
+<hr>
+<h2 id="16-données-sauvegarde-et-changement-dappareil">16. Données, sauvegarde et changement d’appareil</h2>
+<h3 id="tout-reste-sur-lappareil">Tout reste sur l’appareil</h3>
+<p>Vos recettes, étapes planifiées, listes de courses, historique de cuisson, journal du levain et réserve sont enregistrés <strong>uniquement sur cet appareil Android</strong>. Il n’y a <strong>aucune synchronisation</strong> avec d’autres appareils — ni avec un second appareil Android, ni avec un iPhone. La sauvegarde automatique d’Android dans Google Drive est désactivée pour BakePlanner, car elle est limitée à 25 Mo et échouerait en silence avec les photos. <strong>Si vous désinstallez l’app ou perdez l’appareil sans sauvegarde personnelle, toutes les données sont perdues.</strong></p>
+<h3 id="sauvegarder">Sauvegarder</h3>
+<ul><li><strong>Réglages → Sauvegarde → Créer une sauvegarde complète</strong> écrit toutes vos recettes avec leurs images, l’historique de cuisson avec ses photos, le journal du levain et la réserve dans un fichier. Placez-le dans Google Drive, envoyez-le-vous par e-mail ou copiez-le sur votre ordinateur.</li><li><strong>Recettes → Plus → Exporter des recettes</strong> sauvegarde une sélection : cochez des recettes ou <strong>Tout sélectionner</strong>, au besoin <strong>Avec l’historique de cuisson, le journal du levain et la réserve</strong>, puis <strong>Exporter</strong>. Quelques recettes sans l’interrupteur servent à les transmettre à d’autres.</li><li><strong>Sauvegarder la recette</strong> sous <strong>Plus d’actions</strong> sur une page de recette écrit une seule recette, sans historique.</li></ul>
+<p>Sur Android, les images de recette et les photos de cuisson sont réduites à la taille de l’écran dès leur sélection ; même une sauvegarde riche en photos reste ainsi maniable.</p>
+<h3 id="restaurer">Restaurer</h3>
+<p><strong>Réglages → Sauvegarde → Restaurer une sauvegarde</strong> ou <strong>Recettes → Plus → Importer des recettes</strong> lit un fichier. Les recettes et articles de réserve qui manquent sont ajoutés ; <strong>rien de ce qui existe n’est jamais écrasé</strong>. Les cuissons et nourrissages manquants sont complétés. Le message indique ce qui a été ajouté. Les réglages et les étapes planifiées ne font pas partie du fichier.</p>
+<h3 id="passer-de-liphone-à-android-et-inversement">Passer de l’iPhone à Android et inversement</h3>
+<p>Le fichier de sauvegarde est le même sur les deux plateformes et fonctionne <strong>dans les deux sens</strong> : sur l’iPhone, vous le créez sous <em>Réglages → Sauvegarde → Créer une sauvegarde complète</em> et le lisez sur Android — et inversement. Ce qui ne suit pas :</p>
+<ul><li>les plans et rappels en cours — replanifiez sur le nouvel appareil,</li><li>les unités personnalisées — recréez-les,</li><li>les réglages.</li></ul>
+<p>La réserve suit ; les articles que la réserve du nouvel appareil n’a pas encore par leur nom sont ajoutés. Les recettes publiques n’ont pas besoin d’être transférées : la base de recettes est la même sur les deux plateformes.</p>
+<hr>
+<h2 id="17-confidentialité">17. Confidentialité</h2>
+<h3 id="où-se-trouvent-vos-données">Où se trouvent vos données</h3>
+<ul><li><strong>Vos recettes, plans, listes de courses, historique de cuisson, journal du levain et réserve</strong> se trouvent uniquement sur votre appareil. Personne d’autre ne les voit.</li><li><strong>Les recettes publiques</strong> se trouvent dans la base de recettes commune et sont visibles par tous les utilisateurs.</li><li><strong>Import de recettes :</strong> avec « Sur cet appareil uniquement », le texte de la page et le texte collé restent sur l’appareil. Ce n’est que si vous avez accepté l’<strong>IA cloud protégée</strong> que les images choisies ou le texte de la recette et l’adresse de la page sont envoyés chiffrés via une fonction Firebase de BackPlaner (région europe-west1) à Google Vertex AI (Gemini, site UE). Ils y sont traités uniquement pour le brouillon de recette et ne sont pas conservés. Seul reste enregistré un compteur pour la limite d’utilisation, avec votre identifiant pseudonyme. Votre appareil charge lui-même la page web. Les détails se trouvent sous <em>Réglages → Confidentialité et IA → Confidentialité de l’IA</em>, où vous pouvez aussi retirer votre consentement.</li><li>L’app utilise un <strong>identifiant anonyme</strong> pour que vous puissiez supprimer vos propres recettes publiques et que d’autres puissent bloquer des auteurs. La connexion avec Apple est facultative ; ni nom ni adresse e-mail ne sont demandés. Vous pouvez supprimer votre compte à tout moment sous <em>Réglages → Compte → Supprimer le compte</em>.</li></ul>
+<h3 id="conditions-dutilisation-des-recettes-publiques">Conditions d’utilisation des recettes publiques</h3>
+<p>Avant de publier une recette pour la première fois, vous acceptez les conditions :</p>
+<ul><li>Une recette publiée est visible par tous les utilisateurs de la base de recettes.</li><li><strong>Tolérance zéro</strong> envers les contenus choquants, injurieux, illicites ou portant atteinte au droit d’auteur.</li><li>Vous êtes seul responsable des contenus que vous partagez.</li><li>Les contenus signalés sont examinés et retirés <strong>sous 24 heures</strong> ; les auteurs qui enfreignent les règles à plusieurs reprises peuvent être exclus.</li></ul>
+<p>Avec <strong>Refuser</strong>, rien n’est téléversé ; la recette reste locale. Contre les contenus indésirables, <strong>Signaler la recette</strong> et <strong>Bloquer l'auteur</strong> vous aident (voir <a href="#5-base-de-recettes">chapitre 5</a>).</p>
+<hr>
+<h2 id="18-questions-fréquentes">18. Questions fréquentes</h2>
+<p><strong>Aucun rappel n’arrive.</strong><br>Vérifiez dans les réglages Android, sous <em>Applications → BakePlanner → Notifications</em>, que les notifications sont autorisées. Vérifiez aussi qu’il y a bien des étapes dans la timeline ; les moments passés ne reçoivent pas de rappel.</p>
+<p><strong>Un rappel est arrivé avec quelques minutes de retard.</strong><br>Android remet les rappels par son planificateur de tâches, et un téléphone longtemps inutilisé en économie d’énergie les retarde. Pour les étapes critiques, laissez le mode cuisson ouvert ou réglez en plus une alarme dans l’app Horloge.</p>
+<p><strong>La lecture à voix haute reste muette ou parle la mauvaise langue.</strong><br>Installez une voix pour votre langue dans les réglages Android sous « Synthèse vocale » (Services de reconnaissance vocale Google) et vérifiez le volume multimédia.</p>
+<p><strong>Je ne peux pas changer la langue.</strong><br>À partir d’Android 13, vous choisissez la langue de l’app sous <em>Réglages → Général → Langue</em>. Sur les versions plus anciennes, l’app suit la langue du système.</p>
+<p><strong>L’import depuis des photos ne démarre pas.</strong><br>L’app Android ne lit les photos que par l’IA cloud protégée. Choisissez l’IA cloud sous <strong>Mode d’analyse</strong> et acceptez le transfert — ou copiez le texte et utilisez <strong>À partir d’un texte</strong>.</p>
+<p><strong>Les recettes publiques manquent.</strong><br>Il n’y avait pas de connexion Internet au chargement. Tirez la liste vers le bas. Vérifiez aussi que les puces <strong>Publiées par moi</strong> et <strong>Public</strong> sont activées.</p>
+<p><strong>« Publier » affiche « Connexion requise ».</strong><br>Connectez-vous avec Apple sous <em>Réglages → Compte</em>. Sans image de recette, « Image requise » apparaît.</p>
+<p><strong>« Modifier la recette » manque pour une recette que j’ai publiée moi-même.</strong><br>La recette appartient à un autre identifiant. Si vous l’avez publiée en étant connecté, connectez-vous avec le même compte Apple et tirez une fois la liste vers le bas.</p>
+<p><strong>Je n’ai plus mon ancien téléphone — mes recettes sont-elles perdues ?</strong><br>Vos recettes n’existent que sur l’appareil et dans vos fichiers de sauvegarde. Si vous avez une sauvegarde, restaurez-la sous <em>Réglages → Sauvegarde → Restaurer une sauvegarde</em>. Vos recettes publiées sont toujours dans la base de recettes ; <strong>Enregistrer comme ma recette</strong> les récupère.</p>
+<p><strong>Une étape commence à une heure étrange.</strong><br>Vérifiez les numéros d’étape : les étapes décimales (2.1, 2.2) se déroulent en parallèle, les nombres entiers l’un après l’autre. Un « 3 » saisi par erreur au lieu de « 2.2 » allonge nettement la durée totale.</p>
+<p><strong>Le poids total est faux.</strong><br>Le plus souvent, un ingrédient porte une unité que l’app ne connaît pas. Utilisez les abréviations du <a href="#15-unités-et-quantités">chapitre 15</a> ou créez une unité personnalisée.</p>
+<p><strong>Un ingrédient manque sur la liste de courses.</strong><br>L’eau, le sel et tout ce que l’on prépare soi-même sont omis volontairement, de même que les ingrédients sans quantité ou sans unité. Avec <strong>Déduire la réserve</strong>, ce qui est déjà dans la réserve manque aussi.</p>
+<p><strong>J’ai modifié la recette, mais le plan montre encore l’ancienne version.</strong><br>Les étapes planifiées sont un instantané. Touchez <strong>Replanifier</strong> dans la timeline et choisissez <strong>Remplacer le plan existant</strong>.</p>
+<hr>
+<h2 id="19-ce-que-seul-liphone-propose">19. Ce que seul l’iPhone propose</h2>
+<p>La version iPhone de BakePlanner sait en outre :</p>
+<div class="table-wrap"><table>
+<colgroup><col class="first" style="--w: 38%"></colgroup>
+<thead><tr><th>Fonction</th><th>Sur Android</th></tr></thead>
+<tbody>
+<tr><td>Synchronisation par iCloud entre tous les appareils</td><td>Pas de synchronisation ; fichier de sauvegarde (voir <a href="#16-données-sauvegarde-et-changement-dappareil">chapitre 16</a>)</td></tr>
+<tr><td>Traduction automatique des recettes publiques et menu « Traduire la recette »</td><td>Traduction enregistrée ou langue d’origine</td></tr>
+<tr><td>Traduction des ingrédients des listes de courses</td><td>Non prévu</td></tr>
+<tr><td>Reconnaissance de texte sur l’appareil pour l’import depuis des photos</td><td>IA cloud uniquement</td></tr>
+<tr><td>Alarmes pour les étapes de four, qui sonnent malgré le mode silencieux et la concentration</td><td>Rappels sous forme de notifications</td></tr>
+<tr><td>Activité en direct, widgets, centre de contrôle, Siri, Spotlight, Apple Watch</td><td>Non prévu</td></tr>
+<tr><td>Mode cuisson mains libres avec commandes vocales</td><td>La lecture à voix haute est disponible</td></tr>
+<tr><td>Feuille de la journée de cuisson en PDF, étapes dans le calendrier, liste de courses vers Rappels</td><td>Manquent</td></tr>
+<tr><td>Vérifier l’agenda en planifiant</td><td>Manque</td></tr>
+<tr><td>Diagramme du levain avec courbe de maturation</td><td>L’estimation de maturation est disponible</td></tr>
+<tr><td>Livre de l’année de cuisson en PDF</td><td>Manque</td></tr>
+<tr><td>Proposition de recette par ressemblance d’image pour l’historique à partir de photos</td><td>Proposition d’après le titre ou la description seulement</td></tr>
+<tr><td>Réserve : rappel avant la date limite, question « Déduire de la réserve ? » après une cuisson sans plan</td><td>Manquent</td></tr>
+<tr><td>Réglages « Publier les nouvelles recettes », « Utiliser la vue détaillée », sélecteur de langue dans l’app</td><td>Manquent ; langue par Android</td></tr>
+<tr><td>La recette mémorise le dernier four choisi</td><td>Le four des réglages est prérempli</td></tr>
+</tbody></table></div>
+</article>
+
+<footer>
+  <p><a href="#top">Haut de page</a> · <a href="index.html#fr">Aide et contact</a> · <a href="privacy.html">Confidentialité</a> · <a href="impressum.html">Mentions légales</a></p>
+</footer>
+
+</main>
+</body>
+</html>

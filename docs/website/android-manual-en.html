@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BakePlanner for Android – User Manual</title>
+<style>
+  :root {
+    --bg-top: #FAEDD1;
+    --bg-bottom: #EDCC9E;
+    --card: #FFFFFF;
+    --title: #593314;
+    --text: #2A1A0A;
+    --subtitle: #734D29;
+    --accent: #945B29;
+    --rule: #E6D3B8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-top: #291F17;
+      --bg-bottom: #17120D;
+      --card: #332921;
+      --title: #F5E6CC;
+      --text: #F2E8DA;
+      --subtitle: #D1B899;
+      --accent: #E3934F;
+      --rule: #4A3C30;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0 1rem 4rem;
+    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+    background: linear-gradient(var(--bg-top), var(--bg-bottom)) no-repeat;
+    background-attachment: fixed;
+  }
+  main { max-width: 44rem; margin: 0 auto; }
+  header { text-align: center; padding: 3rem 0 1rem; }
+  h1 { color: var(--title); font-size: 2.2rem; margin: 0 0 .3rem; }
+  .claim { color: var(--subtitle); margin: 0; }
+  nav { text-align: center; margin: 1.5rem 0 2rem; }
+  nav a {
+    display: inline-block; margin: .2rem .4rem; padding: .4rem .9rem;
+    color: var(--accent); text-decoration: none;
+    border: 1px solid var(--accent); border-radius: 999px;
+  }
+  nav a:hover, nav a:focus { text-decoration: underline; }
+  nav a[aria-current] { background: var(--accent); color: var(--card); }
+  article {
+    background: var(--card); border-radius: 16px;
+    padding: 1.5rem 1.75rem; margin-bottom: 1.5rem;
+  }
+  /* Only running text may break inside an overlong word; table cells wrap
+     at spaces, otherwise the browser squeezes the term column to a sliver. */
+  article p, article li, article figcaption { overflow-wrap: break-word; }
+  h2 { color: var(--title); font-size: 1.5rem; margin: 2rem 0 .6rem; }
+  h3 { color: var(--title); font-size: 1.15rem; margin: 1.6rem 0 .3rem; }
+  h4 { color: var(--title); font-size: 1rem; margin: 1.2rem 0 .3rem; }
+  article > h2:first-child { margin-top: 0; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--rule); margin: 2rem 0; }
+  code {
+    font: .9em ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: var(--bg-top); border-radius: 4px; padding: 0 .3em;
+  }
+  blockquote.note {
+    margin: 1rem 0; border-left: 4px solid var(--accent);
+    padding-left: 1rem; color: var(--subtitle);
+  }
+  blockquote.note p { margin: 0; }
+  .table-wrap { overflow-x: auto; margin: 1rem 0; }
+  table { border-collapse: collapse; width: 100%; font-size: .95em; }
+  th, td { text-align: left; vertical-align: top; padding: .45rem .6rem; border-bottom: 1px solid var(--rule); }
+  th { color: var(--title); }
+  col.first { width: var(--w); }
+  table.firm th:first-child, table.firm td:first-child { white-space: nowrap; }
+  @media (max-width: 480px) {
+    /* On a phone a one-line term column would leave no room for the
+       explanation, so the term may wrap at spaces and takes 40 %. */
+    table.firm th:first-child, table.firm td:first-child { white-space: normal; }
+    col.first { width: min(var(--w), 40%); }
+    /* Tables with three or more columns: smaller type, tighter padding and
+       hyphenation, so that the last column is not pushed off the screen. */
+    table.wide { font-size: .88em; }
+    table.wide th, table.wide td { padding: .35rem .4rem; hyphens: auto; }
+  }
+  figure { margin: 1.5rem 0; text-align: center; }
+  img.screenshot {
+    max-width: min(100%, 320px); height: auto;
+    border-radius: 12px; box-shadow: 0 3px 10px rgba(0,0,0,.15);
+  }
+  figcaption { color: var(--subtitle); font-size: .9em; margin-top: .5rem; }
+  footer { text-align: center; color: var(--subtitle); font-size: .9rem; }
+</style>
+</head>
+<body>
+<main id="top">
+
+<header>
+  <h1>BakePlanner for Android – User Manual</h1>
+  <p class="claim">As of 27 Nov 2026 · Android version 2.4</p>
+</header>
+
+<nav aria-label="Choose language">
+  <a href="index.html#en">Help and contact</a>
+  <a href="android-manual-de.html" lang="de">Deutsch</a>
+  <a href="android-manual-en.html" lang="en" aria-current="page">English</a>
+  <a href="android-manual-fr.html" lang="fr">Français</a>
+  <a href="privacy.html">Privacy</a>
+  <a href="impressum.html">Legal notice</a>
+</nav>
+
+<article>
+<hr>
+<h2 id="contents">Contents</h2>
+<ol><li><a href="#1-what-bakeplanner-does">What BakePlanner does</a></li><li><a href="#2-requirements">Requirements</a></li><li><a href="#3-basic-terms">Basic terms</a></li><li><a href="#4-the-tabs">The tabs</a></li><li><a href="#5-recipe-database">Recipe database</a></li><li><a href="#6-my-recipes">My recipes</a></li><li><a href="#7-planning-bake-mode-and-reminders">Planning, bake mode and reminders</a></li><li><a href="#8-creating-and-editing-a-recipe">Creating and editing a recipe</a></li><li><a href="#9-timeline-and-baking-day">Timeline and baking day</a></li><li><a href="#10-baking-history">Baking history</a></li><li><a href="#11-shopping-lists">Shopping lists</a></li><li><a href="#12-pantry">Pantry</a></li><li><a href="#13-calculators">Calculators</a></li><li><a href="#14-settings">Settings</a></li><li><a href="#15-units-and-amounts">Units and amounts</a></li><li><a href="#16-data-backup-and-changing-devices">Data, backup and changing devices</a></li><li><a href="#17-privacy">Privacy</a></li><li><a href="#18-frequently-asked-questions">Frequently asked questions</a></li><li><a href="#19-what-only-the-iphone-has">What only the iPhone has</a></li></ol>
+<hr>
+<h2 id="1-what-bakeplanner-does">1. What BakePlanner does</h2>
+<p>BakePlanner is a baking planner for bread, rolls and pastries. What sets it apart from a plain recipe collection is that it <strong>does the scheduling for you</strong>:</p>
+<ul><li>A recipe consists not only of ingredients but of <strong>processing steps with durations</strong>.</li><li>From those durations the app works out the <strong>start time of every single step</strong>.</li><li>You can plan backwards: "The bread should be ready at 6 pm" – the app tells you when to mix the sourdough.</li><li>Every step gets a <strong>reminder</strong> as an Android notification, including the automatically added steps "Turn on the oven" and "Baking is finished".</li></ul>
+<p>On top of that: a shared public recipe database, your own recipes on the device, import from photos, web pages and text, shopping lists sorted by aisle, a pantry, a baking history with photos, measurements and statistics, a starter diary with a ripening estimate, recipe variants with a comparison, a bake mode that reads aloud, and four baker's calculators.</p>
+<p><strong>Everything is free on Android.</strong> There is no Pro and nothing to buy.</p>
+<h3 id="quick-start-your-first-baking-plan-in-five-steps">Quick start: your first baking plan in five steps</h3>
+<ol><li>Pick a recipe in the <strong>Recipes</strong> tab – or create your own with <strong>+</strong> at the top right.</li><li>On the recipe page, tap <strong>Plan</strong>.</li><li>Choose <strong>Start from</strong> or <strong>Done by</strong> and set the date and start time.</li><li>Check the calculated times and tap <strong>Plan</strong> at the top right.</li><li>Open the <strong>Timeline</strong> tab to see all steps as a timeline or a list.</li></ol>
+<p>The first time you plan, Android asks whether BakePlanner may send notifications. Without that permission the plan is still saved, but no reminders arrive (see <a href="#7-planning-bake-mode-and-reminders">chapter 7</a>).</p>
+<hr>
+<h2 id="2-requirements">2. Requirements</h2>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 13ch"></colgroup>
+<thead><tr><th>Item</th><th>Value</th></tr></thead>
+<tbody>
+<tr><td>Android</td><td>9.0 or later; an app language separate from the system language from Android 13</td></tr>
+<tr><td>Source</td><td>Google Play (currently as a closed test)</td></tr>
+<tr><td>Size</td><td>About 55–60 MB download, about 190 MB installed – the app brings its own runtime</td></tr>
+<tr><td>Languages</td><td>German, English, French</td></tr>
+<tr><td>Appearance</td><td>Light and dark mode following the system setting, font size following Android's "Font size" setting</td></tr>
+<tr><td>Permissions</td><td>Notifications (reminders), camera (recipe pictures, baking photos, import from photos), internet (recipe database, cloud AI, import from web pages)</td></tr>
+<tr><td>Internet</td><td>Only for the recipe database, the cloud AI and the import from web pages. Your own recipes, planning and reminders work offline.</td></tr>
+<tr><td>Sign-in</td><td>Not needed. Signing in with Apple is optional – you need it only to publish recipes (see <a href="#14-settings">chapter 14</a>).</td></tr>
+</tbody></table></div>
+<blockquote class="note"><p><strong>Important:</strong> all your own data lives on this device only. There is no sync and no automatic backup to Google Drive. Make a backup regularly (see <a href="#16-data-backup-and-changing-devices">chapter 16</a>).</p></blockquote>
+<hr>
+<h2 id="3-basic-terms">3. Basic terms</h2>
+<p>These terms come up throughout the app:</p>
+<p><strong>Recipe</strong><br>The top-level unit: name, description, picture, rating, tags, an optional link to the source, total weight and preparation time.</p>
+<p><strong>Component</strong><br>A part of a recipe that is mixed separately – for example "Sourdough", "Preferment", "Main dough", "Scald". Every component has its own ingredient list. BakePlanner is built for multi-stage doughs.</p>
+<p><strong>Ingredient</strong><br>Always belongs to a component: amount, unit and name. The amount may also be a fraction ("1/2", "1 1/2").</p>
+<p><strong>Processing step</strong><br>An instruction with a step number and a duration. You enter the duration in minutes ("90") or in hours and minutes ("1:30", "1h 30", "1.5 h"). The step number has a special meaning:</p>
+<ul><li><strong>Whole numbers (1, 2, 3 …) are main steps.</strong> They run one after another.</li><li><strong>Decimals (2.1, 2.2, 2.3) are parallel steps within a main step.</strong> They run at the same time; only the <em>longest</em> duration in the group counts towards the total. Steps that make a component (sourdough, preferment, soaker …) start 5 minutes apart, so you don't have to weigh everything in the same minute.</li></ul>
+<p>Example: if you mix a sourdough (12 h) and a scald (2 h) at the same time, give them steps 1.1 and 1.2. Main step 2 then starts after a little over 12 hours, not after 14.</p>
+<p><strong>Amount (serving size)</strong><br>A factor for all quantities; <strong>× 1 is the recipe as stored</strong>, × 2 doubles everything. Instead of a factor you can enter a <strong>dough weight</strong> in grams. The choice applies to the recipe you have open: recipe page, planning and shopping list all use it (see <a href="#15-units-and-amounts">chapter 15</a>).</p>
+<p><strong>Storage</strong><br>Where a recipe lives:</p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Storage</th><th>Who sees it?</th><th>Where is it?</th><th>Editable?</th></tr></thead>
+<tbody>
+<tr><td><strong>Local</strong></td><td>only you</td><td>on this device</td><td>yes, any time</td></tr>
+<tr><td><strong>Public</strong></td><td>all users of the app, on Android and on the iPhone</td><td>in the recipe database</td><td>yes, by you as the author</td></tr>
+</tbody></table></div>
+<p>New recipes always start local. You put a recipe into the database with <strong>Publish</strong> on its page (see <a href="#6-my-recipes">chapter 6</a>). A recipe you may not publish – from a book, say – simply stays local.</p>
+<hr>
+<h2 id="4-the-tabs">4. The tabs</h2>
+<p>After launch the app opens in the <strong>Recipes</strong> tab. The five tabs sit at the bottom:</p>
+<figure><img class="screenshot" src="images/android/rezepte.png" alt="BakePlanner&#x27;s recipe list on Android with filter chips and the tab bar at the bottom" loading="lazy">
+<figcaption>The Recipes tab is where everything starts: all recipes, "More" and "+" for a new recipe at the top right.</figcaption>
+</figure>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 16ch"></colgroup>
+<thead><tr><th>Tab</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td><strong>Recipes</strong></td><td>All recipes in one list: your own, the ones you published and the public ones of all users (see <a href="#5-recipe-database">chapter 5</a> and <a href="#6-my-recipes">chapter 6</a>)</td></tr>
+<tr><td><strong>Shopping</strong></td><td>All shopping lists (see <a href="#11-shopping-lists">chapter 11</a>)</td></tr>
+<tr><td><strong>Baking history</strong></td><td>Past bakes as a list, gallery, top list, photo cloud or statistics (see <a href="#10-baking-history">chapter 10</a>)</td></tr>
+<tr><td><strong>Timeline</strong></td><td>All scheduled steps as a timeline or a list, plus bake mode (see <a href="#9-timeline-and-baking-day">chapter 9</a>)</td></tr>
+<tr><td><strong>Pantry</strong></td><td>What you have at home: flours, seeds, yeast with amount and best-before date (see <a href="#12-pantry">chapter 12</a>)</td></tr>
+</tbody></table></div>
+<p>At the top right of the <strong>Recipes</strong> tab there are two menus:</p>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 16ch"></colgroup>
+<thead><tr><th>Menu</th><th>Entries</th></tr></thead>
+<tbody>
+<tr><td><strong>More</strong></td><td><strong>Settings</strong>, <strong>Import recipes</strong> (read a backup file or a single saved recipe), <strong>Export recipes</strong> (your own recipes as a file), <strong>Plan a baking day</strong> and <strong>Calculators</strong></td></tr>
+<tr><td><strong>+</strong> (New recipe)</td><td><strong>By hand</strong>, <strong>Baker's percentages</strong>, <strong>From a web page</strong>, <strong>From photos</strong>, <strong>From text</strong> (see <a href="#8-creating-and-editing-a-recipe">chapter 8</a>)</td></tr>
+</tbody></table></div>
+<p>The back arrow at the top left or Android's back gesture takes you back from any screen. Sheets such as the planning sheet or the editor close with <strong>Cancel</strong> or <strong>Close</strong> at the top left.</p>
+<hr>
+<h2 id="5-recipe-database">5. Recipe database</h2>
+<p>The public recipe database is shared by all BakePlanner users, on Android and on the iPhone. Its recipes appear in the <strong>Recipes</strong> tab together with your own, sorted alphabetically. Three filter chips above the list switch the sources on and off one by one:</p>
+<ul><li><strong>Local</strong> – your recipes on this device,</li><li><strong>Published by me</strong> – your own recipes in the database,</li><li><strong>Public</strong> – the recipes of the other users.</li></ul>
+<p><strong>Pull down</strong> to reload the public recipes. If the list says "The public recipes could not be loaded", there was no internet connection – pull the list down once more.</p>
+<p><strong>Language.</strong> There is no automatic translation on Android. If someone has already stored a translation of a recipe in your app language, the app shows it; otherwise it shows the language the recipe was written in.</p>
+<h3 id="opening-a-public-recipe">Opening a public recipe</h3>
+<p>A public recipe opens as one continuous page: picture, name and description, amount and dough weight, total weight, the TA line, then total ingredients, components and processing steps. There are three buttons:</p>
+<ul><li><strong>Plan</strong> – opens the planning sheet (see <a href="#7-planning-bake-mode-and-reminders">chapter 7</a>).</li><li><strong>Add recipe to shopping list</strong> – see <a href="#11-shopping-lists">chapter 11</a>.</li><li><strong>Save as my own recipe</strong> – creates a full copy, picture included, on your device. Only that copy can be edited. An existing copy stays as it is.</li></ul>
+<h3 id="more-actions">More actions</h3>
+<p>At the top right under <strong>More actions</strong>:</p>
+<ul><li><strong>Share recipe</strong> – creates a PDF of the recipe at the chosen amount and opens Android's share menu.</li><li><strong>Report recipe</strong> – with a reason (offensive, spam, copyright, other). The recipe is hidden <strong>for all users at once</strong> until an administrator has reviewed it.</li><li><strong>Block author</strong> – all recipes by this author disappear from the list <strong>on your device only</strong>.</li><li><strong>Edit recipe</strong> and <strong>Delete my recipe</strong> – only for recipes that come from your account. You edit the recipe in the database; your local version is not affected.</li></ul>
+<p>You undo blocks and reports under <em>Settings → Moderation</em> (see <a href="#14-settings">chapter 14</a>). If you are signed in as an <strong>administrator</strong>, you also see <strong>Delete recipe (admin)</strong> and, for reported recipes, <strong>Unhide recipe</strong>.</p>
+<hr>
+<h2 id="6-my-recipes">6. My recipes</h2>
+<p>Your own recipes are the ones on your device: created by you, imported or copied from the database. Switch off the chips <strong>Published by me</strong> and <strong>Public</strong> and only your own recipes remain.</p>
+<h3 id="searching-and-filtering">Searching and filtering</h3>
+<ul><li><strong>Search field</strong> at the top, below it the <strong>Name / Tags</strong> switch. The search ignores case and finds parts of words: "rye" finds "Rye bread".</li><li><strong>Star menu (★)</strong> next to it: <strong>All ratings</strong> or "… stars and up", <strong>Show variants / Hide variants</strong> and <strong>Filter …</strong>.</li><li><strong>Collections</strong> as chips above the list: <strong>For tomorrow morning</strong>, <strong>Quick bread</strong>, <strong>Pure sourdough</strong>, <strong>Not baked for a while</strong> and <strong>Favourites</strong>; once there is anything in the pantry, also <strong>From the pantry</strong> and <strong>Use up the pantry</strong>. A second tap clears a collection.</li></ul>
+<h3 id="facets">Facets</h3>
+<p>The <strong>Filter …</strong> sheet holds the facets. The app reads them from each recipe's ingredients and steps – you don't have to enter anything:</p>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 16ch"></colgroup>
+<thead><tr><th>Facet</th><th>Choices</th></tr></thead>
+<tbody>
+<tr><td><strong>Duration</strong></td><td>Under 4 hours, 4 to 12 hours, Overnight, Several days</td></tr>
+<tr><td><strong>Day flow</strong></td><td>Set up in the evening, bake in the morning; Set up in the morning, bake in the evening; Done in 2 hours</td></tr>
+<tr><td><strong>Leavening</strong></td><td>Pure sourdough, Lievito madre, Yeast, Sourdough and yeast</td></tr>
+<tr><td><strong>Flour</strong></td><td>Mostly wheat, rye, spelt or wholemeal</td></tr>
+<tr><td><strong>Dough yield</strong></td><td>Firm (under TA 165), Medium (TA 165 to 180), Soft (TA 180 and up)</td></tr>
+<tr><td><strong>Equipment</strong></td><td>Baking stone, Loaf tin, Proofing basket, Pot</td></tr>
+<tr><td><strong>Baking history</strong></td><td>Never baked, Not baked for a while, Favourites</td></tr>
+<tr><td><strong>Little work</strong></td><td>At most 30 minutes of hands-on work</td></tr>
+</tbody></table></div>
+<p>With a pantry you also get the switches <strong>From the pantry</strong> (only recipes whose ingredients are all there) and <strong>Use up the pantry</strong> (recipes that use what expires soon; each shows what it uses up). <strong>Reset filters</strong> clears everything at once.</p>
+<p><strong>Your own collections.</strong> A combination you need often is saved in the <strong>Filter …</strong> sheet with <strong>Save collection</strong> under a name. It appears as a chip after the preset ones. Under <strong>Saved collections</strong> you rename it (tap) or delete it (swipe); a long press on the chip also offers <strong>Rename</strong> and <strong>Delete</strong>.</p>
+<p><strong>Done by.</strong> In the <strong>Filter …</strong> sheet, <strong>Done by</strong> sets the date and time the bread should be ready. The list then shows only the recipes that can still make it and writes the required start under each one: "Start today 17:45", "Start tomorrow 06:10", with "Steps at night" where it applies. The target sits as the first chip above the list; tap it to change it.</p>
+<h3 id="deleting-a-recipe">Deleting a recipe</h3>
+<p>Swipe one of your own recipes to the left in the list and confirm. Its baking history and starter diary go with it. Public recipes can't be deleted here.</p>
+<h3 id="the-page-of-one-of-your-own-recipes">The page of one of your own recipes</h3>
+<figure><img class="screenshot" src="images/android/rezeptseite.png" alt="Page of an own recipe on Android with picture, amount, dough weight, total weight and the Plan button" loading="lazy">
+<figcaption>The recipe page: picture and amounts at the top, then Plan, the shopping list and all ingredients and steps.</figcaption>
+</figure>
+<p>From top to bottom:</p>
+<ol><li><strong>Picture</strong> with <strong>Change picture</strong>, <strong>Camera</strong> and <strong>Remove picture</strong>, below it the description and – if stored – the <strong>Recipe link</strong>.</li><li><strong>Amount</strong> (factor) and <strong>Dough weight</strong>, the <strong>total weight</strong>, the <strong>preparation time</strong> and the line <strong>"TA 172 · hydration 72 %"</strong>; tap it for the breakdown (see <a href="#15-units-and-amounts">chapter 15</a>). Recipes planned regularly add "Next bake" or "Next feeding".</li><li><strong>Pantry</strong> – once there is anything in the pantry: "All 5 ingredients are in the pantry" or what is missing (see <a href="#12-pantry">chapter 12</a>).</li><li><strong>Plan</strong> and <strong>Add recipe to shopping list</strong>.</li><li><strong>Total ingredients</strong>, <strong>Components</strong> and <strong>Processing steps</strong>. Flour and starter lines can be tapped (see <a href="#13-calculators">chapter 13</a>).</li><li><strong>Last time</strong>, <strong>Record a bake</strong> and <strong>Previous bakes</strong> – for a starter, the <strong>Starter Diary</strong> instead.</li><li><strong>Variants</strong> – the recipes made from this one.</li></ol>
+<p>At the top right you find <strong>Edit</strong> (see <a href="#8-creating-and-editing-a-recipe">chapter 8</a>) and <strong>More actions</strong>:</p>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 16ch"></colgroup>
+<thead><tr><th>Entry</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td><strong>Back up recipe</strong></td><td>Writes the recipe with its picture to a file, without baking history – to pass on to others, who read it with <strong>More → Import recipes</strong></td></tr>
+<tr><td><strong>Share recipe</strong></td><td>Creates a PDF with picture, components, total ingredients and steps at the chosen amount and opens the share menu</td></tr>
+<tr><td><strong>Publish</strong></td><td>Puts the recipe into the recipe database (see below)</td></tr>
+<tr><td><strong>Create variant</strong></td><td>Creates a variant (see below)</td></tr>
+</tbody></table></div>
+<p><strong>Publish</strong> needs two things: <strong>Sign in with Apple</strong> under <em>Settings → Account</em> (otherwise "Sign-in required" appears) and a <strong>recipe picture</strong> (otherwise "Image required"). The first time, you accept the terms of use (see <a href="#17-privacy">chapter 17</a>); then the question <strong>Publish recipe?</strong> follows with <strong>Save publicly</strong>. Afterwards the page says "Published" and the entry disappears: a recipe is published only once, and later changes go to the public version (see <a href="#5-recipe-database">chapter 5</a>).</p>
+<h3 id="recipe-variants">Recipe variants</h3>
+<p>Variants are your own recipes that stay linked to their original – so you can see later what was different and how it turned out.</p>
+<ul><li><strong>Create variant</strong> opens the <strong>New variant</strong> sheet: under "What is different? (optional)" you note the change, and <strong>Create</strong> copies the recipe as "Country bread V1", "Country bread V2" … and opens the copy. <strong>Replace flour</strong> and <strong>Adjust starter TA</strong> create variants too (see <a href="#13-calculators">chapter 13</a>).</li><li>A variant shows <strong>Variant of "…"</strong>; <strong>Compare</strong> lists the differences: ingredients, TA, hydration, dough weight and steps.</li><li>On the original, the <strong>Variants</strong> card lists every variant with its note and the result from its baking history.</li><li>In the list's star menu, <strong>Hide variants</strong> removes them from the list.</li></ul>
+<h3 id="starter-diary">Starter Diary</h3>
+<p>A recipe made only of starter, flour and water that bakes nothing is a <strong>starter</strong> to the app. It is fed, not baked, so instead of the baking history it has the <strong>Starter Diary</strong>:</p>
+<ul><li><strong>Feeding ratio</strong> "starter : flour : water", worked out from the recipe.</li><li><strong>Ripening estimate</strong>: if you noted ripening time and room temperature for your feedings, the app tells you when the starter will be ripe at <strong>Room temperature today</strong> ("At 22 °C ripe after about 6h 30m, from 4 feedings").</li><li><strong>Enter new feeding</strong> with date, <strong>Time to peak rise</strong>, room temperature, <strong>Float test</strong> and a note.</li><li><strong>Previous feedings</strong>, newest first. A planned feeding is completed after feeding with <strong>Record result</strong>.</li></ul>
+<p>When you plan a starter, BakePlanner adds the feeding to the diary instead of an entry in the baking history. If the flour is in the pantry, it is deducted at the feeding.</p>
+<hr>
+<h2 id="7-planning-bake-mode-and-reminders">7. Planning, bake mode and reminders</h2>
+<p>This is the heart of the app. <strong>Plan</strong> on the recipe page opens the planning sheet; it uses the amount set on the recipe page.</p>
+<figure><img class="screenshot" src="images/android/planen.png" alt="Planning sheet on Android with the Start from / Done by choice, date, start time and the processing steps with their times" loading="lazy">
+<figcaption>In the planning sheet you pick the time; the steps' times follow at once.</figcaption>
+</figure>
+<h3 id="choosing-the-time">Choosing the time</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 22ch"></colgroup>
+<thead><tr><th>Element</th><th>Function</th></tr></thead>
+<tbody>
+<tr><td><strong>Start from / Done by</strong></td><td><strong>Start from</strong>: I begin at this time – when will I be done? <strong>Done by</strong>: I want to be done at this time – when do I have to start?</td></tr>
+<tr><td><strong>Date</strong> and <strong>Start time</strong></td><td>The reference time of the plan</td></tr>
+<tr><td><strong>Oven</strong> and <strong>Convection</strong></td><td>Only with two or more oven profiles (see <a href="#14-settings">chapter 14</a>): the oven for this bread, preset with the one from the settings, and whether it bakes with convection</td></tr>
+<tr><td><strong>Change durations</strong></td><td>Switch. When on, every step gets a duration field; <strong>Apply duration</strong> saves the new durations in the recipe</td></tr>
+</tbody></table></div>
+<p>Change the time and watch the times under <strong>Processing steps</strong> adjust. Nothing is saved until you tap <strong>Plan</strong> at the top right.</p>
+<h3 id="proofing-today-and-ripening-today">Proofing today and ripening today</h3>
+<p><strong>Proofing today.</strong> For a bread, the planning sheet recognises the fermentation steps – ripening of a preferment, bulk proof and final proof – and shows for each phase the planned duration and the duration at <strong>Room temperature today</strong>, preset with the one noted at the last bake. Fermentation runs about two and a half times as fast per 10 °C; the recipe's durations are taken as written for 22 °C. Each phase has its own <strong>temperature</strong>, for instance when the final proof happens in a warm spot. If your bakes recorded bulk or final proof with room temperature, the app uses those measurements. <strong>Use these proofing times</strong> applies to this plan only, <strong>Use the recipe's durations</strong> takes it back, and <strong>Write the durations from the bakes into the recipe</strong> stores the measured values in the recipe for good.</p>
+<p><strong>Ripening today.</strong> When you plan a starter with feedings in the diary, the sheet shows the estimated ripening time at today's room temperature; <strong>Use the ripening time as the duration</strong> sets it as the duration of the ripening step.</p>
+<h3 id="what-the-app-points-out-about-the-plan">What the app points out about the plan</h3>
+<p>Notes appear above the steps as soon as the chosen time leads to an awkward plan:</p>
+<ul><li><strong>Steps outside your day</strong> – before the <strong>Start of day</strong> or after the <strong>End of day</strong> from the settings. Below, the app suggests "So that no step begins at night:" with an earlier and a later time; <strong>Apply</strong> sets it.</li><li><strong>Overlapping baking times</strong> – each oven takes one bake at a time. More bakes at once than you have ovens is an error; "So that the ovens come free one after another:" suggests suitable times.</li><li><strong>Too short a baking pause</strong> between two bakes in the same oven.</li><li><strong>Steps with a time window</strong> (see <a href="#8-creating-and-editing-a-recipe">chapter 8</a>) may be stretched or shortened: "This is how it fits within the steps' time windows:" shows the smallest change that fits everything into your day and your ovens.</li></ul>
+<p>The notes don't prevent anything. With overlapping baking times the app asks when you plan; <strong>Plan anyway</strong> sets the plan regardless.</p>
+<h3 id="planning">Planning</h3>
+<p>Tapping <strong>Plan</strong> at the top right:</p>
+<ol><li>puts all steps into the <strong>Timeline</strong> and sets a <strong>reminder</strong> for each one,</li><li>adds <strong>"Turn on the oven"</strong> the preheat time before the baking step – with the oven temperature from the recipe, with the stone preheat time for a baking stone, and with the dial setting when you use oven profiles ("dial at 240 °C"),</li><li>adds <strong>"Turn the oven down to …"</strong> for a falling temperature and <strong>"Release the steam"</strong> where it applies,</li><li>schedules <strong>"Baking is finished"</strong> at the end time,</li><li>creates a <strong>baking history entry</strong> at the end date for your own recipes, which you complete after baking.</li></ol>
+<p>The confirmation <strong>Reminders were set</strong> tells you when the oven has to go on and when the bread is ready. Without the notification permission it reads <strong>Plan saved</strong>: the plan is in the timeline, but without reminders – grant the permission in Android's settings under <em>Apps → BakePlanner → Notifications</em>.</p>
+<blockquote class="note"><p><strong>One recipe, one plan – or several.</strong> If the recipe already has a plan, the app asks: <strong>Replace existing plan</strong> discards the old steps and their reminders – that's how you move a bread to another day. <strong>Add as a second plan</strong> keeps the existing plan and adds the new one next to it, for Saturday and Sunday, say.</p></blockquote>
+<h3 id="reminders">Reminders</h3>
+<p>Each reminder arrives as an Android notification titled <strong>"Baking reminder"</strong> with the step text. If the step mixes a component, its ingredients with amounts are listed below. The notification has two actions:</p>
+<ul><li><strong>Mark as done</strong> – the step leaves the plan.</li><li><strong>Reschedule by…</strong> – you enter the minutes; the app then asks "Do you also want to reschedule all following steps of this recipe?" with <strong>Only this step</strong> and <strong>All following steps</strong>. The time counts from now.</li></ul>
+<blockquote class="note"><p><strong>Delivery time:</strong> Android delivers reminders through its task scheduler, not as alarms. If the phone lies unused in battery saver for a long time, a reminder may come a few minutes later than planned. For steps that must happen on the minute, keep <strong>bake mode</strong> open or also set an alarm in the Clock app.</p></blockquote>
+<h3 id="bake-mode">Bake mode</h3>
+<p>For the work in the kitchen, start <strong>bake mode</strong> in the <strong>Timeline</strong> tab – at the top right for all plans, or in the list under a plan for that plan only. It shows the current step full-screen in large type: recipe name, "Step 3 of 12", the time with a countdown, the step text and below it the component's ingredients. With oven profiles there is also the line "Dial at …".</p>
+<figure><img class="screenshot" src="images/android/backmodus.png" alt="Bake mode on Android with large step text and the buttons Back, Read aloud, Mark as done and Next" loading="lazy">
+<figcaption>Bake mode: large type and large buttons, easy to hit even with flour on your hands.</figcaption>
+</figure>
+<ul><li><strong>Back</strong> and <strong>Next</strong> page through the steps.</li><li><strong>Read aloud</strong> reads the step and its ingredients through Android's text-to-speech; <strong>Stop</strong> cancels. If a voice for your language is missing, install it in Android's settings under "Text-to-speech output" (Speech Services by Google).</li><li><strong>Mark as done</strong> removes the step and its reminder from the plan and moves on to the next one.</li></ul>
+<p>The screen stays on while bake mode is open. <strong>Close</strong> takes you back.</p>
+<hr>
+<h2 id="8-creating-and-editing-a-recipe">8. Creating and editing a recipe</h2>
+<p>With <strong>+</strong> at the top right of the <strong>Recipes</strong> tab you choose how the recipe comes about. Every route ends in the same recipe editor, where you check and save.</p>
+<h3 id="by-hand">By hand</h3>
+<p>Opens the empty recipe editor (see below).</p>
+<h3 id="from-photos">From photos</h3>
+<p>Reads a printed or photographed recipe – on Android <strong>only through the protected cloud AI</strong>; the Android app has no on-device text recognition.</p>
+<ol><li><strong>Select images</strong> from the device's files or <strong>Take photo</strong> with the camera, page by page, up to ten. The order is kept; under <strong>Selected pages</strong> you remove single pages.</li><li>Under <strong>Analysis mode</strong> you find <strong>Protected cloud AI</strong>. Before the first use the app explains the data transfer; <strong>Agree and analyze with cloud AI</strong> gives your consent. If you choose <strong>On this device only</strong>, the app explains that photos can't be read that way.</li><li><strong>Import</strong> sends the pages for analysis and opens the result in the recipe editor.</li></ol>
+<p>Straight, well-lit photos without logos and headers give the best results. Handwriting isn't read reliably. Afterwards check <strong>amounts, units, temperatures and times</strong>.</p>
+<h3 id="from-a-web-page">From a web page</h3>
+<ol><li>Enter the <strong>Web address</strong>. It's quicker from Chrome or any other app: <strong>Share → BakePlanner</strong> opens the import with the address filled in.</li><li>Choose the <strong>Analysis mode</strong>: <strong>Protected cloud AI</strong> also splits preferment, sourdough and main dough into separate components. <strong>On this device only</strong> takes just the structured recipe data the page itself provides.</li><li><strong>Import</strong> loads the page and opens the recipe in the editor, with the page's recipe photo and its address as the link.</li></ol>
+<p>Pages behind a login, a paywall or a cookie wall can't be read. The import from text helps then.</p>
+<blockquote class="note"><p><strong>Copyright:</strong> you may import any recipe for your own use. Only publish other people's recipes with their permission.</p></blockquote>
+<h3 id="from-text">From text</h3>
+<p>For recipes from a message, a note or a page the web import can't read. Select the recipe from the heading to the last step, copy it and paste it under <strong>Recipe text</strong> – or share selected text from another app with BakePlanner. Under <strong>Web address (optional)</strong> you can name the source. With <strong>On this device only</strong> the app reads ingredients and steps by fixed rules: headings such as "Ingredients" and "Method", one ingredient with its amount per line, one step per paragraph, components under their own headings such as "Sourdough". With the cloud AI the layout matters less. <strong>Import</strong> opens the result in the editor.</p>
+<h3 id="bakers-percentages">Baker's percentages</h3>
+<p>For those who think of recipes as a formula: you enter each ingredient as a share of the flour, and the app works out the grams.</p>
+<ol><li>Enter the <strong>Recipe name</strong>.</li><li><strong>Target</strong>: <strong>Total flour</strong> (say 500 g) or <strong>Dough weight</strong> (say 850 g) and the amount.</li><li><strong>Components and ingredients</strong> in percent; all percentages refer to the recipe's total flour, and the flours must add up to 100 percent. More components are added with <strong>New component</strong> and <strong>Add</strong>. The calculated grams appear next to every line.</li><li><strong>Next</strong> opens the recipe editor with the grams. There you add resting times, shaping and baking.</li></ol>
+<p>As long as something doesn't add up, <strong>Next</strong> stays disabled and a note tells you why ("The flours add up to 95 percent instead of 100.").</p>
+<h3 id="the-recipe-editor">The recipe editor</h3>
+<p>The editor – "New recipe" when creating, "Edit" when changing – has these sections:</p>
+<ul><li><strong>Name</strong> – required.</li><li><strong>Recipe image</strong> – <strong>Add picture</strong> from the files or <strong>Camera</strong>. Photos are scaled down to screen size as soon as they are picked. Publishing needs a picture.</li><li><strong>Description</strong>.</li><li><strong>Rating</strong> – five stars; tapping the same star again takes the rating back. Below it <strong>Tags, separated by commas</strong>.</li><li><strong>Plan regularly</strong> (for a starter <strong>Refresh regularly</strong>) with "every … days": after the last bake the app schedules the next date by itself, at the same time as the start of the first step. Such dates appear in the timeline only two days ahead; the reminders still come on time.</li><li><strong>Component</strong> – a name per component and its ingredients with <strong>Amount</strong>, <strong>Unit</strong> and <strong>Ingredient</strong>. The amount may be a fraction ("1/2", "1 1/2"), the unit an abbreviation from <a href="#15-units-and-amounts">chapter 15</a>. <strong>Add ingredient</strong>, <strong>Remove component</strong>, below them <strong>Add component</strong>. Swipe an ingredient line to delete it.</li><li><strong>Processing steps</strong> – per step the <strong>No.</strong>, the text and the duration in <strong>Minutes</strong> (also "1:30" or "1.5 h"). <strong>Add step</strong> counts on to the next whole number, <strong>Add sub-step</strong> creates a parallel step such as 3.1. Swipe to delete.</li></ul>
+<p>Fields shown in red are invalid, for example a duration the app can't read; until they are fixed, <strong>Save</strong> stays disabled.</p>
+<p><strong>Time window.</strong> A step the planner may stretch – a fridge proof of 12 to 18 hours – has the fields <strong>At least</strong> and <strong>At most</strong>. Left empty, the duration is fixed. If the window is already in the wording ("12–18 hours in the fridge"), the app recognises it without the fields.</p>
+<p><strong>Oven.</strong> A step that bakes, preheats or names an oven temperature has the fields <strong>Oven</strong> (°C) and <strong>Falling to</strong> and the choice <strong>Steam</strong> (Not stated, With steam, Without steam). The fields take precedence over the wording; left empty, the app reads the oven from the text ("bake at 250 °C falling to 220 °C with steam").</p>
+<p><strong>Save</strong> at the top right stores the recipe, <strong>Cancel</strong> discards the changes.</p>
+<h3 id="editing-a-recipe">Editing a recipe</h3>
+<p><strong>Edit</strong> at the top right of one of your own recipes opens the same editor. You can also change the recipe picture right on the recipe page. A plan already set stays as it is: the timeline then shows "… has changed since it was planned" with <strong>Plan again</strong>.</p>
+<hr>
+<h2 id="9-timeline-and-baking-day">9. Timeline and baking day</h2>
+<p>The <strong>Timeline</strong> tab (titled "Next steps") holds all scheduled steps from all recipes. At the top you switch between <strong>Timeline</strong> and <strong>List</strong>. At the top right sit <strong>Start bake mode</strong> and <strong>Delete all</strong>.</p>
+<figure><img class="screenshot" src="images/android/zeitleiste.png" alt="Timeline tab on Android: one lane per plan, bars as long as the steps, colours by kind of step" loading="lazy">
+<figcaption>The timeline shows every plan as its own lane and every step as a bar.</figcaption>
+</figure>
+<h3 id="timeline">Timeline</h3>
+<p>Each plan gets its own lane with recipe picture and name, each step a bar as long as it lasts. The colour tells you what to do – mix, rest, shape, bake; a legend sits at the top, next to it the <strong>zoom</strong> in three steps (S, M, L). Sub-steps such as folds during the bulk rest or "Turn on the oven" during the final proof appear as a marker on the bar of their step, a flag marks "Baking is finished", a red line the current time. Long gaps without a step – the night while the sourdough ripens – are collapsed into a hatched band.</p>
+<p>Tapping a bar opens the step's details with start, duration, description and – for a mixing step – the ingredients. A long press offers <strong>Mark as done</strong> and <strong>Reschedule</strong>.</p>
+<h3 id="list">List</h3>
+<p>At the very top is the step that is <strong>Up next</strong>, or <strong>Due now</strong> with the time elapsed. Below follow the plans, each with its steps: time, day, duration and instruction. Every row has three symbols:</p>
+<ul><li><strong>Checkmark</strong> – mark the step as done; it leaves the plan together with its reminder.</li><li><strong>i</strong> – show the component's ingredients, at the amount you planned with. Only for steps that mix a component.</li><li><strong>Calendar</strong> – reschedule the step (see below).</li></ul>
+<p>Under each plan you find <strong>Start bake mode</strong> (for this plan only) and <strong>Delete scheduled steps</strong> (this plan only, after a confirmation). <strong>Delete all</strong> at the top right removes all plans with their reminders.</p>
+<h3 id="rescheduling-a-step">Rescheduling a step</h3>
+<p>The <strong>Reschedule step</strong> sheet shows <strong>Currently</strong> and, once you have entered minutes, <strong>New</strong>:</p>
+<ol><li>Enter the <strong>Minutes</strong>.</li><li><strong>Direction</strong>: <strong>Earlier</strong> or <strong>Later</strong>.</li><li><strong>Affected steps</strong>: <strong>This step only</strong> or <strong>All following steps</strong> – then every later step of the same plan moves too.</li><li><strong>Apply</strong>.</li></ol>
+<p>The reminders move along. If the new time lies in the past, the app reports "Unable to reschedule".</p>
+<p>With no steps scheduled, the tab says "No scheduled steps – Open a recipe and tap "Plan"."</p>
+<h3 id="plan-a-baking-day">Plan a baking day</h3>
+<p><strong>Recipes → More → Plan a baking day</strong> plans several breads at once:</p>
+<ol><li>Under <strong>Recipes</strong> you choose the breads; starter recipes aren't offered.</li><li><strong>Done by</strong> – the time the last one should be ready – and the <strong>Ovens</strong> (preset from the settings; with oven profiles an "Oven" choice per bread).</li><li><strong>Work out the baking day</strong> sets the start times: the bread with the longest bake is ready at the target time, every other one gets the latest quarter hour before that at which it still fits into an oven. The <strong>baking pause</strong> is kept, and two doughs are never kneaded, folded or shaped at the same time. Bakes already scheduled count too.</li><li>Each bread shows its start, its finish and its oven time, plus notes as text: "Steps at night", "Hands-on work coincides with another bread", "No oven free – overlaps another bake", "Would have to be under way – choose a later time" or "Already has a plan – it will be replaced". If the pantry doesn't cover all breads, the app says what is missing.</li><li><strong>Plan all</strong> creates steps, reminders and the baking history entry for every bread.</li></ol>
+<hr>
+<h2 id="10-baking-history">10. Baking history</h2>
+<p>The <strong>Baking history</strong> tab holds all your bakes. Under <strong>View</strong> you choose:</p>
+<ul><li><strong>List</strong> – newest first, with date, recipe name, comment, measurements and photos,</li><li><strong>Gallery</strong> – tiles with the first photo,</li><li><strong>Top list</strong> – the recipes by number of bakes, your classics at the top,</li><li><strong>Photo cloud</strong> – each recipe as a circle with the photo of its last bake, the more often baked, the bigger,</li><li><strong>Statistics</strong> – see below.</li></ul>
+<figure><img class="screenshot" src="images/android/backhistorie.png" alt="Baking history on Android as a list with date, recipe name, comment, measurements and photos" loading="lazy">
+<figcaption>The baking history keeps track of what you baked and how it turned out.</figcaption>
+</figure>
+<p>The search field (name/tags) and the rating filter apply to every view. Swipe an entry to the left to delete it.</p>
+<h3 id="recording-a-bake">Recording a bake</h3>
+<p>An entry is created automatically when you plan one of your own recipes – at first without a comment. After baking, the <strong>Last time</strong> card on the recipe page reminds you to complete it (<strong>Add details</strong> or <strong>Note it now</strong>). A bake without a plan is added on the recipe page with <strong>Record a bake</strong>.</p>
+<p>The entry ("Baking notes") has:</p>
+<ul><li><strong>Recipe</strong> – the recipe it belongs to; this is where you move an entry to another recipe.</li><li><strong>Bake date</strong> and <strong>Comment</strong>.</li><li><strong>Measurements and result</strong>: <strong>Rating</strong> (1–5 stars), <strong>Room temperature</strong> and <strong>Dough temperature</strong> in °C, <strong>Bulk proof</strong> and <strong>Final proof</strong> in minutes, <strong>Flour</strong> as free text and <strong>Crumb / oven spring</strong> as keywords – below it word chips such as "open", "moist" or "good oven spring" to tap.</li><li><strong>Photos</strong> – <strong>Add picture</strong> from the files or <strong>Camera</strong>.</li></ul>
+<p><strong>Save</strong> stores the entry. The recipe page shows the measurements as <strong>Last time</strong>; bulk and final proof with room temperature feed into the <strong>Proofing today</strong> card the next time you plan.</p>
+<h3 id="statistics">Statistics</h3>
+<p><strong>View → Statistics</strong> adds up what the bakes currently shown – those already in the past – amount to: at the top <strong>Loaves in total</strong>, <strong>This year</strong>, <strong>Per month</strong> and the average rating, below that <strong>Loaves per month</strong>, <strong>Baked most</strong>, <strong>Ratings</strong>, <strong>Final proof and room temperature</strong> (one dot per bake) and <strong>Crumb and oven spring</strong>. The charts are plain bars and dots without axis labels. The more measurements you record, the more the statistics show.</p>
+<h3 id="baking-history-from-photos">Baking history from photos</h3>
+<p>The photo symbol at the top of the <strong>Baking history</strong> tab brings old bread photos into the history:</p>
+<ol><li><strong>Choose photos</strong>.</li><li>From each photo the app reads the <strong>date</strong> and, if there is one, the <strong>title or description</strong>. It proposes the recipe <strong>by that title</strong> ("Proposed by the title") – not by likeness to the recipe picture. So put the recipe name into the photo, for instance in Google Photos under <em>Info → Description</em>. Android reads date and title from JPEG files.</li><li>Check every row: pick a date where it says "No date in the photo – choose one", pick or change the recipe. Rows marked "Already in the baking history on that day" are skipped.</li><li><strong>Create</strong> writes the entries with their photos.</li></ol>
+<hr>
+<h2 id="11-shopping-lists">11. Shopping lists</h2>
+<h3 id="putting-ingredients-on-a-list">Putting ingredients on a list</h3>
+<p><strong>Recipe page → Add recipe to shopping list</strong> – for your own and for public recipes. The ingredients go on the list at the amount set on the recipe page.</p>
+<ol><li><strong>Destination</strong>: <strong>New list</strong> with a date, or <strong>Existing list</strong>. If a list for that date exists, the ingredients are added to it.</li><li><strong>Deduct pantry</strong> (on by default): what is in the pantry doesn't go on the list, partial amounts are reduced. If everything is there, the app says so instead of creating an empty list.</li><li><strong>Create</strong>. The app confirms with "Ingredients were added to the shopping list".</li></ol>
+<h3 id="what-goes-on-the-list--and-what-doesnt">What goes on the list – and what doesn't</h3>
+<ul><li><strong>Left out</strong> are water, salt and everything you make yourself: starter, sourdough, levain, lievito madre, poolish, biga – in every language. Things that only sound like it (rose water, sourdough powder) stay on the list.</li><li><strong>Left out</strong> are ingredients without a unit or without an amount.</li><li><strong>Eggs</strong> are counted in pieces: "120 g eggs" become "2 pc eggs".</li><li><strong>Identical ingredients are merged</strong>: "milk 30 °C" and "milk", "fresh yeast" and "yeast", "wheat flour type 550" and "wheat flour 550". Units with the same base are added up (0.5 kg + 200 g).</li><li>Ingredient names appear on the list as they are named in the recipe; Android doesn't translate them.</li></ul>
+<h3 id="viewing-shopping-lists">Viewing shopping lists</h3>
+<figure><img class="screenshot" src="images/android/einkauf.png" alt="Shopping list on Android, grouped by aisle, with package sizes and the Bought button" loading="lazy">
+<figcaption>The shopping list is sorted by aisle and names the package you actually buy.</figcaption>
+</figure>
+<p>In the <strong>Shopping</strong> tab each list shows "Shopping list of …", the recipes it contains and the ingredients <strong>grouped by aisle</strong>: flour &amp; grains, dairy &amp; eggs, baking ingredients, nuts, seeds &amp; dried fruit, fruit &amp; vegetables, spices &amp; herbs, oils, fats &amp; liquids, other.</p>
+<p><strong>Package sizes.</strong> In front of the ingredient stands the usual package that covers the need, the need itself in brackets: "1 kg wheat flour 550 (200 g)", "42 g fresh yeast (6 g)", "6 pieces eggs (2 pc)".</p>
+<ul><li>Tapping an ingredient opens <strong>Change amount</strong>: amount and unit apply to this list only, the recipe stays unchanged. <strong>Move into the pantry</strong> and <strong>Remove ingredient</strong> are there too.</li><li><strong>Bought</strong> at the top of the list moves the whole list into the pantry (see <a href="#12-pantry">chapter 12</a>).</li><li>Swipe a list to the left to delete it (<strong>Delete shopping list</strong>).</li></ul>
+<hr>
+<h2 id="12-pantry">12. Pantry</h2>
+<p>The <strong>Pantry</strong> tab keeps track of what you have at home – by the same aisles as the shopping list.</p>
+<figure><img class="screenshot" src="images/android/vorrat.png" alt="Pantry on Android with items by aisle, amounts and best-before dates" loading="lazy">
+<figcaption>The pantry: items by aisle, with amount and best-before date.</figcaption>
+</figure>
+<ul><li><strong>Add item</strong> (+ at the top right): <strong>Name</strong> – with <strong>Suggestions from your recipes</strong>, so pantry and recipes mean the same thing –, <strong>Amount</strong> in g, kg or pieces, <strong>Best-before date</strong> and <strong>Note</strong>; <strong>Save</strong>.</li><li>Tap an item to change it, swipe it to the left to remove it.</li><li><strong>Use up soon</strong>: items that expire within the next 14 days or already have are listed at the top and marked in colour.</li><li>From 1000 g the pantry shows amounts in kilograms.</li></ul>
+<h3 id="from-the-shopping-list-into-the-pantry">From the shopping list into the pantry</h3>
+<p><strong>Bought</strong> on the list or <strong>Move into the pantry</strong> on a line opens the <strong>Bought</strong> sheet: each line shows "Needed: …" and the <strong>Amount bought</strong>, preset with the package from the list – enter what you really bought. <strong>Book</strong> adds each line to the item of the same name or creates it, and takes the line off the list. Lines with an empty amount stay; if nothing is left, the list is done.</p>
+<h3 id="pantry-and-recipes">Pantry and recipes</h3>
+<ul><li><strong>Recipe page:</strong> the <strong>Pantry</strong> card says whether all ingredients are there or names what is missing ("200 g rye flour 1150 missing"), at the chosen amount. Water, salt and starter don't count. Ingredients are matched by name; "fresh yeast" and "yeast", "type 550" and "550" count as the same.</li><li><strong>Shopping list:</strong> <strong>Deduct pantry</strong> (see <a href="#11-shopping-lists">chapter 11</a>).</li><li><strong>Recipe list:</strong> the collections <strong>From the pantry</strong> and <strong>Use up the pantry</strong> (see <a href="#6-my-recipes">chapter 6</a>).</li><li><strong>Reservations:</strong> as soon as you plan a bread, the app reserves what it will use. Recipe card, shopping list and baking day work with what is available. If the plan is deleted or replaced, the amount is free again. When the plan reaches its end, the reservation turns into a deduction and the stock goes down.</li><li><strong>Feedings</strong> of a starter deduct their flour the same way.</li><li><strong>Recent deductions</strong> lists the deductions of finished plans; <strong>Undo</strong> books an amount back if a bread wasn't baked after all.</li></ul>
+<p>The full backup includes the pantry (see <a href="#16-data-backup-and-changing-devices">chapter 16</a>).</p>
+<hr>
+<h2 id="13-calculators">13. Calculators</h2>
+<p><strong>Recipes → More → Calculators</strong> opens a page with four baker's calculators. You can reach two of them directly from a recipe as well.</p>
+<h3 id="dough-temperature">Dough temperature</h3>
+<p>Works out how warm the <strong>water</strong> has to be so that the dough reaches the desired temperature after kneading. You enter the dough's <strong>target temperature</strong>, the room temperature, the flour temperature (usually the same as the room) and, where needed, the temperature of the sourdough or preferment. The <strong>Friction factor</strong> is the heat the dough picks up while kneading; calibrate it once by measuring after kneading, and it holds for every recipe.</p>
+<h3 id="replace-flour">Replace flour</h3>
+<p>Flours are swapped <strong>1:1 by weight</strong>; what changes is the water, because every flour absorbs differently. On the recipe page, flour lines can be tapped ("Tap a flour to replace it."): the <strong>Replace flour</strong> sheet shows the recognised flour, lets you choose the replacement and works out the change in water, dough yield and hydration. <strong>Create copy with substitution</strong> writes the swap into a new variant; in such a copy the button reads <strong>Apply change</strong>. You also get handling tips, such as kneading spelt for less time or acidifying rye.</p>
+<h3 id="starter-ta">Starter TA</h3>
+<p>If a recipe asks for "100 g starter TA 150" but you keep yours at TA 210, the app compensates so that the flour from the starter stays the same: more starter, less water in the same component. On the recipe page, starter lines can be tapped: <strong>Adjust starter TA</strong> shows the recognised TA (from the ingredient name or the settings), your <strong>starter TAs</strong> as quick picks and the result. <strong>Create copy with adjustment</strong> creates a variant.</p>
+<h3 id="dough-weight">Dough weight</h3>
+<p>Works out how much dough fits into a tin or basket: <strong>Loaf tin</strong> and <strong>Round tin</strong> from the inside measurements and the <strong>Fill factor</strong> of the <strong>Dough type</strong> (light wheat, toast; mixed bread; rye, wholemeal, seeds), <strong>Round proofing basket</strong> and <strong>Oval proofing basket</strong> from the nominal sizes at the top rim. On the recipe page, the scale symbol next to <strong>Dough weight</strong> opens the same calculator with the dough type taken from the recipe; <strong>Use as dough weight</strong> fills in the result.</p>
+<hr>
+<h2 id="14-settings">14. Settings</h2>
+<p><strong>Recipes → More → Settings.</strong> The settings apply to this device only.</p>
+<h3 id="general">General</h3>
+<p><strong>Language</strong> opens Android's "App language" setting (Android 13 and later). There you choose German, English or French independently of the device language; without a choice the app follows the system language. There is no language picker inside the app.</p>
+<h3 id="recipes">Recipes</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 26ch"></colgroup>
+<thead><tr><th>Setting</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td><strong>Default serving size</strong></td><td>0.5 / 1.0 / 1.5 / 2.0 – recipes open at this size. Default: 1.0</td></tr>
+<tr><td><strong>Sourdough starter</strong></td><td>The TA of your starter, used to split a starter amount without a TA into flour and water. Default: TA 200</td></tr>
+<tr><td><strong>Lievito madre</strong></td><td>The same for lievito madre. Default: TA 150</td></tr>
+<tr><td><strong>Show baker's percentages</strong></td><td>Shows each weighed ingredient's share of the component's flour. Default: off</td></tr>
+<tr><td><strong>My starter TAs</strong></td><td>Separated by commas; the quick picks when adjusting the starter TA</td></tr>
+<tr><td><strong>Custom units</strong></td><td>Leads to their management, see <a href="#15-units-and-amounts">chapter 15</a></td></tr>
+</tbody></table></div>
+<h3 id="backup">Backup</h3>
+<p><strong>Create full backup</strong> and <strong>Restore backup</strong> – see <a href="#16-data-backup-and-changing-devices">chapter 16</a>.</p>
+<h3 id="ovens">Ovens</h3>
+<p>Your ovens as profiles: <strong>Name</strong>, <strong>Preheat time</strong>, <strong>Preheat time with baking stone</strong>, the <strong>Deviation</strong> (whether the oven runs hotter or cooler than the dial shows) and the <strong>Convection reduction</strong>. <strong>Planning with</strong> is the oven the planning sheet and the baking day suggest; <strong>Add oven</strong> creates another one, <strong>Delete oven</strong> removes it. With oven profiles the oven steps name the dial setting ("Turn on the oven (250 °C, dial at 240 °C)"), and the number of ovens is the number of profiles. The recipe doesn't remember the oven; the one from the settings is always preset.</p>
+<h3 id="baking-schedule">Baking schedule</h3>
+<div class="table-wrap"><table>
+<colgroup><col class="first" style="--w: 38%"></colgroup>
+<thead><tr><th>Setting</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td><strong>Preheat time</strong></td><td>0–120 minutes before the baking step for "Turn on the oven". Default: 15 minutes (only without oven profiles)</td></tr>
+<tr><td><strong>Preheat time with baking stone</strong></td><td>0–180 minutes when a step names a baking stone or steel. Default: 45 minutes (only without oven profiles)</td></tr>
+<tr><td><strong>Baking pause</strong></td><td>Minimum gap between two bakes in the same oven. Default: 10 minutes</td></tr>
+<tr><td><strong>Ovens</strong></td><td>How many bakes may run at the same time. Default: 1 (only without oven profiles)</td></tr>
+<tr><td><strong>Start of day</strong> and <strong>End of day</strong></td><td>When you are available. Default: 6 am and 11 pm</td></tr>
+</tbody></table></div>
+<blockquote class="note"><p>Only the preheat times move steps. Baking pause, ovens, start and end of day don't change the plan – the app checks it against them and warns in the planning sheet.</p></blockquote>
+<h3 id="account">Account</h3>
+<p>Signing in is <strong>optional</strong>. <strong>Sign in with Apple</strong> opens Apple's sign-in in the browser and returns to the app afterwards; neither name nor e-mail address is requested. With it, your published recipes belong to your Apple account, on Android as on the iPhone: a recipe published on the iPhone can then be edited from the Android device too. On Android, signing in is also required for <strong>Publish</strong>.</p>
+<ul><li><strong>Sign out</strong> – back to anonymous use; recipes on the device are not affected.</li><li><strong>Delete account</strong> – after a confirmation. Published recipes stay visible to everyone but no longer belong to any account; delete them first if you don't want to leave them in the database. Recipes on the device are kept. This can't be undone.</li></ul>
+<h3 id="privacy--ai">Privacy &amp; AI</h3>
+<p><strong>AI analysis for recipe import</strong> shows <strong>Allowed</strong> or <strong>Local only</strong>; tap it to open the <strong>AI privacy</strong> page (see <a href="#17-privacy">chapter 17</a>). <strong>Withdraw consent to cloud AI</strong> takes the consent back.</p>
+<h3 id="moderation">Moderation</h3>
+<p><strong>Blocked authors</strong> with <strong>Unblock all authors</strong> – their recipes reappear at once – and <strong>Recipes you reported</strong> with <strong>Clear reports on this device</strong>. A reported recipe stays hidden for everyone until an administrator has reviewed it; clearing your report only takes effect after that.</p>
+<h3 id="help">Help</h3>
+<p>Opens the <strong>User manual</strong>, <strong>Help and contact</strong>, the <strong>Privacy Policy</strong> and the <strong>Legal Notice</strong> in the browser.</p>
+<hr>
+<h2 id="15-units-and-amounts">15. Units and amounts</h2>
+<h3 id="amount-or-dough-weight">Amount or dough weight</h3>
+<p>On the recipe page you scale a recipe in two ways:</p>
+<ul><li><strong>Amount</strong> – a factor in half steps (× 0.5, × 1, × 1.5 …); × 1 is the stored recipe.</li><li><strong>Dough weight</strong> – a target weight in grams, say 2000; the app converts every ingredient to it. The scale symbol next to it works it out from your tin (see <a href="#13-calculators">chapter 13</a>).</li></ul>
+<p>Rounding follows how you weigh: from 10 g to whole grams, below that to one decimal ("2.7 g yeast"). The choice applies to the recipe page, the planning, the shopping list and the ingredients in the reminders. It does <strong>not</strong> affect durations – dough doesn't rise faster just because you make less of it – and it doesn't change the recipe.</p>
+<h3 id="dough-yield-and-hydration">Dough yield and hydration</h3>
+<p>The line <strong>"TA 172 · hydration 72 %"</strong> on the recipe page shows the dough yield (flour plus water per 100 g of flour) and the hydration across all components. Tap it for the breakdown with flour and water in grams, the components, the starter shares, the <strong>pre-fermented flour</strong>, the ingredients <strong>not counted</strong> and <strong>notes</strong> when salt or yeast are far from the usual baker's percentages.</p>
+<ul><li><strong>Flour</strong> is whatever carries "flour", "meal", "semolina" in its name, plus old bread – not linseed meal, flakes, bran or nut flours.</li><li><strong>Liquids count in full</strong>: water, milk, buttermilk, beer, whey, juice.</li><li><strong>Starter is split</strong>: 20 g at TA 200 are 10 g flour and 10 g water. The TA comes from the ingredient name ("starter TA 150") or from the settings; biga, poolish and pâte fermentée have their TA by definition.</li><li><strong>Components count exactly once.</strong></li></ul>
+<h3 id="bakers-percentages">Baker's percentages</h3>
+<p>With <em>Settings → Recipes → Show baker's percentages</em>, each weighed ingredient shows its share of the component's flour, for example "319 g water · 62 %".</p>
+<h3 id="available-units">Available units</h3>
+<p>In the recipe editor you type the unit as an <strong>abbreviation</strong>. Use the abbreviations in the "Stored as" column – a unit the app doesn't know has no conversion and doesn't count towards the total weight. If one is missing, create it as a custom unit. In English and French the app displays the same units with their own abbreviations ("tsp" for TL); what is stored is always the abbreviation from the table.</p>
+<p><strong>Weight-based (base: grams)</strong></p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Abbrev.</th><th>Unit</th><th>Stored as</th><th>Equals</th></tr></thead>
+<tbody>
+<tr><td>g</td><td>gram</td><td>g</td><td>1 g</td></tr>
+<tr><td>kg</td><td>kilogram</td><td>kg</td><td>1000 g</td></tr>
+<tr><td>mg</td><td>milligram</td><td>mg</td><td>0.001 g</td></tr>
+<tr><td>pfd</td><td>German pound (500 g)</td><td>pfd</td><td>500 g</td></tr>
+<tr><td>pinch</td><td>pinch</td><td>Pr</td><td>1 g</td></tr>
+<tr><td>knife tip</td><td>knife tip</td><td>Msp</td><td>0.05 g</td></tr>
+<tr><td>bunch</td><td>bunch</td><td>Bd</td><td>10 g</td></tr>
+<tr><td>slice</td><td>slice</td><td>Sc</td><td>25 g</td></tr>
+<tr><td>roll</td><td>roll</td><td>Rolle</td><td>275 g</td></tr>
+<tr><td>pkt</td><td>packet</td><td>Pck</td><td>11 g</td></tr>
+<tr><td>handful</td><td>handful</td><td>Handvoll</td><td>25 g</td></tr>
+<tr><td>egg</td><td>egg</td><td>ei</td><td>60 g</td></tr>
+<tr><td>egg (S)</td><td>egg, size S</td><td>ei(s)</td><td>50 g</td></tr>
+<tr><td>egg (M)</td><td>egg, size M</td><td>ei(m)</td><td>60 g</td></tr>
+<tr><td>egg (L)</td><td>egg, size L</td><td>ei(l)</td><td>70 g</td></tr>
+<tr><td>egg (XL)</td><td>egg, size XL</td><td>ei(xl)</td><td>80 g</td></tr>
+</tbody></table></div>
+<p><strong>Volume-based (base: milliliters)</strong></p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Abbrev.</th><th>Unit</th><th>Stored as</th><th>Equals</th></tr></thead>
+<tbody>
+<tr><td>ml</td><td>milliliter</td><td>ml</td><td>1 ml</td></tr>
+<tr><td>cl</td><td>centiliter</td><td>cl</td><td>10 ml</td></tr>
+<tr><td>dl</td><td>deciliter</td><td>dl</td><td>100 ml</td></tr>
+<tr><td>l</td><td>liter</td><td>l</td><td>1000 ml</td></tr>
+<tr><td>Mass</td><td>Mass (1 l)</td><td>mass</td><td>1000 ml</td></tr>
+<tr><td>tsp</td><td>teaspoon</td><td>TL</td><td>5 ml</td></tr>
+<tr><td>tbsp</td><td>tablespoon</td><td>EL</td><td>15 ml</td></tr>
+<tr><td>cup</td><td>cup</td><td>Tas</td><td>200 ml</td></tr>
+<tr><td>splash</td><td>splash</td><td>Ss</td><td>10 ml</td></tr>
+<tr><td>dash</td><td>dash</td><td>Sp</td><td>0.27 ml</td></tr>
+<tr><td>drop</td><td>drop</td><td>Tr</td><td>0.067 ml</td></tr>
+</tbody></table></div>
+<p><strong>Counted</strong></p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Abbrev.</th><th>Unit</th><th>Stored as</th><th>Equals</th></tr></thead>
+<tbody>
+<tr><td>pc</td><td>piece</td><td>St</td><td>counted</td></tr>
+</tbody></table></div>
+<p>For the total weight the app converts volumes to grams using the density of common ingredients – flour 0.66, water and milk 1.0, oil 0.8, honey 1.3. A cup of flour therefore counts as 200 ml × 0.66 = 132 g.</p>
+<h3 id="custom-units">Custom units</h3>
+<p><em>Settings → Recipes → Custom units → Add unit</em>: <strong>Name</strong> (say "tub"), <strong>Abbreviation</strong> (must still be free), <strong>Measured in</strong> (grams, milliliters or pieces) and the <strong>Conversion</strong> – how much one unit holds. The conversion is required, because the total ingredients, baker's percentages and shopping list depend on it. Custom units apply to this device only and don't travel with the backup.</p>
+<hr>
+<h2 id="16-data-backup-and-changing-devices">16. Data, backup and changing devices</h2>
+<h3 id="everything-lives-on-the-device">Everything lives on the device</h3>
+<p>Your own recipes, scheduled steps, shopping lists, baking history, starter diary and pantry are stored <strong>only on this Android device</strong>. There is <strong>no sync</strong> with other devices – neither with a second Android device nor with an iPhone. Android's automatic backup to Google Drive is switched off for BakePlanner, because it is limited to 25 MB and would fail silently with photos. <strong>If you uninstall the app or lose the device without a backup of your own, all data is gone.</strong></p>
+<h3 id="backing-up">Backing up</h3>
+<ul><li><strong>Settings → Backup → Create full backup</strong> writes all your recipes with their pictures, the baking history with photos, the starter diary and the pantry to one file. Put it in Google Drive, e-mail it to yourself or copy it to your computer.</li><li><strong>Recipes → More → Export recipes</strong> saves a selection: tick recipes or <strong>Select all</strong>, optionally <strong>With baking history, starter diary and pantry</strong>, then <strong>Export</strong>. A few recipes without the switch make a hand-over to others.</li><li><strong>Back up recipe</strong> under <strong>More actions</strong> on a recipe page writes a single recipe without baking history.</li></ul>
+<p>Recipe pictures and baking photos are scaled down to screen size on Android as soon as they are picked, so even a backup with many photos stays manageable.</p>
+<h3 id="restoring">Restoring</h3>
+<p><strong>Settings → Backup → Restore backup</strong> or <strong>Recipes → More → Import recipes</strong> reads a file. Recipes and pantry items that are missing are added; <strong>nothing that exists is ever overwritten</strong>. Missing bakes and feedings are added too. The message tells you how much was added. Settings and scheduled steps are not part of the file.</p>
+<h3 id="moving-between-iphone-and-android">Moving between iPhone and Android</h3>
+<p>The backup file is the same on both platforms and works <strong>in both directions</strong>: on the iPhone you create it under <em>Settings → Backup → Create full backup</em> and read it on Android – and the other way round. What doesn't come along:</p>
+<ul><li>plans and reminders already set – plan again on the new device,</li><li>custom units – create them again,</li><li>settings.</li></ul>
+<p>The pantry comes along; items the new device's pantry doesn't have by name are added. Public recipes don't need moving: the recipe database is the same on both platforms.</p>
+<hr>
+<h2 id="17-privacy">17. Privacy</h2>
+<h3 id="where-your-data-lives">Where your data lives</h3>
+<ul><li><strong>Your own recipes, plans, shopping lists, baking history, starter diary and pantry</strong> are on your device only. Nobody else sees them.</li><li><strong>Public recipes</strong> are in the shared recipe database and visible to all users.</li><li><strong>Recipe import:</strong> with "On this device only", page text and pasted text stay on the device. Only if you have agreed to the <strong>protected cloud AI</strong> are the chosen images or the recipe text and the page address sent encrypted through a BackPlaner Firebase function (region europe-west1) to Google Vertex AI (Gemini, EU location). They are processed there only for the recipe draft and not stored. All that remains stored is a counter for the usage limit with your pseudonymous identifier. Your device loads the web page itself. Details are under <em>Settings → Privacy &amp; AI → AI privacy</em>, where you can also withdraw your consent.</li><li>The app uses an <strong>anonymous identifier</strong> so that you can delete your own public recipes and others can block authors. Signing in with Apple is optional; neither name nor e-mail address is requested. You can delete your account at any time under <em>Settings → Account → Delete account</em>.</li></ul>
+<h3 id="terms-of-use-for-public-recipes">Terms of use for public recipes</h3>
+<p>Before you publish a recipe for the first time, you accept the terms:</p>
+<ul><li>A published recipe is visible to all users of the recipe database.</li><li>There is <strong>zero tolerance</strong> for offensive, abusive, unlawful or copyright-infringing content.</li><li>You alone are responsible for the content you share.</li><li>Reported content is reviewed and removed <strong>within 24 hours</strong>; authors who repeatedly break the rules can be excluded.</li></ul>
+<p>With <strong>Decline</strong> nothing is uploaded; the recipe stays local. Against unwanted content, <strong>Report recipe</strong> and <strong>Block author</strong> help (see <a href="#5-recipe-database">chapter 5</a>).</p>
+<hr>
+<h2 id="18-frequently-asked-questions">18. Frequently asked questions</h2>
+<p><strong>No reminders arrive.</strong><br>Check in Android's settings under <em>Apps → BakePlanner → Notifications</em> that notifications are allowed. Also check that there are steps in the timeline at all; times in the past get no reminder.</p>
+<p><strong>A reminder came a few minutes late.</strong><br>Android delivers reminders through its task scheduler, and a phone left unused in battery saver delays them. For critical steps, keep bake mode open or also set an alarm in the Clock app.</p>
+<p><strong>Read aloud stays silent or speaks the wrong language.</strong><br>Install a voice for your language in Android's settings under "Text-to-speech output" (Speech Services by Google) and check the media volume.</p>
+<p><strong>I can't change the language.</strong><br>From Android 13 you choose the app language under <em>Settings → General → Language</em>. On older Android versions the app follows the system language.</p>
+<p><strong>The import from photos doesn't start.</strong><br>The Android app reads photos only through the protected cloud AI. Choose the cloud AI under <strong>Analysis mode</strong> and agree to the transfer – or copy the text and use <strong>From text</strong>.</p>
+<p><strong>The public recipes are missing.</strong><br>There was no internet connection when they loaded. Pull the list down. Also check that the chips <strong>Published by me</strong> and <strong>Public</strong> are switched on.</p>
+<p><strong>"Publish" says "Sign-in required".</strong><br>Sign in with Apple under <em>Settings → Account</em>. Without a recipe picture, "Image required" appears.</p>
+<p><strong>"Edit recipe" is missing for a recipe I published myself.</strong><br>The recipe belongs to a different identifier. If you published it while signed in, sign in with the same Apple account and pull the list down once.</p>
+<p><strong>My old phone is gone – are my recipes lost?</strong><br>Your own recipes exist only on the device and in your backup files. If you have a backup, restore it under <em>Settings → Backup → Restore backup</em>. Your published recipes are still in the recipe database; <strong>Save as my own recipe</strong> brings them back.</p>
+<p><strong>A step starts at an odd time.</strong><br>Check the step numbers: decimal steps (2.1, 2.2) run in parallel, whole numbers one after another. An accidental "3" instead of "2.2" lengthens the total time considerably.</p>
+<p><strong>The total weight is wrong.</strong><br>Usually an ingredient has a unit the app doesn't know. Use the abbreviations from <a href="#15-units-and-amounts">chapter 15</a> or create a custom unit.</p>
+<p><strong>An ingredient is missing from the shopping list.</strong><br>Water, salt and everything you make yourself are left out on purpose, as are ingredients without an amount or unit. With <strong>Deduct pantry</strong>, whatever is already in the pantry is missing too.</p>
+<p><strong>I changed the recipe, but the plan still shows the old version.</strong><br>Scheduled steps are a snapshot. Tap <strong>Plan again</strong> in the timeline and choose <strong>Replace existing plan</strong>.</p>
+<hr>
+<h2 id="19-what-only-the-iphone-has">19. What only the iPhone has</h2>
+<p>The iPhone version of BakePlanner can also do the following:</p>
+<div class="table-wrap"><table>
+<colgroup><col class="first" style="--w: 38%"></colgroup>
+<thead><tr><th>Feature</th><th>On Android</th></tr></thead>
+<tbody>
+<tr><td>Sync through iCloud between all devices</td><td>No sync; backup file (see <a href="#16-data-backup-and-changing-devices">chapter 16</a>)</td></tr>
+<tr><td>Automatic translation of public recipes and the "Translate recipe" menu</td><td>Stored translation or original language</td></tr>
+<tr><td>Translation of the ingredients on shopping lists</td><td>Not planned</td></tr>
+<tr><td>On-device text recognition for the import from photos</td><td>Cloud AI only</td></tr>
+<tr><td>Alarms for oven steps that ring through silent mode and Focus</td><td>Reminders as notifications</td></tr>
+<tr><td>Live Activity, widgets, Control Center, Siri, Spotlight, Apple Watch</td><td>Not planned</td></tr>
+<tr><td>Hands-free bake mode with voice commands</td><td>Read aloud is available</td></tr>
+<tr><td>Baking day sheet as PDF, steps into the calendar, shopping list to Reminders</td><td>Missing</td></tr>
+<tr><td>Check calendar when planning</td><td>Missing</td></tr>
+<tr><td>Starter diagram with ripening curve</td><td>The ripening estimate is available</td></tr>
+<tr><td>Baking yearbook as PDF</td><td>Missing</td></tr>
+<tr><td>Recipe proposal by picture likeness for the baking history from photos</td><td>Proposal by title or description only</td></tr>
+<tr><td>Pantry: reminder before expiry, the question "Deduct from pantry?" after a bake without a plan</td><td>Missing</td></tr>
+<tr><td>Settings "Publish new recipes", "Use detail view", a language picker inside the app</td><td>Missing; language through Android</td></tr>
+<tr><td>The recipe remembers the oven chosen last</td><td>The oven from the settings is preset</td></tr>
+</tbody></table></div>
+</article>
+
+<footer>
+  <p><a href="#top">Back to top</a> · <a href="index.html#en">Help and contact</a> · <a href="privacy.html">Privacy</a> · <a href="impressum.html">Legal notice</a></p>
+</footer>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BakePlanner für Android – Benutzerhandbuch</title>
+<style>
+  :root {
+    --bg-top: #FAEDD1;
+    --bg-bottom: #EDCC9E;
+    --card: #FFFFFF;
+    --title: #593314;
+    --text: #2A1A0A;
+    --subtitle: #734D29;
+    --accent: #945B29;
+    --rule: #E6D3B8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-top: #291F17;
+      --bg-bottom: #17120D;
+      --card: #332921;
+      --title: #F5E6CC;
+      --text: #F2E8DA;
+      --subtitle: #D1B899;
+      --accent: #E3934F;
+      --rule: #4A3C30;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0 1rem 4rem;
+    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+    background: linear-gradient(var(--bg-top), var(--bg-bottom)) no-repeat;
+    background-attachment: fixed;
+  }
+  main { max-width: 44rem; margin: 0 auto; }
+  header { text-align: center; padding: 3rem 0 1rem; }
+  h1 { color: var(--title); font-size: 2.2rem; margin: 0 0 .3rem; }
+  .claim { color: var(--subtitle); margin: 0; }
+  nav { text-align: center; margin: 1.5rem 0 2rem; }
+  nav a {
+    display: inline-block; margin: .2rem .4rem; padding: .4rem .9rem;
+    color: var(--accent); text-decoration: none;
+    border: 1px solid var(--accent); border-radius: 999px;
+  }
+  nav a:hover, nav a:focus { text-decoration: underline; }
+  nav a[aria-current] { background: var(--accent); color: var(--card); }
+  article {
+    background: var(--card); border-radius: 16px;
+    padding: 1.5rem 1.75rem; margin-bottom: 1.5rem;
+  }
+  /* Only running text may break inside an overlong word; table cells wrap
+     at spaces, otherwise the browser squeezes the term column to a sliver. */
+  article p, article li, article figcaption { overflow-wrap: break-word; }
+  h2 { color: var(--title); font-size: 1.5rem; margin: 2rem 0 .6rem; }
+  h3 { color: var(--title); font-size: 1.15rem; margin: 1.6rem 0 .3rem; }
+  h4 { color: var(--title); font-size: 1rem; margin: 1.2rem 0 .3rem; }
+  article > h2:first-child { margin-top: 0; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--rule); margin: 2rem 0; }
+  code {
+    font: .9em ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: var(--bg-top); border-radius: 4px; padding: 0 .3em;
+  }
+  blockquote.note {
+    margin: 1rem 0; border-left: 4px solid var(--accent);
+    padding-left: 1rem; color: var(--subtitle);
+  }
+  blockquote.note p { margin: 0; }
+  .table-wrap { overflow-x: auto; margin: 1rem 0; }
+  table { border-collapse: collapse; width: 100%; font-size: .95em; }
+  th, td { text-align: left; vertical-align: top; padding: .45rem .6rem; border-bottom: 1px solid var(--rule); }
+  th { color: var(--title); }
+  col.first { width: var(--w); }
+  table.firm th:first-child, table.firm td:first-child { white-space: nowrap; }
+  @media (max-width: 480px) {
+    /* On a phone a one-line term column would leave no room for the
+       explanation, so the term may wrap at spaces and takes 40 %. */
+    table.firm th:first-child, table.firm td:first-child { white-space: normal; }
+    col.first { width: min(var(--w), 40%); }
+    /* Tables with three or more columns: smaller type, tighter padding and
+       hyphenation, so that the last column is not pushed off the screen. */
+    table.wide { font-size: .88em; }
+    table.wide th, table.wide td { padding: .35rem .4rem; hyphens: auto; }
+  }
+  figure { margin: 1.5rem 0; text-align: center; }
+  img.screenshot {
+    max-width: min(100%, 320px); height: auto;
+    border-radius: 12px; box-shadow: 0 3px 10px rgba(0,0,0,.15);
+  }
+  figcaption { color: var(--subtitle); font-size: .9em; margin-top: .5rem; }
+  footer { text-align: center; color: var(--subtitle); font-size: .9rem; }
+</style>
+</head>
+<body>
+<main id="top">
+
+<header>
+  <h1>BakePlanner für Android – Benutzerhandbuch</h1>
+  <p class="claim">Stand: 27.11.2026 · Android-Fassung 2.4</p>
+</header>
+
+<nav aria-label="Sprache wählen">
+  <a href="index.html#de">Hilfe und Kontakt</a>
+  <a href="android-manual-de.html" lang="de" aria-current="page">Deutsch</a>
+  <a href="android-manual-en.html" lang="en">English</a>
+  <a href="android-manual-fr.html" lang="fr">Français</a>
+  <a href="privacy.html">Datenschutz</a>
+  <a href="impressum.html">Impressum</a>
+</nav>
+
+<article>
+<hr>
+<h2 id="inhalt">Inhalt</h2>
+<ol><li><a href="#1-was-bakeplanner-macht">Was BakePlanner macht</a></li><li><a href="#2-voraussetzungen">Voraussetzungen</a></li><li><a href="#3-grundbegriffe">Grundbegriffe</a></li><li><a href="#4-die-tabs">Die Tabs</a></li><li><a href="#5-rezept-datenbank">Rezept-Datenbank</a></li><li><a href="#6-eigene-rezepte">Eigene Rezepte</a></li><li><a href="#7-planen-backmodus-und-erinnerungen">Planen, Backmodus und Erinnerungen</a></li><li><a href="#8-neues-rezept-anlegen-und-bearbeiten">Neues Rezept anlegen und bearbeiten</a></li><li><a href="#9-zeitleiste-und-backtag-planen">Zeitleiste und Backtag planen</a></li><li><a href="#10-backhistorie">Backhistorie</a></li><li><a href="#11-einkaufslisten">Einkaufslisten</a></li><li><a href="#12-vorrat">Vorrat</a></li><li><a href="#13-rechner">Rechner</a></li><li><a href="#14-einstellungen">Einstellungen</a></li><li><a href="#15-einheiten-und-portionen">Einheiten und Portionen</a></li><li><a href="#16-daten-sicherung-und-gerätewechsel">Daten, Sicherung und Gerätewechsel</a></li><li><a href="#17-datenschutz">Datenschutz</a></li><li><a href="#18-häufige-fragen">Häufige Fragen</a></li><li><a href="#19-was-es-nur-auf-dem-iphone-gibt">Was es nur auf dem iPhone gibt</a></li></ol>
+<hr>
+<h2 id="1-was-bakeplanner-macht">1. Was BakePlanner macht</h2>
+<p>BakePlanner ist eine Backplanungs-App für Brot, Brötchen und Gebäck. Sie unterscheidet sich von einer reinen Rezept-Sammlung dadurch, dass sie <strong>die Zeitplanung übernimmt</strong>:</p>
+<ul><li>Ein Rezept besteht nicht nur aus Zutaten, sondern aus <strong>Verarbeitungsschritten mit Dauern</strong>.</li><li>Aus diesen Dauern berechnet die App die <strong>Startzeit jedes einzelnen Schritts</strong>.</li><li>Du kannst rückwärts planen: „Das Brot soll um 18:00 Uhr fertig sein“ – die App sagt Dir, wann Du den Sauerteig ansetzen musst.</li><li>Für jeden Schritt kommt eine <strong>Erinnerung</strong> als Android-Benachrichtigung, inklusive der automatisch eingefügten Schritte „Backofen anstellen“ und „Backvorgang ist beendet“.</li></ul>
+<p>Dazu kommen: eine gemeinsame öffentliche Rezept-Datenbank, eigene Rezepte auf dem Gerät, Import aus Fotos, von Internetseiten und aus Text, Einkaufslisten nach Regalen sortiert, ein Vorrat, eine Backhistorie mit Fotos, Messwerten und Statistik, ein Anstellgut-Tagebuch mit Reifezeit-Schätzung, Rezept-Varianten mit Vergleich, ein Backmodus mit Vorlesen und vier Bäckerrechner.</p>
+<p><strong>Auf Android ist alles frei.</strong> Es gibt kein Pro und nichts zu kaufen.</p>
+<h3 id="schnellstart-in-fünf-schritten-zum-ersten-backplan">Schnellstart: In fünf Schritten zum ersten Backplan</h3>
+<ol><li>Wähle im Tab <strong>Rezepte</strong> ein Rezept – oder lege über <strong>+</strong> oben rechts ein eigenes an.</li><li>Tippe auf der Rezeptseite auf <strong>Planen</strong>.</li><li>Wähle <strong>Starten ab</strong> oder <strong>Fertig bis</strong> und stelle Datum und Startzeit ein.</li><li>Prüfe die berechneten Zeiten und tippe oben rechts auf <strong>Planen</strong>.</li><li>Öffne den Tab <strong>Zeitleiste</strong>, um alle Termine als Timeline oder Liste zu sehen.</li></ol>
+<p>Beim ersten Planen fragt Android, ob BakePlanner Benachrichtigungen senden darf. Ohne diese Erlaubnis wird der Plan trotzdem gespeichert, es kommen aber keine Erinnerungen (siehe <a href="#7-planen-backmodus-und-erinnerungen">Kapitel 7</a>).</p>
+<hr>
+<h2 id="2-voraussetzungen">2. Voraussetzungen</h2>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 16ch"></colgroup>
+<thead><tr><th>Punkt</th><th>Wert</th></tr></thead>
+<tbody>
+<tr><td>Android</td><td>9.0 oder neuer; eine eigene App-Sprache unabhängig von der Systemsprache ab Android 13</td></tr>
+<tr><td>Bezug</td><td>Google Play (zurzeit als geschlossener Test)</td></tr>
+<tr><td>Größe</td><td>Rund 55–60 MB Download, rund 190 MB installiert – die App bringt ihre eigene Laufzeit mit</td></tr>
+<tr><td>Sprachen</td><td>Deutsch, Englisch, Französisch</td></tr>
+<tr><td>Darstellung</td><td>Hell- und Dunkelmodus nach der Systemeinstellung, Schriftgröße nach der Android-Einstellung „Schriftgröße“</td></tr>
+<tr><td>Berechtigungen</td><td>Mitteilungen (Erinnerungen), Kamera (Rezeptbilder, Backfotos, Import aus Fotos), Internet (Rezept-Datenbank, Cloud-KI, Import von Internetseiten)</td></tr>
+<tr><td>Internet</td><td>Nur für die Rezept-Datenbank, die Cloud-KI und den Import von Internetseiten. Eigene Rezepte, Planung und Erinnerungen funktionieren offline.</td></tr>
+<tr><td>Anmeldung</td><td>Nicht nötig. Freiwillig ist die Anmeldung mit Apple – sie braucht nur, wer Rezepte veröffentlichen will (siehe <a href="#14-einstellungen">Kapitel 14</a>).</td></tr>
+</tbody></table></div>
+<blockquote class="note"><p><strong>Wichtig:</strong> Alle eigenen Daten liegen nur auf diesem Gerät. Es gibt keinen Abgleich und keine automatische Sicherung in Google Drive. Lege deshalb regelmäßig eine Sicherung an (siehe <a href="#16-daten-sicherung-und-gerätewechsel">Kapitel 16</a>).</p></blockquote>
+<hr>
+<h2 id="3-grundbegriffe">3. Grundbegriffe</h2>
+<p>Diese Begriffe tauchen überall in der App auf:</p>
+<p><strong>Rezept</strong><br>Die oberste Einheit: Name, Beschreibung, Bild, Bewertung, Tags, optional ein Link zur Quelle, Gesamtgewicht und Bearbeitungsdauer.</p>
+<p><strong>Komponente</strong><br>Ein Teilansatz innerhalb eines Rezepts – zum Beispiel „Sauerteig“, „Vorteig“, „Hauptteig“, „Brühstück“. Jede Komponente hat ihre eigene Zutatenliste. BakePlanner ist für mehrstufige Teigführungen gebaut.</p>
+<p><strong>Zutat</strong><br>Gehört immer zu einer Komponente: Menge, Einheit und Name. Die Menge darf auch ein Bruch sein („1/2“, „1 1/2“).</p>
+<p><strong>Verarbeitungsschritt</strong><br>Eine Arbeitsanweisung mit Schrittnummer und Dauer. Die Dauer gibst Du in Minuten („90“) oder in Stunden und Minuten an („1:30“, „1h 30“, „1,5 h“). Die Schrittnummer hat eine besondere Bedeutung:</p>
+<ul><li><strong>Ganze Zahlen (1, 2, 3 …) sind Hauptschritte.</strong> Sie laufen zeitlich nacheinander.</li><li><strong>Nachkommastellen (2.1, 2.2, 2.3) sind Parallelschritte innerhalb eines Hauptschritts.</strong> Sie laufen gleichzeitig; für die Gesamtdauer zählt nur die <em>längste</em> Dauer der Gruppe. Schritte, die eine Komponente herstellen (Sauerteig, Vorteig, Quellstück …), starten dabei im Abstand von 5 Minuten nacheinander, damit Du nicht alles zur selben Minute abwiegen musst.</li></ul>
+<p>Beispiel: Setzt Du Sauerteig (12 h) und Brühstück (2 h) gleichzeitig an, gib ihnen die Schritte 1.1 und 1.2. Der Hauptschritt 2 beginnt dann nach gut 12 Stunden, nicht nach 14.</p>
+<p><strong>Menge (Portionsgröße)</strong><br>Ein Faktor für alle Mengen; <strong>× 1 ist das Rezept, wie es gespeichert ist</strong>, × 2 verdoppelt alles. Statt eines Faktors kannst Du ein <strong>Teiggewicht</strong> in Gramm eingeben. Die Wahl gilt für das geöffnete Rezept: Rezeptseite, Planung und Einkaufsliste rechnen damit (siehe <a href="#15-einheiten-und-portionen">Kapitel 15</a>).</p>
+<p><strong>Ablage</strong><br>Wo ein Rezept liegt:</p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Ablage</th><th>Wer sieht es?</th><th>Wo liegt es?</th><th>Änderbar?</th></tr></thead>
+<tbody>
+<tr><td><strong>Lokal</strong></td><td>nur Du</td><td>auf diesem Gerät</td><td>ja, jederzeit</td></tr>
+<tr><td><strong>Öffentlich</strong></td><td>alle Nutzer der App, auf Android wie auf dem iPhone</td><td>in der Rezept-Datenbank</td><td>ja, durch Dich als Autor</td></tr>
+</tbody></table></div>
+<p>Neue Rezepte sind immer zuerst lokal. In die Datenbank stellst Du ein Rezept über <strong>Veröffentlichen</strong> auf seiner Seite (siehe <a href="#6-eigene-rezepte">Kapitel 6</a>). Ein Rezept, das Du nicht veröffentlichen darfst – etwa aus einem Buch –, bleibt einfach lokal.</p>
+<hr>
+<h2 id="4-die-tabs">4. Die Tabs</h2>
+<p>Nach dem Start öffnet sich die App im Tab <strong>Rezepte</strong>. Am unteren Rand liegen die fünf Tabs:</p>
+<figure><img class="screenshot" src="images/android/rezepte.png" alt="Rezeptliste von BakePlanner auf Android mit Filter-Chips und der Tab-Leiste am unteren Rand" loading="lazy">
+<figcaption>Der Tab „Rezepte“ ist der Ausgangspunkt: alle Rezepte, oben rechts „Mehr“ und „+“ für ein neues Rezept.</figcaption>
+</figure>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 14ch"></colgroup>
+<thead><tr><th>Tab</th><th>Zweck</th></tr></thead>
+<tbody>
+<tr><td><strong>Rezepte</strong></td><td>Alle Rezepte in einer Liste: Deine eigenen, die von Dir veröffentlichten und die öffentlichen aller Nutzer (siehe <a href="#5-rezept-datenbank">Kapitel 5</a> und <a href="#6-eigene-rezepte">Kapitel 6</a>)</td></tr>
+<tr><td><strong>Einkauf</strong></td><td>Alle Einkaufslisten (siehe <a href="#11-einkaufslisten">Kapitel 11</a>)</td></tr>
+<tr><td><strong>Backhistorie</strong></td><td>Vergangene Backvorgänge als Liste, Galerie, Hit-Liste, Fotowolke oder Statistik (siehe <a href="#10-backhistorie">Kapitel 10</a>)</td></tr>
+<tr><td><strong>Zeitleiste</strong></td><td>Alle geplanten Schritte als Timeline oder Liste, dazu der Backmodus (siehe <a href="#9-zeitleiste-und-backtag-planen">Kapitel 9</a>)</td></tr>
+<tr><td><strong>Vorrat</strong></td><td>Was Du zu Hause hast: Mehle, Saaten, Hefe mit Menge und Haltbarkeit (siehe <a href="#12-vorrat">Kapitel 12</a>)</td></tr>
+</tbody></table></div>
+<p>Oben rechts im Tab <strong>Rezepte</strong> stehen zwei Menüs:</p>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 18ch"></colgroup>
+<thead><tr><th>Menü</th><th>Einträge</th></tr></thead>
+<tbody>
+<tr><td><strong>Mehr</strong></td><td><strong>Einstellungen</strong>, <strong>Rezepte importieren</strong> (eine Sicherungsdatei oder ein einzeln gesichertes Rezept einlesen), <strong>Rezepte exportieren</strong> (eigene Rezepte als Datei), <strong>Backtag planen</strong> und <strong>Rechner</strong></td></tr>
+<tr><td><strong>+</strong> (Neues Rezept)</td><td><strong>Von Hand</strong>, <strong>Nach Bäckerprozent</strong>, <strong>Von einer Internetseite</strong>, <strong>Aus Fotos</strong>, <strong>Aus Text</strong> (siehe <a href="#8-neues-rezept-anlegen-und-bearbeiten">Kapitel 8</a>)</td></tr>
+</tbody></table></div>
+<p>Mit dem Zurück-Pfeil oben links oder der Zurück-Geste von Android kommst Du aus jedem geöffneten Bildschirm zurück. Blätter wie das Planungsblatt oder das Bearbeiten schließt <strong>Abbrechen</strong> beziehungsweise <strong>Schließen</strong> oben links.</p>
+<hr>
+<h2 id="5-rezept-datenbank">5. Rezept-Datenbank</h2>
+<p>Die öffentliche Rezept-Datenbank teilen sich alle Nutzer von BakePlanner, auf Android wie auf dem iPhone. Ihre Rezepte stehen im Tab <strong>Rezepte</strong> zusammen mit Deinen eigenen, alphabetisch sortiert. Drei Filter-Chips über der Liste schalten die Quellen einzeln ein und aus:</p>
+<ul><li><strong>Lokal</strong> – Deine Rezepte auf diesem Gerät,</li><li><strong>Von mir veröffentlicht</strong> – Deine eigenen Rezepte in der Datenbank,</li><li><strong>Öffentlich</strong> – die Rezepte der anderen Nutzer.</li></ul>
+<p><strong>Nach unten ziehen</strong> lädt die öffentlichen Rezepte neu. Steht über der Liste „Die öffentlichen Rezepte konnten nicht geladen werden“, fehlte die Internetverbindung – zieh die Liste noch einmal nach unten.</p>
+<p><strong>Sprache.</strong> Eine automatische Übersetzung gibt es auf Android nicht. Hat jemand für ein Rezept schon eine Übersetzung in Deiner App-Sprache hinterlegt, zeigt die App sie, sonst die Sprache, in der das Rezept geschrieben ist.</p>
+<h3 id="ein-öffentliches-rezept-öffnen">Ein öffentliches Rezept öffnen</h3>
+<p>Ein öffentliches Rezept öffnet sich als durchgehende Seite: Bild, Name und Beschreibung, Menge und Teiggewicht, Gesamtgewicht, die TA-Zeile, darunter Gesamtzutaten, Komponenten und Verarbeitungsschritte. Dazu drei Schaltflächen:</p>
+<ul><li><strong>Planen</strong> – öffnet das Planungsblatt (siehe <a href="#7-planen-backmodus-und-erinnerungen">Kapitel 7</a>).</li><li><strong>Rezept zur Einkaufsliste hinzufügen</strong> – siehe <a href="#11-einkaufslisten">Kapitel 11</a>.</li><li><strong>Als eigenes Rezept speichern</strong> – legt eine vollständige Kopie samt Bild auf Deinem Gerät an. Erst diese Kopie kannst Du bearbeiten. Eine schon vorhandene Kopie bleibt, wie sie ist.</li></ul>
+<h3 id="weitere-aktionen">Weitere Aktionen</h3>
+<p>Oben rechts unter <strong>Weitere Aktionen</strong>:</p>
+<ul><li><strong>Rezept teilen</strong> – erzeugt ein PDF des Rezepts in der gewählten Menge und öffnet das Teilen-Menü von Android.</li><li><strong>Rezept melden</strong> – mit einem Grund (anstößig, Spam, Urheberrecht, Sonstiges). Das Rezept wird <strong>sofort für alle Nutzer</strong> ausgeblendet, bis ein Administrator es geprüft hat.</li><li><strong>Autor blockieren</strong> – alle Rezepte dieses Autors verschwinden <strong>nur auf Deinem Gerät</strong> aus der Liste.</li><li><strong>Rezept bearbeiten</strong> und <strong>Mein Rezept löschen</strong> – nur bei Rezepten, die von Deinem Konto stammen. Bearbeitet wird das Rezept in der Datenbank; Deine lokale Fassung bleibt davon unberührt.</li></ul>
+<p>Blockieren und Melden nimmst Du unter <em>Einstellungen → Moderation</em> zurück (siehe <a href="#14-einstellungen">Kapitel 14</a>). Wer als <strong>Administrator</strong> angemeldet ist, findet zusätzlich <strong>Rezept löschen (Admin)</strong> und bei gemeldeten Rezepten <strong>Rezept wieder freigeben</strong>.</p>
+<hr>
+<h2 id="6-eigene-rezepte">6. Eigene Rezepte</h2>
+<p>Eigene Rezepte sind die Rezepte auf Deinem Gerät: selbst angelegte, importierte und aus der Datenbank übernommene. Schaltest Du die Chips <strong>Von mir veröffentlicht</strong> und <strong>Öffentlich</strong> aus, bleibt die reine Liste Deiner eigenen Rezepte.</p>
+<h3 id="suchen-und-filtern">Suchen und filtern</h3>
+<ul><li><strong>Suchfeld</strong> oben, darunter die Umschaltung <strong>Name / Tags</strong>. Die Suche ignoriert Groß- und Kleinschreibung und findet Wortteile: „roggen“ findet „Roggenbrot“.</li><li><strong>Stern-Menü (★)</strong> daneben: <strong>Alle Bewertungen</strong> oder „… Sterne und mehr“, <strong>Varianten anzeigen / ausblenden</strong> und <strong>Filter …</strong>.</li><li><strong>Sammlungen</strong> als Chips über der Liste: <strong>Für morgen früh</strong>, <strong>Schnelles Brot</strong>, <strong>Reiner Sauerteig</strong>, <strong>Lange nicht gebacken</strong> und <strong>Lieblinge</strong>; sobald etwas im Vorrat steht, auch <strong>Aus dem Vorrat</strong> und <strong>Vorrat aufbrauchen</strong>. Ein zweiter Tipp hebt eine Sammlung wieder auf.</li></ul>
+<h3 id="facetten">Facetten</h3>
+<p>Das Blatt <strong>Filter …</strong> enthält die Facetten. Die App liest sie aus den Zutaten und Schritten jedes Rezepts – Du musst nichts eintragen:</p>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 14ch"></colgroup>
+<thead><tr><th>Facette</th><th>Auswahl</th></tr></thead>
+<tbody>
+<tr><td><strong>Dauer</strong></td><td>Unter 4 Stunden, 4 bis 12 Stunden, Über Nacht, Mehrtägig</td></tr>
+<tr><td><strong>Tagesablauf</strong></td><td>Abends ansetzen, morgens backen; Morgens ansetzen, abends backen; Fertig in 2 Stunden</td></tr>
+<tr><td><strong>Triebmittel</strong></td><td>Reiner Sauerteig, Lievito Madre, Hefe, Sauerteig und Hefe</td></tr>
+<tr><td><strong>Mehl</strong></td><td>Überwiegend Weizen, Roggen, Dinkel oder Vollkorn</td></tr>
+<tr><td><strong>Teigausbeute</strong></td><td>Fest (unter TA 165), Mittel (TA 165 bis 180), Weich (ab TA 180)</td></tr>
+<tr><td><strong>Ausstattung</strong></td><td>Backstein, Kastenform, Gärkörbchen, Topf</td></tr>
+<tr><td><strong>Backhistorie</strong></td><td>Nie gebacken, Lange nicht gebacken, Lieblinge</td></tr>
+<tr><td><strong>Wenig Arbeit</strong></td><td>Höchstens 30 Minuten Handarbeit</td></tr>
+</tbody></table></div>
+<p>Mit Vorrat kommen die Schalter <strong>Aus dem Vorrat</strong> (nur Rezepte, deren Zutaten vollständig da sind) und <strong>Vorrat aufbrauchen</strong> (Rezepte, die verbrauchen, was bald abläuft; unter jedem steht, was es aufbraucht). <strong>Filter zurücksetzen</strong> hebt alles auf einmal auf.</p>
+<p><strong>Eigene Sammlungen.</strong> Eine Kombination, die Du öfter brauchst, sicherst Du im Blatt <strong>Filter …</strong> mit <strong>Sammlung sichern</strong> unter einem Namen. Sie erscheint als Chip hinter den vorgegebenen. Unter <strong>Gesicherte Sammlungen</strong> benennst Du sie um (antippen) oder löschst sie (wischen); langes Drücken auf den Chip bietet ebenfalls <strong>Umbenennen</strong> und <strong>Löschen</strong>.</p>
+<p><strong>Fertig bis.</strong> Im Blatt <strong>Filter …</strong> wählst Du mit <strong>Fertig bis</strong> Datum und Uhrzeit, zu der das Brot fertig sein soll. Die Liste zeigt dann nur Rezepte, die bis dahin noch zu schaffen sind, und schreibt den nötigen Start unter jedes: „Start heute 17:45“, „Start morgen 06:10“, gegebenenfalls mit „Schritte in der Nacht“. Das Ziel steht als erster Chip über der Liste; ein Tipp darauf ändert es.</p>
+<h3 id="rezept-löschen">Rezept löschen</h3>
+<p>Wische ein eigenes Rezept in der Liste nach links und bestätige die Rückfrage. Mit dem Rezept verschwinden seine Backhistorie und sein Anstellgut-Tagebuch. Öffentliche Rezepte lassen sich hier nicht löschen.</p>
+<h3 id="die-seite-eines-eigenen-rezepts">Die Seite eines eigenen Rezepts</h3>
+<figure><img class="screenshot" src="images/android/rezeptseite.png" alt="Seite eines eigenen Rezepts auf Android mit Bild, Menge, Teiggewicht, Gesamtgewicht und der Schaltfläche Planen" loading="lazy">
+<figcaption>Die Rezeptseite: oben Bild und Mengen, darunter Planen, die Einkaufsliste und alle Zutaten und Schritte.</figcaption>
+</figure>
+<p>Von oben nach unten:</p>
+<ol><li><strong>Bild</strong> mit <strong>Bild ändern</strong>, <strong>Kamera</strong> und <strong>Bild entfernen</strong>, darunter die Beschreibung und – falls hinterlegt – der <strong>Link zum Rezept</strong>.</li><li><strong>Menge</strong> (Faktor) und <strong>Teiggewicht</strong>, das <strong>Gesamtgewicht</strong>, die <strong>Bearbeitungsdauer</strong> und die Zeile <strong>„TA 172 · Hydration 72 %“</strong>; ein Tipp darauf öffnet die Aufschlüsselung (siehe <a href="#15-einheiten-und-portionen">Kapitel 15</a>). Bei regelmäßig geplanten Rezepten folgt „Nächster Backtermin“ beziehungsweise „Nächste Fütterung“.</li><li><strong>Vorrat</strong> – sobald etwas im Vorrat steht: „Alle 5 Zutaten sind im Vorrat“ oder was fehlt (siehe <a href="#12-vorrat">Kapitel 12</a>).</li><li><strong>Planen</strong> und <strong>Rezept zur Einkaufsliste hinzufügen</strong>.</li><li><strong>Gesamtzutaten</strong>, <strong>Komponenten</strong> und <strong>Verarbeitungsschritte</strong>. Mehl- und Anstellgut-Zeilen sind antippbar (siehe <a href="#13-rechner">Kapitel 13</a>).</li><li><strong>Letztes Mal</strong>, <strong>Backvorgang eintragen</strong> und <strong>Bisherige Backvorgänge</strong> – bei einem Anstellgut stattdessen das <strong>Anstellgut-Tagebuch</strong>.</li><li><strong>Varianten</strong> – die Rezepte, die aus diesem entstanden sind.</li></ol>
+<p>Oben rechts stehen <strong>Bearbeiten</strong> (siehe <a href="#8-neues-rezept-anlegen-und-bearbeiten">Kapitel 8</a>) und <strong>Weitere Aktionen</strong>:</p>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 18ch"></colgroup>
+<thead><tr><th>Eintrag</th><th>Zweck</th></tr></thead>
+<tbody>
+<tr><td><strong>Rezept sichern</strong></td><td>Schreibt das Rezept samt Bild in eine Datei, ohne Backhistorie – zum Weitergeben an andere, die es über <strong>Mehr → Rezepte importieren</strong> einlesen</td></tr>
+<tr><td><strong>Rezept teilen</strong></td><td>Erzeugt ein PDF mit Bild, Komponenten, Gesamtzutaten und Schritten in der gewählten Menge und öffnet das Teilen-Menü</td></tr>
+<tr><td><strong>Veröffentlichen</strong></td><td>Stellt das Rezept in die Rezept-Datenbank (siehe unten)</td></tr>
+<tr><td><strong>Variante anlegen</strong></td><td>Legt eine Variante an (siehe unten)</td></tr>
+</tbody></table></div>
+<p><strong>Veröffentlichen</strong> setzt zweierlei voraus: die <strong>Anmeldung mit Apple</strong> unter <em>Einstellungen → Konto</em> (sonst erscheint „Anmeldung nötig“) und ein <strong>Rezeptbild</strong> (sonst „Bild erforderlich“). Beim ersten Mal akzeptierst Du die Nutzungsbedingungen (siehe <a href="#17-datenschutz">Kapitel 17</a>), dann folgt die Rückfrage <strong>Rezept veröffentlichen?</strong> mit <strong>Öffentlich speichern</strong>. Danach steht auf der Seite „Veröffentlicht“, und der Eintrag entfällt: Ein Rezept wird nur einmal veröffentlicht, Änderungen machst Du danach an der öffentlichen Fassung (siehe <a href="#5-rezept-datenbank">Kapitel 5</a>).</p>
+<h3 id="rezept-varianten">Rezept-Varianten</h3>
+<p>Varianten sind eigene Rezepte, die mit ihrem Ursprungsrezept verbunden bleiben – so siehst Du später, was anders war und wie es geworden ist.</p>
+<ul><li><strong>Variante anlegen</strong> öffnet das Blatt <strong>Neue Variante</strong>: Unter „Was ist anders? (optional)“ notierst Du die Änderung, <strong>Anlegen</strong> kopiert das Rezept als „Landbrot V1“, „Landbrot V2“ … und öffnet die Kopie. Auch <strong>Mehl ersetzen</strong> und <strong>Anstellgut-TA anpassen</strong> legen Varianten an (siehe <a href="#13-rechner">Kapitel 13</a>).</li><li>Auf der Variante steht <strong>Variante von „…“</strong>; <strong>Vergleichen</strong> zeigt die Unterschiede: Zutaten, TA, Hydration, Teiggewicht und Schritte.</li><li>Auf dem Ursprungsrezept listet die Karte <strong>Varianten</strong> jede Variante mit ihrer Notiz und dem Ergebnis aus ihrer Backhistorie.</li><li>Im Stern-Menü der Liste blendet <strong>Varianten ausblenden</strong> sie aus der Liste aus.</li></ul>
+<h3 id="anstellgut-tagebuch">Anstellgut-Tagebuch</h3>
+<p>Ein Rezept, das nur aus Anstellgut, Mehl und Wasser besteht und nichts backt, ist für die App ein <strong>Anstellgut</strong>. Es wird gefüttert, nicht gebacken, und hat deshalb statt der Backhistorie das <strong>Anstellgut-Tagebuch</strong>:</p>
+<ul><li><strong>Fütterungsverhältnis</strong> „Anstellgut : Mehl : Wasser“, aus dem Rezept berechnet.</li><li><strong>Reifezeit-Schätzung</strong>: Hast Du Fütterungen mit Reifezeit und Raumtemperatur notiert, sagt die App, wann das Anstellgut bei der <strong>Raumtemperatur heute</strong> reif ist („Bei 22 °C reif nach etwa 6h 30m, aus 4 Fütterungen“).</li><li><strong>Neue Fütterung erfassen</strong> mit Datum, <strong>Reifezeit bis zum Höhepunkt</strong>, Raumtemperatur, <strong>Schwimmtest</strong> und Notiz.</li><li><strong>Bisherige Fütterungen</strong>, neueste zuerst. Eine geplante Fütterung ergänzt Du nach dem Füttern über <strong>Ergebnis eintragen</strong>.</li></ul>
+<p>Planst Du ein Anstellgut, legt BakePlanner die Fütterung im Tagebuch an statt einen Eintrag in der Backhistorie. Steht das Mehl im Vorrat, wird es bei der Fütterung abgebucht.</p>
+<hr>
+<h2 id="7-planen-backmodus-und-erinnerungen">7. Planen, Backmodus und Erinnerungen</h2>
+<p>Das ist der Kern der App. <strong>Planen</strong> auf der Rezeptseite öffnet das Planungsblatt; es rechnet mit der Menge, die auf der Rezeptseite eingestellt ist.</p>
+<figure><img class="screenshot" src="images/android/planen.png" alt="Planungsblatt auf Android mit der Auswahl Starten ab / Fertig bis, Datum, Startzeit und den Verarbeitungsschritten mit ihren Uhrzeiten" loading="lazy">
+<figcaption>Im Planungsblatt wählst Du den Zeitpunkt; die Uhrzeiten der Schritte rechnen sofort mit.</figcaption>
+</figure>
+<h3 id="den-zeitpunkt-wählen">Den Zeitpunkt wählen</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 25ch"></colgroup>
+<thead><tr><th>Element</th><th>Funktion</th></tr></thead>
+<tbody>
+<tr><td><strong>Starten ab / Fertig bis</strong></td><td><strong>Starten ab</strong>: Ich fange zu diesem Zeitpunkt an – wann bin ich fertig? <strong>Fertig bis</strong>: Ich will zu diesem Zeitpunkt fertig sein – wann muss ich anfangen?</td></tr>
+<tr><td><strong>Datum</strong> und <strong>Startzeit</strong></td><td>Der Bezugszeitpunkt der Planung</td></tr>
+<tr><td><strong>Ofen</strong> und <strong>Umluft</strong></td><td>Nur mit zwei oder mehr Ofenprofilen (siehe <a href="#14-einstellungen">Kapitel 14</a>): der Ofen für dieses Brot, vorbelegt mit dem aus den Einstellungen, und ob er mit Umluft backt</td></tr>
+<tr><td><strong>Dauer ändern</strong></td><td>Schalter. Aktiv erscheint pro Schritt ein Feld für die Dauer; <strong>Dauer übernehmen</strong> speichert die neuen Dauern im Rezept</td></tr>
+</tbody></table></div>
+<p>Ändere den Zeitpunkt und beobachte, wie sich die Uhrzeiten unter <strong>Verarbeitungsschritte</strong> anpassen. Gespeichert wird erst mit <strong>Planen</strong> oben rechts.</p>
+<h3 id="gare-heute-und-reifezeit-heute">Gare heute und Reifezeit heute</h3>
+<p><strong>Gare heute.</strong> Bei einem Brot erkennt das Planungsblatt die Gärschritte – Reife eines Vorteigs, Stockgare und Stückgare – und zeigt zu jeder Phase die geplante Dauer und die Dauer bei der <strong>Raumtemperatur heute</strong>, vorbelegt mit der beim letzten Backen notierten. Gärung läuft je 10 °C etwa zweieinhalbmal so schnell; die Dauern des Rezepts gelten als für 22 °C geschrieben. Jede Phase hat ihre eigene <strong>Temperatur</strong>, etwa wenn die Stückgare an einem warmen Ort stattfindet. Haben Deine Backvorgänge Stock- oder Stückgare samt Raumtemperatur festgehalten, rechnet die App mit diesen Messungen. <strong>Diese Garzeiten übernehmen</strong> gilt nur für diesen Plan, <strong>Dauern des Rezepts verwenden</strong> nimmt das zurück, und <strong>Dauern aus den Backvorgängen ins Rezept übernehmen</strong> schreibt die gemessenen Werte dauerhaft ins Rezept.</p>
+<p><strong>Reifezeit heute.</strong> Planst Du ein Anstellgut mit Fütterungen im Tagebuch, zeigt das Blatt die geschätzte Reifezeit bei der heutigen Raumtemperatur; <strong>Reifezeit als Dauer übernehmen</strong> setzt sie als Dauer des Reifeschritts.</p>
+<h3 id="was-die-app-am-plan-bemängelt">Was die App am Plan bemängelt</h3>
+<p>Über den Schritten erscheinen Hinweise, sobald der Zeitpunkt zu einem unpraktischen Plan führt:</p>
+<ul><li><strong>Schritte außerhalb Deines Tages</strong> – vor dem <strong>Tagesbeginn</strong> oder nach dem <strong>Tagesende</strong> aus den Einstellungen. Darunter schlägt die App vor: „So beginnt kein Schritt in der Nacht:“ mit einem früheren und einem späteren Zeitpunkt; <strong>Übernehmen</strong> stellt ihn ein.</li><li><strong>Überschneidende Backzeiten</strong> – jeder Ofen nimmt einen Backvorgang auf einmal. Mehr Backvorgänge gleichzeitig, als Du Öfen hast, sind ein Fehler; „So werden die Backöfen nacheinander frei:“ schlägt passende Zeitpunkte vor.</li><li><strong>Zu kurze Backpause</strong> zwischen zwei Backvorgängen im selben Ofen.</li><li><strong>Schritte mit Zeitfenster</strong> (siehe <a href="#8-neues-rezept-anlegen-und-bearbeiten">Kapitel 8</a>) darf die App dehnen oder kürzen: „So passt es mit den Zeitfenstern der Schritte:“ zeigt die kleinste Änderung, mit der alles in Deinen Tag und in die Öfen passt.</li></ul>
+<p>Die Hinweise verhindern nichts. Bei überschneidenden Backzeiten fragt die App beim Planen nach; <strong>Trotzdem planen</strong> setzt den Plan dennoch.</p>
+<h3 id="planen">Planen</h3>
+<p>Ein Tippen auf <strong>Planen</strong> oben rechts:</p>
+<ol><li>legt alle Schritte in die <strong>Zeitleiste</strong> und setzt für jeden eine <strong>Erinnerung</strong>,</li><li>fügt <strong>„Backofen anstellen“</strong> um die Vorheizzeit vor dem Backschritt ein – mit der Ofentemperatur aus dem Rezept, bei einem Backstein mit der Vorheizzeit mit Backstein, mit Ofenprofilen mit der Reglereinstellung („am Regler 240 °C“),</li><li>fügt bei fallender Temperatur <strong>„Backofen auf … zurückdrehen“</strong> und gegebenenfalls <strong>„Dampf ablassen“</strong> ein,</li><li>plant <strong>„Backvorgang ist beendet“</strong> zum Endzeitpunkt,</li><li>legt bei eigenen Rezepten einen <strong>Backhistorien-Eintrag</strong> zum Enddatum an, den Du nach dem Backen ergänzt.</li></ol>
+<p>Die Bestätigung <strong>Erinnerungen wurden gesetzt</strong> nennt, wann der Ofen an muss und wann das Brot fertig ist. Fehlt die Erlaubnis für Benachrichtigungen, heißt sie <strong>Plan gespeichert</strong>: Der Plan steht in der Zeitleiste, aber ohne Erinnerungen – die Erlaubnis gibst Du in den Android-Einstellungen unter <em>Apps → BakePlanner → Benachrichtigungen</em>.</p>
+<blockquote class="note"><p><strong>Ein Rezept, ein Plan – oder mehrere.</strong> Gibt es für das Rezept schon einen Plan, fragt die App: <strong>Bestehenden Plan ersetzen</strong> verwirft die alten Schritte samt Erinnerungen – so verschiebst Du ein Brot auf einen anderen Tag. <strong>Zusätzlich planen</strong> behält den bestehenden Plan und legt den neuen daneben, etwa für Samstag und Sonntag.</p></blockquote>
+<h3 id="erinnerungen">Erinnerungen</h3>
+<p>Jede Erinnerung kommt als Android-Benachrichtigung mit dem Titel <strong>„Backhinweis“</strong> und dem Schritttext. Mischt der Schritt eine Komponente an, stehen ihre Zutaten mit Mengen darunter. Unter der Benachrichtigung liegen zwei Aktionen:</p>
+<ul><li><strong>Erledigt</strong> – der Schritt verschwindet aus dem Plan.</li><li><strong>Verschieben um …</strong> – Du gibst die Minuten ein; danach fragt die App „Sollen alle nachfolgenden Schritte dieses Rezepts ebenfalls verschoben werden?“ mit <strong>Nur diesen Schritt</strong> und <strong>Alle nachfolgenden</strong>. Gerechnet wird ab jetzt.</li></ul>
+<blockquote class="note"><p><strong>Zustellzeit:</strong> Android liefert die Erinnerungen über seinen Aufgabenplaner aus, nicht als Wecker. Liegt das Telefon lange unbenutzt im Energiesparmodus, kann eine Erinnerung einige Minuten später kommen als geplant. Für Schritte, die auf die Minute kommen müssen, lass den <strong>Backmodus</strong> geöffnet oder stelle zusätzlich einen Wecker in der Uhr-App.</p></blockquote>
+<h3 id="backmodus">Backmodus</h3>
+<p>Für die Arbeit in der Küche startest Du im Tab <strong>Zeitleiste</strong> den <strong>Backmodus</strong> – oben rechts für alle Pläne oder in der Liste unter einem Plan nur für diesen. Er zeigt den aktuellen Schritt bildschirmfüllend in großer Schrift: Rezeptname, „Schritt 3 von 12“, die Uhrzeit mit Countdown, den Schritttext und darunter die Zutaten der Komponente. Mit Ofenprofilen steht dazu die Zeile „Am Regler …“.</p>
+<figure><img class="screenshot" src="images/android/backmodus.png" alt="Backmodus auf Android mit großem Schritttext und den Tasten Zurück, Vorlesen, Erledigt und Weiter" loading="lazy">
+<figcaption>Der Backmodus: große Schrift und große Tasten, auch mit Mehl an den Händen.</figcaption>
+</figure>
+<ul><li><strong>Zurück</strong> und <strong>Weiter</strong> blättern durch die Schritte.</li><li><strong>Vorlesen</strong> liest den Schritt und die Zutaten über die Android-Sprachausgabe vor; <strong>Stopp</strong> bricht ab. Fehlt eine Stimme in Deiner Sprache, installierst Du sie in den Android-Einstellungen unter „Sprachausgabe“ (Google Sprachausgabe).</li><li><strong>Erledigt</strong> nimmt den Schritt samt Erinnerung aus dem Plan und springt zum nächsten.</li></ul>
+<p>Solange der Backmodus offen ist, bleibt der Bildschirm an. <strong>Schließen</strong> führt zurück.</p>
+<hr>
+<h2 id="8-neues-rezept-anlegen-und-bearbeiten">8. Neues Rezept anlegen und bearbeiten</h2>
+<p>Über <strong>+</strong> oben rechts im Tab <strong>Rezepte</strong> wählst Du, wie das Rezept entsteht. Alle Wege enden im selben Rezept-Formular, in dem Du prüfst und speicherst.</p>
+<h3 id="von-hand">Von Hand</h3>
+<p>Öffnet das leere Rezept-Formular (siehe unten).</p>
+<h3 id="aus-fotos">Aus Fotos</h3>
+<p>Liest ein gedrucktes oder abfotografiertes Rezept ein – auf Android <strong>nur über die geschützte Cloud-KI</strong>; eine Texterkennung auf dem Gerät gibt es in der Android-App nicht.</p>
+<ol><li><strong>Bilder auswählen</strong> aus den Dateien des Geräts oder <strong>Aufnehmen</strong> mit der Kamera, Seite für Seite, bis zu zehn. Die Reihenfolge wird übernommen; unter <strong>Ausgewählte Seiten</strong> entfernst Du einzelne.</li><li>Unter <strong>Analyseart</strong> steht <strong>Geschützte Cloud-KI</strong>. Vor der ersten Nutzung erklärt die App die Datenübertragung; <strong>Zustimmen und mit Cloud-KI analysieren</strong> erteilt die Einwilligung. Wählst Du <strong>Nur auf diesem Gerät</strong>, erklärt die App, dass Fotos so nicht gelesen werden können.</li><li><strong>Importieren</strong> schickt die Seiten zur Analyse und öffnet das Ergebnis im Rezept-Formular.</li></ol>
+<p>Gerade, gut ausgeleuchtete Fotos ohne Logos und Kopfzeilen liefern die besten Ergebnisse. Handschrift wird nicht zuverlässig gelesen. Prüfe danach <strong>Mengen, Einheiten, Temperaturen und Zeiten</strong>.</p>
+<h3 id="von-einer-internetseite">Von einer Internetseite</h3>
+<ol><li>Trage die <strong>Internetadresse</strong> ein. Kürzer geht es aus Chrome oder jeder anderen App: <strong>Teilen → BakePlanner</strong> öffnet den Import mit der Adresse.</li><li>Wähle die <strong>Analyseart</strong>: <strong>Geschützte Cloud-KI</strong> trennt auch Vorteig, Sauerteig und Hauptteig in eigene Komponenten. <strong>Nur auf diesem Gerät</strong> übernimmt nur die strukturierten Rezeptdaten, die die Seite selbst mitliefert.</li><li><strong>Importieren</strong> lädt die Seite und öffnet das Rezept im Formular, mit dem Rezeptfoto der Seite und ihrer Adresse als Link.</li></ol>
+<p>Seiten mit Anmeldung, Bezahlschranke oder reinem Cookie-Hinweis lassen sich nicht lesen. Dann hilft der Import aus Text.</p>
+<blockquote class="note"><p><strong>Urheberrecht:</strong> Für den eigenen Gebrauch darfst Du jedes Rezept importieren. Veröffentliche fremde Rezepte nur mit Erlaubnis der Urheber.</p></blockquote>
+<h3 id="aus-text">Aus Text</h3>
+<p>Für Rezepte aus einer Nachricht, einer Notiz oder von einer Seite, die der Web-Import nicht lesen kann. Markiere das Rezept von der Überschrift bis zum letzten Schritt, kopiere es und füge es unter <strong>Rezepttext</strong> ein – oder teile markierten Text aus einer anderen App an BakePlanner. Unter <strong>Internetadresse (optional)</strong> gibst Du die Quelle an. Mit <strong>Nur auf diesem Gerät</strong> liest die App Zutaten und Schritte nach festen Regeln: Überschriften wie „Zutaten“ und „Zubereitung“, je Zeile eine Zutat mit Menge, je Absatz ein Schritt, Komponenten an eigenen Überschriften wie „Sauerteig“. Mit der Cloud-KI spielt die Form eine kleinere Rolle. <strong>Importieren</strong> öffnet das Ergebnis im Formular.</p>
+<h3 id="nach-bäckerprozent">Nach Bäckerprozent</h3>
+<p>Für alle, die Rezepte als Formel denken: Du gibst jede Zutat als Anteil vom Mehl ein, die App rechnet die Gramm.</p>
+<ol><li><strong>Rezeptname</strong> eintragen.</li><li><strong>Vorgabe</strong>: <strong>Mehl gesamt</strong> (etwa 500 g) oder <strong>Teiggewicht</strong> (etwa 850 g) und die Menge.</li><li><strong>Komponenten und Zutaten</strong> in Prozent; alle Prozente beziehen sich auf das gesamte Mehl des Rezepts, die Mehle müssen zusammen 100 Prozent ergeben. Weitere Komponenten legst Du mit <strong>Neue Komponente</strong> und <strong>Hinzufügen</strong> an. Neben jeder Zeile stehen die errechneten Gramm.</li><li><strong>Weiter</strong> öffnet das Rezept-Formular mit den Gramm. Dort ergänzt Du Ruhezeiten, Formen und Backen.</li></ol>
+<p>Solange etwas nicht stimmt, bleibt <strong>Weiter</strong> gesperrt, und ein Hinweis nennt den Grund („Die Mehle ergeben 95 Prozent statt 100.“).</p>
+<h3 id="das-rezept-formular">Das Rezept-Formular</h3>
+<p>Das Formular – beim Anlegen „Neues Rezept“, beim Ändern „Bearbeiten“ – hat diese Abschnitte:</p>
+<ul><li><strong>Name</strong> – Pflichtfeld.</li><li><strong>Rezeptbild</strong> – <strong>Bild hinzufügen</strong> aus den Dateien oder <strong>Kamera</strong>. Fotos werden schon beim Auswählen auf Bildschirmgröße verkleinert. Zum Veröffentlichen ist ein Bild nötig.</li><li><strong>Beschreibung</strong>.</li><li><strong>Bewertung</strong> – fünf Sterne; ein zweiter Tipp auf denselben Stern nimmt die Bewertung zurück. Darunter <strong>Tags, durch Komma getrennt</strong>.</li><li><strong>Regelmäßig planen</strong> (bei einem Anstellgut <strong>Regelmäßig auffrischen</strong>) mit „alle … Tage“: Nach dem letzten Backen plant die App den nächsten Termin von selbst, zur selben Uhrzeit wie der Beginn des ersten Schritts. Solche Termine erscheinen erst zwei Tage vorher in der Zeitleiste; die Erinnerungen kommen trotzdem pünktlich.</li><li><strong>Komponente</strong> – je Komponente ein Name und ihre Zutaten mit <strong>Menge</strong>, <strong>Einheit</strong> und <strong>Zutat</strong>. Die Menge darf ein Bruch sein („1/2“, „1 1/2“), die Einheit ein Kürzel aus <a href="#15-einheiten-und-portionen">Kapitel 15</a>. <strong>Zutat hinzufügen</strong>, <strong>Komponente entfernen</strong>, darunter <strong>Komponente hinzufügen</strong>. Eine Zutatenzeile löschst Du durch Wischen.</li><li><strong>Verarbeitungsschritte</strong> – je Schritt <strong>Nr.</strong>, Text und Dauer in <strong>Minuten</strong> (auch „1:30“ oder „1,5 h“). <strong>Schritt hinzufügen</strong> zählt auf die nächste ganze Zahl weiter, <strong>Unterschritt hinzufügen</strong> legt einen Parallelschritt wie 3.1 an. Löschen durch Wischen.</li></ul>
+<p>Rot markierte Felder sind ungültig, etwa eine Dauer, die die App nicht lesen kann; solange bleibt <strong>Speichern</strong> gesperrt.</p>
+<p><strong>Zeitfenster.</strong> Ein Schritt, den der Planer dehnen darf – eine Kühlschrankgare von 12 bis 18 Stunden –, hat die Felder <strong>Mindestens</strong> und <strong>Höchstens</strong>. Leer gelassen ist die Dauer fest. Steht das Fenster schon im Wortlaut („12–18 Stunden im Kühlschrank“), erkennt die App es auch ohne Felder.</p>
+<p><strong>Ofen.</strong> Ein Schritt, der backt, vorheizt oder eine Ofentemperatur nennt, hat die Felder <strong>Ofen</strong> (°C) und <strong>Fallend auf</strong> sowie <strong>Schwaden</strong> (Nicht angegeben, Mit Schwaden, Ohne Schwaden). Die Felder gelten vor dem Wortlaut; leer gelassen liest die App den Ofen aus dem Text („bei 250 °C fallend auf 220 °C mit Schwaden backen“).</p>
+<p><strong>Speichern</strong> oben rechts sichert das Rezept, <strong>Abbrechen</strong> verwirft die Änderungen.</p>
+<h3 id="ein-rezept-bearbeiten">Ein Rezept bearbeiten</h3>
+<p><strong>Bearbeiten</strong> oben rechts auf der Seite eines eigenen Rezepts öffnet dasselbe Formular. Das Rezeptbild änderst Du auch direkt auf der Rezeptseite. Ein schon gesetzter Plan bleibt, wie er ist: Die Zeitleiste zeigt dann „… wurde seit der Planung geändert“ mit <strong>Neu planen</strong>.</p>
+<hr>
+<h2 id="9-zeitleiste-und-backtag-planen">9. Zeitleiste und Backtag planen</h2>
+<p>Im Tab <strong>Zeitleiste</strong> (Titel „Nächste Schritte“) stehen alle geplanten Schritte aus allen Rezepten. Oben wechselst Du zwischen <strong>Timeline</strong> und <strong>Liste</strong>. Oben rechts liegen <strong>Backmodus starten</strong> und <strong>Alle löschen</strong>.</p>
+<figure><img class="screenshot" src="images/android/zeitleiste.png" alt="Zeitleiste auf Android als Timeline: eine Spur je Plan, Balken in Schrittlänge, Farben nach Art des Schritts" loading="lazy">
+<figcaption>Die Timeline zeigt jeden Plan als eigene Spur, jeden Schritt als Balken.</figcaption>
+</figure>
+<h3 id="timeline">Timeline</h3>
+<p>Jeder Plan bekommt eine eigene Spur mit Rezeptbild und Name, jeder Schritt einen Balken, so lang, wie er dauert. Die Farbe sagt, was zu tun ist – Mischen, Ruhen, Formen, Backen; eine Legende steht oben, daneben der <strong>Zoom</strong> in drei Stufen (S, M, L). Teilschritte wie das Falten während der Teigruhe oder „Backofen anstellen“ während der Stückgare erscheinen als Marke auf dem Balken ihres Schritts, eine Fahne markiert „Backvorgang ist beendet“, eine rote Linie den jetzigen Zeitpunkt. Lange Pausen ohne Schritt – die Nacht, in der der Sauerteig reift – werden zu einem schraffierten Band zusammengeschoben.</p>
+<p>Ein Tipp auf einen Balken öffnet die Details des Schritts mit Beginn, Dauer, Beschreibung und – bei einem Mischschritt – den Zutaten. Langes Drücken bietet <strong>Erledigt</strong> und <strong>Verschieben</strong>.</p>
+<h3 id="liste">Liste</h3>
+<p>Ganz oben steht der Schritt, der <strong>Als Nächstes</strong> ansteht, oder <strong>Jetzt fällig</strong> mit der verstrichenen Zeit. Darunter folgen die Pläne, je Plan seine Schritte mit Uhrzeit, Tag, Dauer und Anweisung. Jede Zeile hat drei Symbole:</p>
+<ul><li><strong>Häkchen</strong> – Schritt als erledigt markieren; er verschwindet samt Erinnerung aus dem Plan.</li><li><strong>i</strong> – Zutaten der Komponente anzeigen, in der Menge, mit der Du geplant hast. Nur bei Schritten, die eine Komponente anmischen.</li><li><strong>Kalender</strong> – Schritt zeitlich verschieben (siehe unten).</li></ul>
+<p>Unter jedem Plan stehen <strong>Backmodus starten</strong> (nur für diesen Plan) und <strong>Geplante Schritte löschen</strong> (nur dieser Plan, nach Rückfrage). <strong>Alle löschen</strong> oben rechts entfernt alle Pläne samt ihren Erinnerungen.</p>
+<h3 id="einen-schritt-verschieben">Einen Schritt verschieben</h3>
+<p>Das Blatt <strong>Schritt verschieben</strong> zeigt <strong>Bisher</strong> und, sobald Du Minuten eingegeben hast, <strong>Neu</strong>:</p>
+<ol><li><strong>Minuten</strong> eingeben.</li><li><strong>Richtung</strong>: <strong>Früher</strong> oder <strong>Später</strong>.</li><li><strong>Betroffene Schritte</strong>: <strong>Nur dieser Schritt</strong> oder <strong>Alle nachfolgenden</strong> – dann wandern alle späteren Schritte desselben Plans mit.</li><li><strong>Übernehmen</strong>.</li></ol>
+<p>Die Erinnerungen wandern mit. Liegt der neue Zeitpunkt in der Vergangenheit, meldet die App „Verschieben nicht möglich“.</p>
+<p>Sind keine Schritte geplant, steht dort „Keine geplanten Schritte – Öffne ein Rezept und tippe auf „Planen“.“</p>
+<h3 id="backtag-planen">Backtag planen</h3>
+<p><strong>Rezepte → Mehr → Backtag planen</strong> plant mehrere Brote auf einmal:</p>
+<ol><li>Unter <strong>Rezepte</strong> wählst Du die Brote; Anstellgut-Rezepte stehen nicht zur Wahl.</li><li><strong>Fertig bis</strong> – die Uhrzeit, zu der das letzte fertig sein soll – und die <strong>Backöfen</strong> (vorbelegt aus den Einstellungen; mit Ofenprofilen die Auswahl „Ofen“ je Brot).</li><li><strong>Backtag berechnen</strong> legt die Startzeiten: Das Brot mit dem längsten Backen ist zur Wunschzeit fertig, jedes weitere bekommt die späteste Viertelstunde davor, zu der es noch in einen Ofen passt. Die <strong>Backpause</strong> wird eingehalten, und nie werden zwei Teige zugleich geknetet, gefaltet oder geformt. Schon geplante Backvorgänge zählen mit.</li><li>Je Brot stehen Start, Fertig und die Ofenzeit, dazu Hinweise als Text: „Schritte in der Nacht“, „Handarbeit fällt mit einem anderen Brot zusammen“, „Kein Ofen frei – überschneidet sich mit einem anderen Backen“, „Müsste schon laufen – Wunschzeit später wählen“ oder „Hat schon einen Plan – wird ersetzt“. Reicht der Vorrat nicht für alle Brote, sagt die App, was fehlt.</li><li><strong>Alle planen</strong> legt für jedes Brot Schritte, Erinnerungen und den Eintrag in der Backhistorie an.</li></ol>
+<hr>
+<h2 id="10-backhistorie">10. Backhistorie</h2>
+<p>Im Tab <strong>Backhistorie</strong> stehen alle Backvorgänge. Über <strong>Darstellung</strong> wählst Du:</p>
+<ul><li><strong>Liste</strong> – neueste zuerst, mit Datum, Rezeptname, Kommentar, Messwerten und Fotos,</li><li><strong>Galerie</strong> – Kacheln mit dem ersten Foto,</li><li><strong>Hit-Liste</strong> – die Rezepte nach Anzahl der Backvorgänge, oben Deine Klassiker,</li><li><strong>Fotowolke</strong> – jedes Rezept als Kreis mit dem Foto des letzten Backens, je öfter gebacken, desto größer,</li><li><strong>Statistik</strong> – siehe unten.</li></ul>
+<figure><img class="screenshot" src="images/android/backhistorie.png" alt="Backhistorie auf Android als Liste mit Datum, Rezeptname, Kommentar, Messwerten und Fotos" loading="lazy">
+<figcaption>Die Backhistorie hält fest, was Du gebacken hast und wie es geworden ist.</figcaption>
+</figure>
+<p>Suchfeld (Name/Tags) und Bewertungsfilter gelten in allen Darstellungen. Einen Eintrag löschst Du durch Wischen nach links.</p>
+<h3 id="einen-backvorgang-eintragen">Einen Backvorgang eintragen</h3>
+<p>Ein Eintrag entsteht automatisch, wenn Du ein eigenes Rezept planst – zunächst ohne Kommentar. Nach dem Backen erinnert die Karte <strong>Letztes Mal</strong> auf der Rezeptseite daran, ihn zu ergänzen (<strong>Ergänzen</strong> oder <strong>Jetzt eintragen</strong>). Ein Backen ohne Plan trägst Du auf der Rezeptseite über <strong>Backvorgang eintragen</strong> nach.</p>
+<p>Der Eintrag („Backanmerkungen- / hinweise“) hat:</p>
+<ul><li><strong>Rezept</strong> – das Rezept, zu dem er gehört; hier verschiebst Du einen Eintrag zu einem anderen Rezept.</li><li><strong>Backdatum</strong> und <strong>Kommentar</strong>.</li><li><strong>Messwerte und Ergebnis</strong>: <strong>Bewertung</strong> (1–5 Sterne), <strong>Raumtemperatur</strong> und <strong>Teigtemperatur</strong> in °C, <strong>Stockgare</strong> und <strong>Stückgare</strong> in Minuten, <strong>Mehl</strong> als Freitext und <strong>Krume / Ofentrieb</strong> als Stichworte – darunter Wort-Chips wie „offen“, „saftig“ oder „guter Ofentrieb“ zum Antippen.</li><li><strong>Fotos</strong> – <strong>Bild hinzufügen</strong> aus den Dateien oder <strong>Kamera</strong>.</li></ul>
+<p><strong>Speichern</strong> sichert den Eintrag. Die Messwerte zeigt die Rezeptseite als <strong>Letztes Mal</strong>; Stock- und Stückgare samt Raumtemperatur fließen in die Karte <strong>Gare heute</strong> beim nächsten Planen ein.</p>
+<h3 id="statistik">Statistik</h3>
+<p><strong>Darstellung → Statistik</strong> rechnet zusammen, was die gerade gezeigten, schon vergangenen Backvorgänge ergeben: oben <strong>Brote gesamt</strong>, <strong>Dieses Jahr</strong>, <strong>Pro Monat</strong> und die Durchschnittsbewertung, darunter <strong>Brote je Monat</strong>, <strong>Meistgebacken</strong>, <strong>Bewertungen</strong>, <strong>Stückgare und Raumtemperatur</strong> (ein Punkt je Backen) und <strong>Krume und Ofentrieb</strong>. Die Diagramme sind einfache Balken und Punkte ohne Achsenbeschriftung. Je mehr Messwerte Du einträgst, desto mehr zeigt die Statistik.</p>
+<h3 id="backhistorie-aus-fotos">Backhistorie aus Fotos</h3>
+<p>Das Foto-Symbol oben im Tab <strong>Backhistorie</strong> holt alte Brotfotos in die Historie:</p>
+<ol><li><strong>Fotos auswählen</strong>.</li><li>Aus jedem Foto liest die App das <strong>Datum</strong> und, wenn vorhanden, den <strong>Titel oder die Beschreibung</strong>. Das Rezept schlägt sie <strong>nach diesem Titel</strong> vor („Nach dem Titel vorgeschlagen“) – nicht nach der Ähnlichkeit mit dem Rezeptbild. Schreibe den Rezeptnamen deshalb ins Foto, etwa in Google Fotos unter <em>Info → Beschreibung</em>. Datum und Titel liest Android aus JPEG-Dateien.</li><li>Prüfe jede Zeile: Datum wählen, wenn „Kein Datum im Foto“ steht, Rezept wählen oder ändern. Zeilen mit „Schon in der Backhistorie an diesem Tag“ werden übersprungen.</li><li><strong>Anlegen</strong> schreibt die Einträge mit dem Foto.</li></ol>
+<hr>
+<h2 id="11-einkaufslisten">11. Einkaufslisten</h2>
+<h3 id="zutaten-auf-eine-liste-setzen">Zutaten auf eine Liste setzen</h3>
+<p><strong>Rezeptseite → Rezept zur Einkaufsliste hinzufügen</strong> – bei eigenen wie öffentlichen Rezepten. Die Zutaten kommen in der Menge auf die Liste, die auf der Rezeptseite eingestellt ist.</p>
+<ol><li><strong>Ziel</strong>: <strong>Neue Liste</strong> mit Datum oder <strong>Bestehende Liste</strong>. Existiert für das Datum schon eine Liste, werden die Zutaten dort ergänzt.</li><li><strong>Vorrat abziehen</strong> (voreingestellt an): Was im Vorrat ist, kommt nicht auf die Liste, Teilmengen werden gekürzt. Ist alles da, sagt die App das statt eine leere Liste anzulegen.</li><li><strong>Erstellen</strong>. Die App bestätigt mit „Zutaten wurden auf die Einkaufsliste gesetzt“.</li></ol>
+<h3 id="was-auf-die-liste-kommt--und-was-nicht">Was auf die Liste kommt – und was nicht</h3>
+<ul><li><strong>Nicht aufgenommen</strong> werden Wasser, Salz und alles, was man selbst ansetzt: Anstellgut, Sauerteig, Levain, Lievito Madre, Poolish, Biga – in jeder Sprache. Was nur so klingt (Rosenwasser, Sauerteigpulver), bleibt auf der Liste.</li><li><strong>Nicht aufgenommen</strong> werden Zutaten ohne Einheit oder ohne Menge.</li><li><strong>Eier</strong> zählt die Liste in Stück: „120 g Eier“ werden „2 St Eier“.</li><li><strong>Gleiche Zutaten werden zusammengefasst</strong>: „Milch 30 °C“ und „Milch“, „Frischhefe“ und „Hefe“, „Weizenmehl Type 550“ und „Weizenmehl 550“. Einheiten mit derselben Basis werden zusammengerechnet (0,5 kg + 200 g).</li><li>Die Zutatennamen stehen so auf der Liste, wie sie im Rezept heißen; übersetzt werden sie auf Android nicht.</li></ul>
+<h3 id="einkaufslisten-ansehen">Einkaufslisten ansehen</h3>
+<figure><img class="screenshot" src="images/android/einkauf.png" alt="Einkaufsliste auf Android, nach Regalen gruppiert, mit Gebindegrößen und dem Knopf Eingekauft" loading="lazy">
+<figcaption>Die Einkaufsliste ist nach Regalen sortiert und nennt die Packung, die Du kaufst.</figcaption>
+</figure>
+<p>Im Tab <strong>Einkauf</strong> steht je Liste „Einkaufsliste vom …“, darunter die enthaltenen Rezepte und die Zutaten <strong>nach Regalen gruppiert</strong>: Mehl &amp; Getreide, Milchprodukte &amp; Eier, Backzutaten, Nüsse, Saaten &amp; Trockenfrüchte, Obst &amp; Gemüse, Gewürze &amp; Kräuter, Öle, Fette &amp; Flüssiges, Sonstiges.</p>
+<p><strong>Gebindegrößen.</strong> Vor der Zutat steht die übliche Packung, die den Bedarf deckt, der Bedarf in Klammern: „1 kg Weizenmehl 550 (200 g)“, „42 g Frischhefe (6 g)“, „6 Stück Eier (2 St)“.</p>
+<ul><li>Ein Tipp auf eine Zutat öffnet <strong>Menge ändern</strong>: Menge und Einheit gelten nur für diese Liste, das Rezept bleibt unverändert. Dort stehen auch <strong>In den Vorrat übernehmen</strong> und <strong>Zutat entfernen</strong>.</li><li><strong>Eingekauft</strong> oben an der Liste übernimmt die ganze Liste in den Vorrat (siehe <a href="#12-vorrat">Kapitel 12</a>).</li><li>Eine Liste löschst Du durch Wischen nach links (<strong>Einkaufsliste löschen</strong>).</li></ul>
+<hr>
+<h2 id="12-vorrat">12. Vorrat</h2>
+<p>Der Tab <strong>Vorrat</strong> führt, was Du zu Hause hast – nach denselben Regalen wie die Einkaufsliste.</p>
+<figure><img class="screenshot" src="images/android/vorrat.png" alt="Vorrat auf Android mit Posten nach Regalen, Mengen und Haltbarkeit" loading="lazy">
+<figcaption>Der Vorrat: die Posten nach Regalen, mit Menge und Haltbarkeit.</figcaption>
+</figure>
+<ul><li><strong>Posten hinzufügen</strong> (+ oben rechts): <strong>Name</strong> – mit <strong>Vorschlägen aus Deinen Rezepten</strong>, damit Vorrat und Rezepte dasselbe meinen –, <strong>Menge</strong> in g, kg oder Stück, <strong>Mindesthaltbarkeit</strong> und <strong>Notiz</strong>; <strong>Sichern</strong>.</li><li>Ein Tipp auf einen Posten ändert ihn, Wischen nach links entfernt ihn.</li><li><strong>Bald aufbrauchen</strong>: Posten, die in den nächsten 14 Tagen ablaufen oder schon abgelaufen sind, stehen oben und sind farbig markiert.</li><li>Mengen ab 1000 g zeigt der Vorrat in Kilogramm.</li></ul>
+<h3 id="aus-der-einkaufsliste-in-den-vorrat">Aus der Einkaufsliste in den Vorrat</h3>
+<p><strong>Eingekauft</strong> an der Liste oder <strong>In den Vorrat übernehmen</strong> bei einer Zeile öffnen das Blatt <strong>Eingekauft</strong>: Je Zeile stehen „Benötigt: …“ und die <strong>Gekaufte Menge</strong>, vorbelegt mit der Packung von der Liste – trage ein, was Du wirklich gekauft hast. <strong>Buchen</strong> bucht jede Zeile auf den Posten gleichen Namens oder legt ihn an und nimmt sie von der Liste. Zeilen mit leerer Menge bleiben stehen; bleibt nichts übrig, ist die Liste erledigt.</p>
+<h3 id="vorrat-und-rezepte">Vorrat und Rezepte</h3>
+<ul><li><strong>Rezeptseite:</strong> Die Karte <strong>Vorrat</strong> sagt, ob alle Zutaten da sind, oder nennt, was fehlt („Es fehlen 200 g Roggenmehl 1150“), in der gewählten Menge. Wasser, Salz und Anstellgut zählen nicht. Zutaten treffen sich über den Namen; „Frischhefe“ und „Hefe“, „Type 550“ und „550“ gelten als dasselbe.</li><li><strong>Einkaufsliste:</strong> <strong>Vorrat abziehen</strong> (siehe <a href="#11-einkaufslisten">Kapitel 11</a>).</li><li><strong>Rezeptliste:</strong> die Sammlungen <strong>Aus dem Vorrat</strong> und <strong>Vorrat aufbrauchen</strong> (siehe <a href="#6-eigene-rezepte">Kapitel 6</a>).</li><li><strong>Reservierungen:</strong> Sobald Du ein Brot planst, reserviert die App, was es verbraucht. Rezeptkarte, Einkaufsliste und Backtag rechnen mit dem Verfügbaren. Wird der Plan gelöscht oder ersetzt, ist die Menge wieder frei. Erreicht der Plan sein Ende, wird die Reservierung zur Abbuchung, und der Bestand sinkt.</li><li><strong>Fütterungen</strong> eines Anstellguts buchen das Mehl ebenso ab.</li><li><strong>Letzte Abbuchungen</strong> listet die Abbuchungen beendeter Pläne; <strong>Rückgängig</strong> bucht zurück, wenn ein Brot doch nicht gebacken wurde.</li></ul>
+<p>Die vollständige Sicherung nimmt den Vorrat mit (siehe <a href="#16-daten-sicherung-und-gerätewechsel">Kapitel 16</a>).</p>
+<hr>
+<h2 id="13-rechner">13. Rechner</h2>
+<p><strong>Rezepte → Mehr → Rechner</strong> öffnet eine Seite mit vier Bäckerrechnern. Zwei davon erreichst Du auch direkt aus einem Rezept.</p>
+<h3 id="teigtemperatur">Teigtemperatur</h3>
+<p>Rechnet aus, wie warm das <strong>Schüttwasser</strong> sein muss, damit der Teig nach dem Kneten die gewünschte Temperatur hat. Du gibst die <strong>Zieltemperatur</strong> des Teigs ein, die Raumtemperatur, die Mehltemperatur (meist gleich der Raumtemperatur) und bei Bedarf die Temperatur von Sauerteig oder Vorteig. Die <strong>Reibungswärme</strong> ist die Wärme, die der Teig beim Kneten aufnimmt; kalibriere sie einmal mit einer Messung nach dem Kneten, dann gilt sie für jedes Rezept.</p>
+<h3 id="mehl-ersetzen">Mehl ersetzen</h3>
+<p>Mehle werden <strong>1:1 nach Gewicht</strong> getauscht; was sich ändert, ist das Wasser, weil jedes Mehl anders bindet. Auf der Rezeptseite sind Mehlzeilen antippbar („Tippe auf ein Mehl, um es zu ersetzen.“): Das Blatt <strong>Mehl ersetzen</strong> zeigt die erkannte Sorte, lässt das Ersatzmehl wählen und rechnet die Wasseränderung, Teigausbeute und Hydration vor. <strong>Kopie mit Ersatz anlegen</strong> schreibt den Tausch in eine neue Variante; in einer solchen Kopie heißt die Schaltfläche <strong>Änderung übernehmen</strong>. Dazu kommen Hinweise zur Führung, etwa Dinkel kürzer kneten oder Roggen versäuern.</p>
+<h3 id="anstellgut-ta">Anstellgut-TA</h3>
+<p>Verlangt ein Rezept „100 g Anstellgut TA 150“, Du führst Deines aber bei TA 210, gleicht die App aus, sodass das Mehl aus dem Anstellgut gleich bleibt: mehr Anstellgut, weniger Wasser in derselben Komponente. Auf der Rezeptseite sind Anstellgut-Zeilen antippbar: <strong>Anstellgut-TA anpassen</strong> zeigt die erkannte TA (aus dem Zutatennamen oder den Einstellungen), Deine <strong>Anstellgut-TAs</strong> als Schnellwahl und das Ergebnis. <strong>Kopie mit Anpassung anlegen</strong> legt eine Variante an.</p>
+<h3 id="teigeinlage">Teigeinlage</h3>
+<p>Rechnet aus, wie viel Teig in eine Form passt: <strong>Kastenform</strong> und <strong>Runde Form</strong> über die Innenmaße und den <strong>Füllfaktor</strong> der <strong>Teigart</strong> (Weizen hell, Toast; Mischbrot; Roggen, Vollkorn, Saaten), <strong>Gärkörbchen rund</strong> und <strong>Gärkörbchen oval</strong> über die Nennwerte am oberen Rand. Auf der Rezeptseite öffnet das Waagen-Symbol neben <strong>Teiggewicht</strong> denselben Rechner mit der Teigart aus dem Rezept; <strong>Als Teiggewicht übernehmen</strong> trägt das Ergebnis ein.</p>
+<hr>
+<h2 id="14-einstellungen">14. Einstellungen</h2>
+<p><strong>Rezepte → Mehr → Einstellungen.</strong> Die Einstellungen gelten nur auf diesem Gerät.</p>
+<h3 id="allgemein">Allgemein</h3>
+<p><strong>Sprache</strong> öffnet Androids Einstellung „App-Sprache“ (ab Android 13). Dort wählst Du Deutsch, Englisch oder Französisch unabhängig von der Gerätesprache; ohne Auswahl folgt die App der Systemsprache. In der App selbst gibt es keine Sprachauswahl.</p>
+<h3 id="rezepte">Rezepte</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 25ch"></colgroup>
+<thead><tr><th>Einstellung</th><th>Beschreibung</th></tr></thead>
+<tbody>
+<tr><td><strong>Standard-Portionsgröße</strong></td><td>0,5 / 1,0 / 1,5 / 2,0 – damit öffnen sich Rezepte. Standard: 1,0</td></tr>
+<tr><td><strong>Anstellgut</strong></td><td>TA Deines Anstellguts, mit der die App eine Anstellgut-Menge ohne TA-Angabe in Mehl und Wasser aufteilt. Standard: TA 200</td></tr>
+<tr><td><strong>Lievito Madre</strong></td><td>Dasselbe für Lievito Madre. Standard: TA 150</td></tr>
+<tr><td><strong>Bäckerprozente anzeigen</strong></td><td>Zeigt hinter jeder gewogenen Zutat ihren Anteil am Mehl der Komponente. Standard: aus</td></tr>
+<tr><td><strong>Meine Anstellgut-TAs</strong></td><td>Durch Komma getrennt; die Schnellwahl beim Anpassen der Anstellgut-TA</td></tr>
+<tr><td><strong>Eigene Einheiten</strong></td><td>Führt zur Verwaltung, siehe <a href="#15-einheiten-und-portionen">Kapitel 15</a></td></tr>
+</tbody></table></div>
+<h3 id="sicherung">Sicherung</h3>
+<p><strong>Vollständige Sicherung erstellen</strong> und <strong>Sicherung wiedereinspielen</strong> – siehe <a href="#16-daten-sicherung-und-gerätewechsel">Kapitel 16</a>.</p>
+<h3 id="backöfen">Backöfen</h3>
+<p>Deine Öfen als Profile: <strong>Name</strong>, <strong>Vorheizzeit</strong>, <strong>Vorheizzeit mit Backstein</strong>, die <strong>Abweichung</strong> (ob der Ofen heißer oder kälter läuft, als der Regler zeigt) und der <strong>Umluft-Abschlag</strong>. <strong>Geplant wird mit</strong> ist der Ofen, den Planungsblatt und Backtag vorschlagen; <strong>Ofen hinzufügen</strong> legt einen weiteren an, <strong>Ofen löschen</strong> entfernt ihn. Mit Ofenprofilen nennen die Ofenschritte die Reglereinstellung („Backofen anstellen (250 °C, am Regler 240 °C)“), und die Zahl der Öfen ist die Zahl der Profile. Das Rezept merkt sich den Ofen nicht; vorbelegt ist immer der aus den Einstellungen.</p>
+<h3 id="backplanung">Backplanung</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 27ch"></colgroup>
+<thead><tr><th>Einstellung</th><th>Beschreibung</th></tr></thead>
+<tbody>
+<tr><td><strong>Vorheizzeit</strong></td><td>0–120 Minuten vor dem Backschritt für „Backofen anstellen“. Standard: 15 Minuten (nur ohne Ofenprofile)</td></tr>
+<tr><td><strong>Vorheizzeit mit Backstein</strong></td><td>0–180 Minuten, wenn ein Schritt einen Backstein oder Backstahl nennt. Standard: 45 Minuten (nur ohne Ofenprofile)</td></tr>
+<tr><td><strong>Backpause</strong></td><td>Mindestabstand zwischen zwei Backvorgängen im selben Ofen. Standard: 10 Minuten</td></tr>
+<tr><td><strong>Backöfen</strong></td><td>Wie viele Backvorgänge gleichzeitig laufen dürfen. Standard: 1 (nur ohne Ofenprofile)</td></tr>
+<tr><td><strong>Tagesbeginn</strong> und <strong>Tagesende</strong></td><td>Wann Du ansprechbar bist. Standard: 6 und 23 Uhr</td></tr>
+</tbody></table></div>
+<blockquote class="note"><p>Nur die Vorheizzeiten verschieben Schritte. Backpause, Backöfen, Tagesbeginn und Tagesende ändern den Plan nicht – die App prüft ihn dagegen und warnt im Planungsblatt.</p></blockquote>
+<h3 id="konto">Konto</h3>
+<p>Die Anmeldung ist <strong>freiwillig</strong>. <strong>Mit Apple anmelden</strong> öffnet die Apple-Anmeldung im Browser und kehrt danach in die App zurück; Name oder E-Mail-Adresse werden nicht abgefragt. Mit ihr gehören Deine veröffentlichten Rezepte Deinem Apple-Konto, auf Android wie auf dem iPhone: Ein auf dem iPhone veröffentlichtes Rezept bearbeitest Du so auch vom Android-Gerät aus. Auf Android ist die Anmeldung außerdem Voraussetzung für <strong>Veröffentlichen</strong>.</p>
+<ul><li><strong>Abmelden</strong> – zurück zur anonymen Nutzung; Rezepte auf dem Gerät bleiben unberührt.</li><li><strong>Konto löschen</strong> – nach Rückfrage. Veröffentlichte Rezepte bleiben für alle sichtbar, gehören aber keinem Konto mehr; lösche sie vorher, wenn Du sie nicht in der Datenbank lassen willst. Rezepte auf dem Gerät bleiben erhalten. Das lässt sich nicht widerrufen.</li></ul>
+<h3 id="datenschutz--ki">Datenschutz &amp; KI</h3>
+<p><strong>KI-Analyse beim Rezeptimport</strong> zeigt <strong>Zugelassen</strong> oder <strong>Nur lokal</strong>; ein Tipp öffnet die Seite <strong>Datenschutz bei KI</strong> (siehe <a href="#17-datenschutz">Kapitel 17</a>). <strong>Einwilligung zur Cloud-KI widerrufen</strong> nimmt die Einwilligung zurück.</p>
+<h3 id="moderation">Moderation</h3>
+<p><strong>Blockierte Autoren</strong> mit <strong>Blockierungen aufheben</strong> – die Rezepte erscheinen sofort wieder – und <strong>Von Dir gemeldete Rezepte</strong> mit <strong>Meldungen auf diesem Gerät zurücknehmen</strong>. Ein gemeldetes Rezept bleibt für alle ausgeblendet, bis ein Administrator es geprüft hat; das Zurücknehmen wirkt erst danach.</p>
+<h3 id="hilfe">Hilfe</h3>
+<p>Öffnet im Browser das <strong>Benutzerhandbuch</strong>, <strong>Hilfe und Kontakt</strong>, die <strong>Datenschutzerklärung</strong> und das <strong>Impressum</strong>.</p>
+<hr>
+<h2 id="15-einheiten-und-portionen">15. Einheiten und Portionen</h2>
+<h3 id="menge-oder-teiggewicht">Menge oder Teiggewicht</h3>
+<p>Auf der Rezeptseite skalierst Du ein Rezept auf zwei Arten:</p>
+<ul><li><strong>Menge</strong> – ein Faktor in halben Schritten (× 0,5, × 1, × 1,5 …); × 1 ist das gespeicherte Rezept.</li><li><strong>Teiggewicht</strong> – ein Zielgewicht in Gramm, etwa 2000; die App rechnet alle Zutaten darauf um. Das Waagen-Symbol daneben berechnet es aus Deiner Form (siehe <a href="#13-rechner">Kapitel 13</a>).</li></ul>
+<p>Gerundet wird, wie man abwiegt: ab 10 g auf ganze Gramm, darunter auf eine Nachkommastelle („2,7 g Hefe“). Die Wahl gilt für Rezeptseite, Planung, Einkaufsliste und die Zutaten in den Erinnerungen. Sie wirkt <strong>nicht</strong> auf Dauern – Teige gehen nicht schneller auf, nur weil man weniger davon macht – und verändert das Rezept nicht.</p>
+<h3 id="teigausbeute-und-hydration">Teigausbeute und Hydration</h3>
+<p>Die Zeile <strong>„TA 172 · Hydration 72 %“</strong> auf der Rezeptseite zeigt die Teigausbeute (Mehl plus Wasser je 100 g Mehl) und die Hydration über alle Komponenten. Ein Tipp öffnet die Aufschlüsselung mit Mehl und Wasser in Gramm, den Komponenten, den Anstellgut-Anteilen, dem <strong>vorfermentierten Mehl</strong>, den Zutaten, die <strong>nicht gezählt</strong> wurden, und <strong>Hinweisen</strong>, wenn Salz oder Hefe weit von den üblichen Bäckerprozenten abweichen.</p>
+<ul><li><strong>Mehl</strong> ist, was „Mehl“, „Schrot“, „Grieß“, „Dunst“ im Namen trägt, außerdem Altbrot – nicht Leinsamenschrot, Flocken, Kleie oder Nussmehle.</li><li><strong>Schüttflüssigkeit zählt voll</strong>: Wasser, Milch, Buttermilch, Bier, Molke, Saft.</li><li><strong>Anstellgut wird aufgeteilt</strong>: 20 g mit TA 200 sind 10 g Mehl und 10 g Wasser. Die TA kommt aus dem Zutatennamen („Anstellgut TA 150“) oder aus den Einstellungen; Biga, Poolish und Pâte fermentée haben ihre TA per Definition.</li><li><strong>Komponenten zählen genau einmal.</strong></li></ul>
+<h3 id="bäckerprozente">Bäckerprozente</h3>
+<p>Mit <em>Einstellungen → Rezepte → Bäckerprozente anzeigen</em> steht hinter jeder gewogenen Zutat ihr Anteil am Mehl der Komponente, etwa „319 g Wasser · 62 %“.</p>
+<h3 id="verfügbare-einheiten">Verfügbare Einheiten</h3>
+<p>Im Rezept-Formular trägst Du die Einheit als <strong>Kürzel</strong> ein. Verwende die Kürzel aus den Tabellen – eine Einheit, die die App nicht kennt, hat keine Umrechnung und geht nicht ins Gesamtgewicht ein. Fehlt Dir eine, legst Du sie als eigene Einheit an. Auf Englisch und Französisch zeigt die App dieselben Einheiten mit eigenen Kürzeln an („tsp“, „c. à c.“ für TL); gespeichert wird immer das Kürzel aus der Tabelle.</p>
+<p><strong>Gewichtsbasiert (Basis Gramm)</strong></p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Kurz</th><th>Einheit</th><th>entspricht</th></tr></thead>
+<tbody>
+<tr><td>g</td><td>Gramm</td><td>1 g</td></tr>
+<tr><td>kg</td><td>Kilogramm</td><td>1000 g</td></tr>
+<tr><td>mg</td><td>Milligramm</td><td>0,001 g</td></tr>
+<tr><td>pfd</td><td>Pfund</td><td>500 g</td></tr>
+<tr><td>Pr</td><td>Prise</td><td>1 g</td></tr>
+<tr><td>Msp</td><td>Messerspitze</td><td>0,05 g</td></tr>
+<tr><td>Bd</td><td>Bund</td><td>10 g</td></tr>
+<tr><td>Sc</td><td>Scheibe</td><td>25 g</td></tr>
+<tr><td>Rolle</td><td>Rolle</td><td>275 g</td></tr>
+<tr><td>Pck</td><td>Päckchen</td><td>11 g</td></tr>
+<tr><td>Handvoll</td><td>Handvoll</td><td>25 g</td></tr>
+<tr><td>ei</td><td>Ei</td><td>60 g</td></tr>
+<tr><td>ei(s)</td><td>Ei, Größe S</td><td>50 g</td></tr>
+<tr><td>ei(m)</td><td>Ei, Größe M</td><td>60 g</td></tr>
+<tr><td>ei(l)</td><td>Ei, Größe L</td><td>70 g</td></tr>
+<tr><td>ei(xl)</td><td>Ei, Größe XL</td><td>80 g</td></tr>
+</tbody></table></div>
+<p><strong>Volumenbasiert (Basis Milliliter)</strong></p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Kurz</th><th>Einheit</th><th>entspricht</th></tr></thead>
+<tbody>
+<tr><td>ml</td><td>Milliliter</td><td>1 ml</td></tr>
+<tr><td>cl</td><td>Zentiliter</td><td>10 ml</td></tr>
+<tr><td>dl</td><td>Deziliter</td><td>100 ml</td></tr>
+<tr><td>l</td><td>Liter</td><td>1000 ml</td></tr>
+<tr><td>mass</td><td>Mass</td><td>1000 ml</td></tr>
+<tr><td>TL</td><td>Teelöffel</td><td>5 ml</td></tr>
+<tr><td>EL</td><td>Esslöffel</td><td>15 ml</td></tr>
+<tr><td>Tas</td><td>Tasse</td><td>200 ml</td></tr>
+<tr><td>Ss</td><td>Schuss</td><td>10 ml</td></tr>
+<tr><td>Sp</td><td>Spritzer</td><td>0,27 ml</td></tr>
+<tr><td>Tr</td><td>Tropfen</td><td>0,067 ml</td></tr>
+</tbody></table></div>
+<p><strong>Gezählt</strong></p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Kurz</th><th>Einheit</th><th>entspricht</th></tr></thead>
+<tbody>
+<tr><td>St</td><td>Stück</td><td>gezählt</td></tr>
+</tbody></table></div>
+<p>Für das Gesamtgewicht rechnet die App Volumen über die Dichte gängiger Zutaten in Gramm um – Mehl 0,66, Wasser und Milch 1,0, Öl 0,8, Honig 1,3. Eine Tasse Mehl zählt also 200 ml × 0,66 = 132 g.</p>
+<h3 id="eigene-einheiten">Eigene Einheiten</h3>
+<p><em>Einstellungen → Rezepte → Eigene Einheiten → Einheit hinzufügen</em>: <strong>Name</strong> (etwa „Becher“), <strong>Kürzel</strong> (muss noch frei sein), <strong>Gemessen in</strong> (Gramm, Milliliter oder Stück) und die <strong>Umrechnung</strong> – wie viel eine Einheit enthält. Die Umrechnung ist Pflicht, denn davon leben Gesamtzutaten, Bäckerprozente und Einkaufsliste. Eigene Einheiten gelten nur auf diesem Gerät und kommen mit der Sicherung nicht mit.</p>
+<hr>
+<h2 id="16-daten-sicherung-und-gerätewechsel">16. Daten, Sicherung und Gerätewechsel</h2>
+<h3 id="alles-liegt-auf-dem-gerät">Alles liegt auf dem Gerät</h3>
+<p>Eigene Rezepte, geplante Schritte, Einkaufslisten, Backhistorie, Anstellgut-Tagebuch und Vorrat werden <strong>nur auf diesem Android-Gerät</strong> gespeichert. Es gibt <strong>keinen Abgleich</strong> mit anderen Geräten – weder mit einem zweiten Android-Gerät noch mit einem iPhone. Androids automatische Sicherung in Google Drive ist für BakePlanner abgeschaltet, weil sie auf 25 MB begrenzt ist und mit Fotos stillschweigend scheitern würde. <strong>Wer die App deinstalliert oder das Gerät verliert, verliert ohne eigene Sicherung alle Daten.</strong></p>
+<h3 id="sichern">Sichern</h3>
+<ul><li><strong>Einstellungen → Sicherung → Vollständige Sicherung erstellen</strong> schreibt alle eigenen Rezepte samt Bildern, die Backhistorie mit Fotos, das Anstellgut-Tagebuch und den Vorrat in eine Datei. Lege sie in Google Drive ab, schick sie Dir per Mail oder kopiere sie auf den Rechner.</li><li><strong>Rezepte → Mehr → Rezepte exportieren</strong> sichert eine Auswahl: Rezepte anhaken oder <strong>Alle auswählen</strong>, auf Wunsch <strong>Mit Backhistorie, Anstellgut-Tagebuch und Vorrat</strong>, dann <strong>Exportieren</strong>. Einige Rezepte ohne den Schalter sind eine Weitergabe an andere.</li><li><strong>Rezept sichern</strong> unter <strong>Weitere Aktionen</strong> auf einer Rezeptseite schreibt ein einzelnes Rezept ohne Backhistorie.</li></ul>
+<p>Rezeptbilder und Backfotos verkleinert Android schon beim Auswählen auf Bildschirmgröße; so bleibt auch eine Sicherung mit vielen Fotos handlich.</p>
+<h3 id="wiedereinspielen">Wiedereinspielen</h3>
+<p><strong>Einstellungen → Sicherung → Sicherung wiedereinspielen</strong> oder <strong>Rezepte → Mehr → Rezepte importieren</strong> liest eine Datei ein. Rezepte und Vorratsposten, die noch fehlen, kommen dazu; <strong>Vorhandenes wird nie überschrieben</strong>. Fehlende Backvorgänge und Fütterungen werden ergänzt. Die Meldung nennt, wie viel dazugekommen ist. Einstellungen und geplante Schritte gehören nicht zur Datei.</p>
+<h3 id="gerätewechsel-zwischen-iphone-und-android">Gerätewechsel zwischen iPhone und Android</h3>
+<p>Die Sicherungsdatei ist auf beiden Plattformen dieselbe und funktioniert <strong>in beide Richtungen</strong>: Auf dem iPhone erzeugst Du sie unter <em>Einstellungen → Sicherung → Vollständige Sicherung erstellen</em> und liest sie auf Android ein – und umgekehrt. Was nicht mitkommt:</p>
+<ul><li>gesetzte Pläne und Erinnerungen – plane auf dem neuen Gerät neu,</li><li>eigene Einheiten – lege sie neu an,</li><li>Einstellungen.</li></ul>
+<p>Der Vorrat kommt mit; Posten, die der Vorrat des neuen Geräts dem Namen nach noch nicht hat, werden ergänzt. Öffentliche Rezepte musst Du nicht übertragen: Die Rezept-Datenbank ist auf beiden Plattformen dieselbe.</p>
+<hr>
+<h2 id="17-datenschutz">17. Datenschutz</h2>
+<h3 id="wo-deine-daten-liegen">Wo Deine Daten liegen</h3>
+<ul><li><strong>Eigene Rezepte, Pläne, Einkaufslisten, Backhistorie, Anstellgut-Tagebuch und Vorrat</strong> liegen nur auf Deinem Gerät. Niemand sonst sieht sie.</li><li><strong>Öffentliche Rezepte</strong> liegen in der gemeinsamen Rezept-Datenbank und sind für alle Nutzer sichtbar.</li><li><strong>Rezeptimport:</strong> Mit „Nur auf diesem Gerät“ bleiben Seitentext und eingefügter Text auf dem Gerät. Nur wenn Du der <strong>geschützten Cloud-KI</strong> zugestimmt hast, gehen die gewählten Bilder beziehungsweise der Rezepttext und die Adresse der Seite verschlüsselt über eine Firebase-Funktion von BackPlaner (Region europe-west1) an Google Vertex AI (Gemini, Standort EU). Dort werden sie nur für den Rezeptentwurf verarbeitet und nicht gespeichert. Gespeichert bleibt allein ein Zähler für die Nutzungsbegrenzung mit Deiner pseudonymen Kennung. Die Internetseite selbst lädt Dein Gerät direkt. Details stehen unter <em>Einstellungen → Datenschutz &amp; KI → Datenschutz bei KI</em>; dort widerrufst Du die Einwilligung auch.</li><li>Die App verwendet eine <strong>anonyme Kennung</strong>, damit Du eigene öffentliche Rezepte löschen kannst und andere Autoren blockieren können. Die Anmeldung mit Apple ist freiwillig; Name und E-Mail-Adresse werden nicht abgefragt. Dein Konto löschst Du jederzeit unter <em>Einstellungen → Konto → Konto löschen</em>.</li></ul>
+<h3 id="nutzungsbedingungen-für-öffentliche-rezepte">Nutzungsbedingungen für öffentliche Rezepte</h3>
+<p>Bevor Du zum ersten Mal ein Rezept veröffentlichst, akzeptierst Du die Bedingungen:</p>
+<ul><li>Ein veröffentlichtes Rezept ist für alle Nutzer der Rezept-Datenbank sichtbar.</li><li>Es gilt <strong>Null-Toleranz</strong> gegenüber anstößigen, beleidigenden, rechtswidrigen oder urheberrechtsverletzenden Inhalten.</li><li>Du bist allein verantwortlich für die von Dir geteilten Inhalte.</li><li>Gemeldete Inhalte werden geprüft und <strong>innerhalb von 24 Stunden</strong> entfernt; Autoren, die wiederholt verstoßen, können ausgeschlossen werden.</li></ul>
+<p>Mit <strong>Ablehnen</strong> wird nichts hochgeladen; das Rezept bleibt lokal. Gegen unerwünschte Inhalte helfen <strong>Rezept melden</strong> und <strong>Autor blockieren</strong> (siehe <a href="#5-rezept-datenbank">Kapitel 5</a>).</p>
+<hr>
+<h2 id="18-häufige-fragen">18. Häufige Fragen</h2>
+<p><strong>Es kommen keine Erinnerungen.</strong><br>Prüfe in den Android-Einstellungen unter <em>Apps → BakePlanner → Benachrichtigungen</em>, ob Benachrichtigungen erlaubt sind. Prüfe außerdem, ob in der Zeitleiste überhaupt Schritte stehen; für Zeitpunkte in der Vergangenheit kommen keine Erinnerungen.</p>
+<p><strong>Eine Erinnerung kam ein paar Minuten zu spät.</strong><br>Android stellt Erinnerungen über seinen Aufgabenplaner zu, und ein lange unbenutztes Telefon im Energiesparmodus verzögert sie. Lass für kritische Schritte den Backmodus offen oder stelle zusätzlich einen Wecker in der Uhr-App.</p>
+<p><strong>Vorlesen bleibt stumm oder spricht die falsche Sprache.</strong><br>Installiere in den Android-Einstellungen unter „Sprachausgabe“ (Google Sprachausgabe) eine Stimme für Deine Sprache und prüfe die Medienlautstärke.</p>
+<p><strong>Die Sprache lässt sich nicht umstellen.</strong><br>Die App-Sprache wählst Du ab Android 13 unter <em>Einstellungen → Allgemein → Sprache</em>. Auf älteren Android-Versionen folgt die App der Systemsprache.</p>
+<p><strong>Der Import aus Fotos startet nicht.</strong><br>Fotos liest die Android-App nur über die geschützte Cloud-KI. Wähle unter <strong>Analyseart</strong> die Cloud-KI und stimme der Übertragung zu – oder kopiere den Text und nimm <strong>Aus Text</strong>.</p>
+<p><strong>Die öffentlichen Rezepte fehlen.</strong><br>Beim Laden bestand keine Internetverbindung. Zieh die Liste nach unten. Prüfe auch, ob die Chips <strong>Von mir veröffentlicht</strong> und <strong>Öffentlich</strong> eingeschaltet sind.</p>
+<p><strong>„Veröffentlichen“ meldet „Anmeldung nötig“.</strong><br>Melde Dich unter <em>Einstellungen → Konto</em> mit Apple an. Ohne Rezeptbild erscheint „Bild erforderlich“.</p>
+<p><strong>„Rezept bearbeiten“ fehlt bei einem Rezept, das ich selbst veröffentlicht habe.</strong><br>Das Rezept gehört einer anderen Kennung. Hast Du es angemeldet veröffentlicht, melde Dich mit demselben Apple-Konto an und zieh die Liste einmal nach unten.</p>
+<p><strong>Ich habe mein altes Telefon nicht mehr – sind die Rezepte weg?</strong><br>Eigene Rezepte gibt es nur auf dem Gerät und in Deinen Sicherungsdateien. Hast Du eine Sicherung, spiele sie unter <em>Einstellungen → Sicherung → Sicherung wiedereinspielen</em> ein. Deine veröffentlichten Rezepte stehen weiter in der Rezept-Datenbank; mit <strong>Als eigenes Rezept speichern</strong> holst Du sie zurück.</p>
+<p><strong>Ein Schritt beginnt zu einem unplausiblen Zeitpunkt.</strong><br>Prüfe die Schrittnummern: Nachkommaschritte (2.1, 2.2) laufen parallel, ganze Zahlen nacheinander. Ein versehentliches „3“ statt „2.2“ verlängert die Gesamtdauer erheblich.</p>
+<p><strong>Das Gesamtgewicht passt nicht.</strong><br>Meist steht bei einer Zutat eine Einheit, die die App nicht kennt. Verwende die Kürzel aus <a href="#15-einheiten-und-portionen">Kapitel 15</a> oder lege eine eigene Einheit an.</p>
+<p><strong>Eine Zutat fehlt auf der Einkaufsliste.</strong><br>Wasser, Salz und alles, was man selbst ansetzt, werden absichtlich weggelassen, ebenso Zutaten ohne Menge oder Einheit. Mit <strong>Vorrat abziehen</strong> fehlt außerdem, was schon im Vorrat ist.</p>
+<p><strong>Ich habe das Rezept geändert, der Plan zeigt noch den alten Stand.</strong><br>Geplante Schritte sind eine Momentaufnahme. Tippe in der Zeitleiste auf <strong>Neu planen</strong> und wähle <strong>Bestehenden Plan ersetzen</strong>.</p>
+<hr>
+<h2 id="19-was-es-nur-auf-dem-iphone-gibt">19. Was es nur auf dem iPhone gibt</h2>
+<p>Die iPhone-Fassung von BakePlanner kann außerdem:</p>
+<div class="table-wrap"><table>
+<colgroup><col class="first" style="--w: 38%"></colgroup>
+<thead><tr><th>Funktion</th><th>Auf Android</th></tr></thead>
+<tbody>
+<tr><td>Abgleich über iCloud zwischen allen Geräten</td><td>Kein Abgleich; Sicherungsdatei (siehe <a href="#16-daten-sicherung-und-gerätewechsel">Kapitel 16</a>)</td></tr>
+<tr><td>Automatische Übersetzung öffentlicher Rezepte und Menü „Rezept übersetzen“</td><td>Hinterlegte Übersetzung oder Originalsprache</td></tr>
+<tr><td>Übersetzung der Zutaten auf Einkaufslisten</td><td>Nicht vorgesehen</td></tr>
+<tr><td>Texterkennung auf dem Gerät beim Import aus Fotos</td><td>Nur Cloud-KI</td></tr>
+<tr><td>Wecker für Ofenschritte, die durch Stumm und Fokus klingeln</td><td>Erinnerungen als Benachrichtigung</td></tr>
+<tr><td>Live-Aktivität, Widgets, Kontrollzentrum, Siri, Spotlight, Apple Watch</td><td>Nicht vorgesehen</td></tr>
+<tr><td>Freihändiger Backmodus mit Sprachbefehlen</td><td>Vorlesen ist vorhanden</td></tr>
+<tr><td>Backtag-Zettel als PDF, Schritte in den Kalender, Einkaufsliste an Erinnerungen</td><td>Fehlen</td></tr>
+<tr><td>Kalender beim Planen prüfen</td><td>Fehlt</td></tr>
+<tr><td>Anstellgut-Diagramm mit Reifekurve</td><td>Die Reifezeit-Schätzung ist vorhanden</td></tr>
+<tr><td>Backjahr-Buch als PDF</td><td>Fehlt</td></tr>
+<tr><td>Rezeptvorschlag nach Bildähnlichkeit bei der Backhistorie aus Fotos</td><td>Vorschlag nur nach Titel oder Beschreibung</td></tr>
+<tr><td>Vorrat: Erinnerung vor Ablauf, Rückfrage „Vorrat abbuchen?“ nach einem Backen ohne Plan</td><td>Fehlen</td></tr>
+<tr><td>Einstellungen „Neue Rezepte veröffentlichen“, „Detailansicht verwenden“, eigene Sprachauswahl in der App</td><td>Fehlen; Sprache über Android</td></tr>
+<tr><td>Das Rezept merkt sich den zuletzt gewählten Ofen</td><td>Vorbelegt ist der Ofen aus den Einstellungen</td></tr>
+</tbody></table></div>
+</article>
+
+<footer>
+  <p><a href="#top">Nach oben</a> · <a href="index.html#de">Hilfe und Kontakt</a> · <a href="privacy.html">Datenschutz</a> · <a href="impressum.html">Impressum</a></p>
+</footer>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CookPlanner for Android – User Manual</title>
+<style>
+  :root {
+    --bg-top: #FAEDD1;
+    --bg-bottom: #EDCC9E;
+    --card: #FFFFFF;
+    --title: #593314;
+    --text: #2A1A0A;
+    --subtitle: #734D29;
+    --accent: #945B29;
+    --rule: #E6D3B8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-top: #291F17;
+      --bg-bottom: #17120D;
+      --card: #332921;
+      --title: #F5E6CC;
+      --text: #F2E8DA;
+      --subtitle: #D1B899;
+      --accent: #E3934F;
+      --rule: #4A3C30;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0 1rem 4rem;
+    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+    background: linear-gradient(var(--bg-top), var(--bg-bottom)) no-repeat;
+    background-attachment: fixed;
+  }
+  main { max-width: 44rem; margin: 0 auto; }
+  header { text-align: center; padding: 3rem 0 1rem; }
+  h1 { color: var(--title); font-size: 2.2rem; margin: 0 0 .3rem; }
+  .claim { color: var(--subtitle); margin: 0; }
+  nav { text-align: center; margin: 1.5rem 0 2rem; }
+  nav a {
+    display: inline-block; margin: .2rem .4rem; padding: .4rem .9rem;
+    color: var(--accent); text-decoration: none;
+    border: 1px solid var(--accent); border-radius: 999px;
+  }
+  nav a:hover, nav a:focus { text-decoration: underline; }
+  nav a[aria-current] { background: var(--accent); color: var(--card); }
+  article {
+    background: var(--card); border-radius: 16px;
+    padding: 1.5rem 1.75rem; margin-bottom: 1.5rem;
+  }
+  /* Only running text may break inside an overlong word; table cells wrap
+     at spaces, otherwise the browser squeezes the term column to a sliver. */
+  article p, article li, article figcaption { overflow-wrap: break-word; }
+  h2 { color: var(--title); font-size: 1.5rem; margin: 2rem 0 .6rem; }
+  h3 { color: var(--title); font-size: 1.15rem; margin: 1.6rem 0 .3rem; }
+  h4 { color: var(--title); font-size: 1rem; margin: 1.2rem 0 .3rem; }
+  article > h2:first-child { margin-top: 0; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--rule); margin: 2rem 0; }
+  code {
+    font: .9em ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: var(--bg-top); border-radius: 4px; padding: 0 .3em;
+  }
+  blockquote.note {
+    margin: 1rem 0; border-left: 4px solid var(--accent);
+    padding-left: 1rem; color: var(--subtitle);
+  }
+  blockquote.note p { margin: 0; }
+  .table-wrap { overflow-x: auto; margin: 1rem 0; }
+  table { border-collapse: collapse; width: 100%; font-size: .95em; }
+  th, td { text-align: left; vertical-align: top; padding: .45rem .6rem; border-bottom: 1px solid var(--rule); }
+  th { color: var(--title); }
+  col.first { width: var(--w); }
+  table.firm th:first-child, table.firm td:first-child { white-space: nowrap; }
+  @media (max-width: 480px) {
+    /* On a phone a one-line term column would leave no room for the
+       explanation, so the term may wrap at spaces and takes 40 %. */
+    table.firm th:first-child, table.firm td:first-child { white-space: normal; }
+    col.first { width: min(var(--w), 40%); }
+    /* Tables with three or more columns: smaller type, tighter padding and
+       hyphenation, so that the last column is not pushed off the screen. */
+    table.wide { font-size: .88em; }
+    table.wide th, table.wide td { padding: .35rem .4rem; hyphens: auto; }
+  }
+  figure { margin: 1.5rem 0; text-align: center; }
+  img.screenshot {
+    max-width: min(100%, 320px); height: auto;
+    border-radius: 12px; box-shadow: 0 3px 10px rgba(0,0,0,.15);
+  }
+  figcaption { color: var(--subtitle); font-size: .9em; margin-top: .5rem; }
+  footer { text-align: center; color: var(--subtitle); font-size: .9rem; }
+</style>
+</head>
+<body>
+<main id="top">
+
+<header>
+  <h1>CookPlanner for Android – User Manual</h1>
+  <p class="claim">As of 27 Nov 2026 · Android version 1.0</p>
+</header>
+
+<nav aria-label="Choose language">
+  <a href="cookplanner.html#en">Help and contact</a>
+  <a href="cookplanner-android-manual-de.html" lang="de">Deutsch</a>
+  <a href="cookplanner-android-manual-en.html" lang="en" aria-current="page">English</a>
+  <a href="cookplanner-android-manual-fr.html" lang="fr">Français</a>
+  <a href="cookplanner-privacy.html">Privacy</a>
+  <a href="impressum.html">Legal notice</a>
+</nav>
+
+<article>
+<hr>
+<h2 id="contents">Contents</h2>
+<ol><li><a href="#1-what-cookplanner-does">What CookPlanner does</a></li><li><a href="#2-requirements">Requirements</a></li><li><a href="#3-basic-terms">Basic terms</a></li><li><a href="#4-the-dish-list">The dish list</a></li><li><a href="#5-the-plan">The plan</a></li><li><a href="#6-creating-and-editing-a-dish">Creating and editing a dish</a></li><li><a href="#7-importing">Importing</a></li><li><a href="#8-composing-a-menu">Composing a menu</a></li><li><a href="#9-cook-mode">Cook mode</a></li><li><a href="#10-notifications">Notifications</a></li><li><a href="#11-cooked">Cooked</a></li><li><a href="#12-cooking-plan-as-pdf">Cooking plan as PDF</a></li><li><a href="#13-settings">Settings</a></li><li><a href="#14-backup-and-moving-to-another-device">Backup and moving to another device</a></li><li><a href="#15-privacy">Privacy</a></li><li><a href="#16-frequently-asked-questions">Frequently asked questions</a></li><li><a href="#17-what-only-the-iphone-has">What only the iPhone has</a></li></ol>
+<hr>
+<h2 id="1-what-cookplanner-does">1. What CookPlanner does</h2>
+<p>A dish of meat, side, sauce and garnish, one cook at the stove and a fixed time: CookPlanner lays out the work steps so that <strong>everything is ready at once</strong>, and tells you beforehand whether the time is enough. Its subtitle is “Cooking against the clock”.</p>
+<ul><li>Every step has <strong>hands-on time</strong> (you are busy) and time in which it <strong>runs on its own</strong> (simmering, baking, resting).</li><li>CookPlanner works with <strong>your kitchen</strong>: how many burners, how many ovens and how much time you have.</li><li>The <strong>verdict</strong> says plainly whether the dish fits the time budget – and if not, why and what would help.</li><li>In <strong>cook mode</strong> the app walks you through the kitchen step by step with a clock and replans after every tick.</li></ul>
+<p>On top of that: import from text, photos and web pages, ingredients with servings and a shopping list, menus of several courses, a record of every cook with stars, note and photo, measured times for the next plan, reading aloud and voice commands, the cooking plan as a PDF and a cooking yearbook.</p>
+<p>CookPlanner Pro does not exist on Android yet: <strong>every feature in this manual is free</strong>, there is nothing to buy.</p>
+<h3 id="quick-start-your-first-cook-against-the-clock-in-five-steps">Quick start: your first cook against the clock in five steps</h3>
+<ol><li>Under <strong>⋮ → Settings</strong>, set your time budget and your kitchen (burners, ovens).</li><li>In the dish list, tap one of the <strong>Examples</strong> or create your own with <strong>+ → New dish</strong>.</li><li>Read the verdict on the plan (“Fits in 35 minutes” or “9 minutes short”) and look at the timeline.</li><li>Tap <strong>Start cooking</strong>, choose the clock (Challenge, Practice or Relaxed) and tap <strong>Start</strong>.</li><li>Tick off each step with <strong>Done</strong>; report pots and oven steps with <strong>It’s on</strong>. At the end, <strong>End and keep the record</strong>.</li></ol>
+<figure><img class="screenshot" src="images/cookplanner/android/gerichte.png" alt="The dish list with the collections as chips" loading="lazy">
+<figcaption>The dish list: budget and chips at the top, then My dishes and the examples with their verdict.</figcaption>
+</figure>
+<hr>
+<h2 id="2-requirements">2. Requirements</h2>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 18ch"></colgroup>
+<thead><tr><th>Item</th><th>Value</th></tr></thead>
+<tbody>
+<tr><td>Devices</td><td>Android phones and tablets</td></tr>
+<tr><td>Operating system</td><td>Android 9.0 or later</td></tr>
+<tr><td>Languages</td><td>German, English, French – the app follows the device language; for other languages it appears in English</td></tr>
+<tr><td>Appearance</td><td>Light and dark mode</td></tr>
+<tr><td>Internet</td><td>Only for importing from text, photos and web pages (the analysis runs in the cloud). Planning, cooking, records and backups work offline</td></tr>
+<tr><td>Sign-in</td><td>None. For the analysis the app signs in anonymously in the background</td></tr>
+<tr><td>Data</td><td>Dishes, records, photos and settings stay on this device only; there is no sync between devices on Android (see <a href="#14-backup-and-moving-to-another-device">chapter 14</a>)</td></tr>
+</tbody></table></div>
+<p>The app asks for these permissions only when they are needed:</p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Permission</th><th>What for</th><th>Without it</th></tr></thead>
+<tbody>
+<tr><td>Notifications</td><td>“up now” and “time is up” banners in cook mode</td><td>Cook mode runs, but stays silent while the screen is dark</td></tr>
+<tr><td>Camera</td><td>Photographing a cookbook page, a photo for a record</td><td>Photos can still be chosen from files</td></tr>
+<tr><td>Microphone</td><td>Voice commands in cook mode</td><td>Voice commands stay off</td></tr>
+<tr><td>Internet</td><td>Recipe analysis, loading a web page</td><td>No import; everything else works</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="3-basic-terms">3. Basic terms</h2>
+<p><strong>Dish</strong><br>What ends up on the plate, for example “Guinea fowl breast with creamed savoy cabbage, king oyster mushrooms and verjus pear”. A dish has a name, optionally a number of servings, ingredients and steps.</p>
+<p><strong>Component</strong><br>A part of the dish that is cooked on its own – meat, cabbage, mushrooms, sauce. In the plan each component gets its own column, and hands-on work is counted per component.</p>
+<p><strong>Step</strong><br>A piece of work with a duration: “Cut the cabbage into strips”, “Sear the guinea fowl”. A step belongs to a component, can take a burner or an oven and can wait for other steps.</p>
+<p><strong>Hands and “runs on its own”</strong><br>Every step has two times: <strong>Hands</strong> – the minutes in which you are busy – and <strong>then on its own</strong> – the minutes in which the pot simmers or the oven bakes without you. In the time on its own you can do something else; that is exactly what the plan makes use of.</p>
+<p><strong>Time budget</strong><br>The minutes in which everything should be ready (35 by default). The verdict measures every dish against it.</p>
+<p><strong>Burners and ovens</strong><br>How many burners and ovens your kitchen has. A stove step takes a burner, an oven step an oven, each for its hands-on time and its time on its own. The ovens count as preheated when the clock starts.</p>
+<p><strong>Must go on soon</strong><br>Some results cannot wait: seared meat is turned at once, rested meat should not go cold. With “Must go on soon” you say how long a step may wait at most before the next one comes.</p>
+<p><strong>Chain</strong><br>The longest sequence of steps that wait for each other. No plan can be shorter than the chain, however cleverly you work in parallel.</p>
+<p><strong>Waits for</strong><br>A step only begins when the steps it waits for are done. Without anything chosen, it can begin at once. Plating up usually waits for the last step of every component.</p>
+<hr>
+<h2 id="4-the-dish-list">4. The dish list</h2>
+<p>The app has two tabs at the bottom: <strong>Dishes</strong> and <strong>Cooked</strong> (<a href="#11-cooked">chapter 11</a>). The dish list shows “One dish, one cook, 35 minutes” with your budget at the top, then the chips and two sections:</p>
+<ul><li><strong>My dishes</strong> – what you created, imported or saved as a menu.</li><li><strong>Examples</strong> – three ready-made dishes to try out. They cannot be changed, but you can use them as a template (<a href="#6-creating-and-editing-a-dish">chapter 6</a>).</li></ul>
+<p>Each row shows the name, the components and the <strong>verdict</strong> in green (“Fits in 35 minutes”) or red (“9 minutes short”). If no plan can be worked out at all – say the dish needs an oven and the kitchen is set to 0 ovens – the reason is shown instead.</p>
+<h3 id="search">Search</h3>
+<p>The search field sits above the list. It searches dish, component and ingredient: “cabbage” also finds a dish in which cabbage is only an ingredient.</p>
+<h3 id="chips">Chips</h3>
+<p>The six fixed chips filter with one tap; a second tap lifts the filter:</p>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 24ch"></colgroup>
+<thead><tr><th>Chip</th><th>Shows</th></tr></thead>
+<tbody>
+<tr><td>Fits the budget</td><td>Dishes that fit the time budget with your kitchen</td></tr>
+<tr><td>Quick</td><td>Dishes whose plan takes 30 minutes at most</td></tr>
+<tr><td>No oven</td><td>Dishes that only need the stove</td></tr>
+<tr><td>Favourites</td><td>Dishes with at least four stars on average</td></tr>
+<tr><td>Never cooked</td><td>Dishes without a record</td></tr>
+<tr><td>Not cooked for a while</td><td>Dishes not cooked for 60 days, or never</td></tr>
+</tbody></table></div>
+<h3 id="filter-and-your-own-collections">Filter and your own collections</h3>
+<p>Under <strong>⋮ → Filter</strong> you combine several conditions:</p>
+<ul><li><strong>Duration:</strong> All, Up to 30 minutes, 31 to 45 minutes, 46 to 60 minutes, Over an hour.</li><li><strong>Equipment:</strong> All, With oven, Stove only, No heat.</li><li><strong>Origin:</strong> All, Own, Imported, Examples.</li><li><strong>History:</strong> All, Never cooked, Not cooked for a while, Favourites.</li><li>Switches <strong>Fits the budget</strong> and <strong>Little hands-on work</strong> (your hands are busy for at most 60 percent of the plan).</li></ul>
+<p><strong>Reset filters</strong> clears everything. Enter a <strong>Name</strong> at the bottom and tap <strong>Save collection</strong>: the chosen filters appear as a chip of their own after the six fixed ones. Under <strong>Your own collections</strong> you delete a collection again.</p>
+<h3 id="the--and--menus">The “+” and “⋮” menus</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 6ch"></colgroup>
+<thead><tr><th>Menu</th><th>Entries</th></tr></thead>
+<tbody>
+<tr><td>+</td><td>New dish, Import from text, Import from photos, Import from web page, Compose a menu</td></tr>
+<tr><td>⋮</td><td>Back up dishes and records, Import dishes, Filter, Settings</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="5-the-plan">5. The plan</h2>
+<p>Tapping a dish opens its <strong>Plan</strong>. At the top is the name, below it the <strong>Start cooking</strong> button (<a href="#9-cook-mode">chapter 9</a>) and then a series of cards.</p>
+<figure><img class="screenshot" src="images/cookplanner/android/plan.png" alt="A dish’s plan with verdict and ingredients" loading="lazy">
+<figcaption>The plan: the verdict with its reason and figures at the top, below it the ingredients with servings and shopping list.</figcaption>
+</figure>
+<h3 id="the-verdict">The verdict</h3>
+<p>Large, in green or red: <strong>Fits in N minutes</strong> or <strong>N minutes short</strong>. Below it, the reason:</p>
+<div class="table-wrap"><table>
+<colgroup><col class="first" style="--w: 38%"></colgroup>
+<thead><tr><th>Reason</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td>“N min to spare, N min without hands-on work.”</td><td>It fits; this much reserve is left, this long your hands are free</td></tr>
+<tr><td>“The longest chain takes N minutes …”</td><td>The chain is longer than the budget; working in parallel does not help, only shorter steps</td></tr>
+<tr><td>“The hands-on work alone takes N minutes …”</td><td>One cook is not enough; drop or simplify steps</td></tr>
+<tr><td>“Chain … and hands … fit on their own but collide …”</td><td>Hands or equipment are not enough for everything at once – more burners or ovens, or more time</td></tr>
+</tbody></table></div>
+<p>The small line below gives the length of the plan, the <strong>chain</strong> and the <strong>hands</strong> in minutes.</p>
+<h3 id="ingredients-and-servings">Ingredients and servings</h3>
+<p>The <strong>Ingredients</strong> card shows how many ingredients the dish has. If the recipe gives a number of people, change it with <strong>Serves N</strong> (1 to 24); otherwise there is <strong>Amount ×0.5 to ×4</strong>. Only the amounts change, <strong>the times stay the same</strong>. The choice applies per dish to the plan, cook mode and shopping list, and is kept.</p>
+<h3 id="shopping-list">Shopping list</h3>
+<p><strong>Shopping list</strong> opens the ingredients by shelf (Fruit &amp; vegetables, Dairy &amp; eggs, Spices &amp; herbs …), with equal ingredients combined. Tick off what you already have at home; <strong>Everything at home</strong> and <strong>Nothing at home</strong> set all ticks at once. <strong>Share what’s missing</strong> sends the rest as text through Android’s share menu, for example to a notes or shopping app. The ticks are kept per dish.</p>
+<h3 id="how-it-fits">How it fits</h3>
+<p>If a dish does not fit and the hands are not the reason, CookPlanner checks whether shorter cooking times help: steps with a <strong>time span</strong> (<a href="#6-creating-and-editing-a-dish">chapter 6</a>) are planned at the short end. The <strong>How it fits</strong> card names each step concerned (“Braise the cabbage: 12 instead of 15 minutes”) and says whether that makes it fit the budget or how many minutes are still missing. The dish itself stays unchanged.</p>
+<h3 id="cooked">Cooked</h3>
+<p>If you have cooked the dish in cook mode, the <strong>Cooked</strong> card shows the last five times with date and time taken (or “Relaxed”). With <strong>Take over measured times</strong> you see, per step, the current and the measured time – the median of the ticked times from the last five runs at most. For pots and oven steps the hands-on time stays; only the time on its own adapts. <strong>Apply</strong> writes the times into the dish; for an example the button is called <strong>As own dish</strong> and creates a copy under My dishes.</p>
+<h3 id="hands-on-work-per-component">Hands-on work per component</h3>
+<p>A bar per component, the longest at the top: you see which part of the dish keeps you busiest.</p>
+<h3 id="timeline-or-list">Timeline or list</h3>
+<p>The <strong>Timeline</strong> card shows the plan either as a <strong>Timeline</strong> chart or as a <strong>List</strong> (the choice is kept).</p>
+<ul><li><strong>Timeline:</strong> one column per component, time running from top to bottom. Solid bars are hands-on work, striped bars run on their own. Overlapping steps of one component stand side by side. Tap a bar: below the chart you see the step, “Minute 12 to 27”, hands-on time and time on its own and, if any, the oven temperature.</li><li><strong>List:</strong> every step with its minute, stove or oven and the minutes of hands-on work, in the order of the plan.</li></ul>
+<figure><img class="screenshot" src="images/cookplanner/android/zeitachse.png" alt="A plan’s timeline" loading="lazy">
+<figcaption>The timeline: one column per component, hands-on work solid, “runs on its own” striped.</figcaption>
+</figure>
+<h3 id="keep-warm">Keep warm</h3>
+<p>If a component is ready early and waits ten minutes or more for plating, the <strong>Keep warm</strong> card names it with its waiting time (“Sauce waits 12 minutes”).</p>
+<h3 id="the--menu-on-the-plan">The “⋮” menu on the plan</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 15ch"></colgroup>
+<thead><tr><th>Dish</th><th>Entries</th></tr></thead>
+<tbody>
+<tr><td>Your own dish</td><td>Cooking plan as PDF, Edit, Share, Delete dish</td></tr>
+<tr><td>Example</td><td>Cooking plan as PDF, Use as a template</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="6-creating-and-editing-a-dish">6. Creating and editing a dish</h2>
+<p><strong>+ → New dish</strong> opens an empty editor, <strong>⋮ → Edit</strong> on the plan opens it with your own dish. For an example, <strong>⋮ → Use as a template</strong> creates a copy that you adapt in the editor and save as your own dish.</p>
+<p>The editor has four sections:</p>
+<ul><li><strong>Dish:</strong> name and number of people (<strong>Servings not given</strong> if you choose none).</li><li><strong>Ingredients:</strong> a row per ingredient; <strong>Add ingredient</strong> opens a page of its own.</li><li><strong>Steps:</strong> a row per step with hands, time on its own and station; <strong>Add step</strong> opens a page of its own.</li><li><strong>Plan:</strong> the verdict while you type – you see at once what a change does.</li></ul>
+<p><strong>Save</strong> works as soon as the dish has a name and at least one step. <strong>Cancel</strong> discards the changes.</p>
+<h3 id="ingredient">Ingredient</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 17ch"></colgroup>
+<thead><tr><th>Field</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td>Ingredient</td><td>The name, e.g. “Savoy cabbage”</td></tr>
+<tr><td>Amount and unit</td><td>As in the recipe; <strong>Choose unit</strong> or <strong>No unit</strong>. No amount for “salt” or “pepper”</td></tr>
+<tr><td>Note</td><td>e.g. “small” or “well aged”</td></tr>
+<tr><td>Component</td><td>Which part of the dish the ingredient belongs to</td></tr>
+</tbody></table></div>
+<p><strong>Delete ingredient</strong> removes it. The ingredients make up the shopping list; which ones you handle in a step, you choose at the step.</p>
+<h3 id="step">Step</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 26ch"></colgroup>
+<thead><tr><th>Field</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td>What to do</td><td>The text of the step, e.g. “Sear the guinea fowl skin side down”</td></tr>
+<tr><td>Component</td><td>Type it, or pick an existing one with <strong>Choose component</strong></td></tr>
+<tr><td>Hands</td><td>Minutes in which you are busy (0 to 120)</td></tr>
+<tr><td>Then on its own</td><td>Minutes in which the step runs without you: simmering, baking, resting (0 to 600)</td></tr>
+<tr><td>Time span</td><td>Only with time on its own: <strong>At least</strong> and <strong>At most</strong> minutes the cooking may take. “How it fits” uses the short end</td></tr>
+<tr><td>Station</td><td><strong>None</strong>, <strong>Burner</strong> or <strong>Oven</strong>; for the oven, the temperature (50 to 300 °C)</td></tr>
+<tr><td>Must go on soon</td><td>How long the result may wait at most: 0 minutes for turning after searing, 3 for rested meat, 10 for a sauce kept warm</td></tr>
+<tr><td>Ingredients of this step</td><td>Tick the ingredients used here; in cook mode they appear under the step</td></tr>
+<tr><td>Waits for</td><td>Tick the earlier steps that must be done first</td></tr>
+</tbody></table></div>
+<p>A new step first waits for the previous step of its component, until you change the choice. <strong>Wait for every component</strong> ticks the last step of each component – right for plating up. <strong>Delete step</strong> removes an existing step.</p>
+<blockquote class="note"><p>If steps wait for each other in a circle, the plan says so. Then check the <strong>Waits for</strong> ticks of the steps.</p></blockquote>
+<hr>
+<h2 id="7-importing">7. Importing</h2>
+<p>Instead of typing a dish, let a recipe be taken apart. All three ways are under <strong>+</strong>:</p>
+<ul><li><strong>Import from text:</strong> paste the recipe text into the field (at least a few lines) and tap <strong>Analyse</strong>.</li><li><strong>Import from photos:</strong> <strong>Take photo</strong> (camera) or <strong>Choose photo</strong> (files). The text is recognised <strong>on the phone</strong> and added to the field, where you can check and correct it. Take several pages one after another. Then <strong>Analyse</strong>.</li><li><strong>Import from web page:</strong> enter the address of the recipe page and tap <strong>Analyse</strong>. The page is loaded on the device; only the recipe text goes to the analysis.</li></ul>
+<figure><img class="screenshot" src="images/cookplanner/android/import.png" alt="The import sheet with recognised text" loading="lazy">
+<figcaption>Import from photos: the text recognised on the phone is in the field and can be checked before the analysis.</figcaption>
+</figure>
+<p>The analysis runs on a Google service (Firebase). It takes the recipe apart into steps, estimates hands-on time and time on its own, recognises stove and oven and takes over the ingredients with their amounts. The result shows the name and “N steps, M ingredients”, plus <strong>Please check</strong> with notes on anything uncertain.</p>
+<ul><li><strong>Check in the editor</strong> opens the dish in the editor (<a href="#6-creating-and-editing-a-dish">chapter 6</a>). Only <strong>Save</strong> puts it under My dishes.</li><li><strong>Try again</strong> discards the result and lets you change the text.</li></ul>
+<p>On Android there is no monthly limit for analyses. There is a limit per hour; once it is reached, try again later. If an analysis takes too long, it helps to import a long recipe in two parts.</p>
+<hr>
+<h2 id="8-composing-a-menu">8. Composing a menu</h2>
+<p><strong>+ → Compose a menu</strong> turns several dishes into one plan, for example starter, main course and dessert.</p>
+<ol><li>Choose a <strong>dish</strong> for every course. <strong>Add a course</strong> adds more courses, <strong>Remove</strong> drops one.</li><li>Between the courses, set how many <strong>minutes until the next course</strong> pass, or <strong>Together with the next course</strong>. The starter is served that many minutes before the main course, and the main course is cooked while the guests eat.</li><li>Give the menu a <strong>Name</strong>. Below, you already see how many steps and ingredients it has and how long the plan takes.</li><li><strong>Save</strong> stores the menu as a dish of your own under My dishes, with steps such as “Serve starter”.</li></ol>
+<p>You cook the menu like any dish; its ingredients make one shared shopping list.</p>
+<hr>
+<h2 id="9-cook-mode">9. Cook mode</h2>
+<p><strong>Start cooking</strong> on the plan opens cook mode. Before the start you choose the <strong>Clock</strong>:</p>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 11ch"></colgroup>
+<thead><tr><th>Clock</th><th>What it does</th></tr></thead>
+<tbody>
+<tr><td>Challenge</td><td>The clock counts the time budget down, like on the show. When the time is up, it counts on how far over you are</td></tr>
+<tr><td>Practice</td><td>The clock runs from 0:00 – so you learn how long the dish really takes</td></tr>
+<tr><td>Relaxed</td><td>No clock, no overdue: the steps come in order, only pot and oven keep their time</td></tr>
+</tbody></table></div>
+<p><strong>Start</strong> sets the clock running. The app remembers your last choice.</p>
+<figure><img class="screenshot" src="images/cookplanner/android/kochmodus.png" alt="Cook mode with the clock and the current step" loading="lazy">
+<figcaption>Cook mode: the clock at the top, below it what comes into your hands now.</figcaption>
+</figure>
+<h3 id="what-the-screen-shows">What the screen shows</h3>
+<ul><li><strong>Clock:</strong> time left or time elapsed depending on the mode, plus “plan done at minute N”; after a replan, whether you will be done earlier or later than planned.</li><li><strong>Now:</strong> the step in your hands with its ingredients and the time left (“3 min left”, “overdue” in red). When your hands are free it says “Hands free, next in N min”; at the end “Done, plate up!”.</li><li><strong>Next:</strong> the next three steps, with “in N min”.</li><li><strong>Running on its own:</strong> what is simmering or baking, with its time left. If you take a pot off the stove early, tick it off here.</li><li><strong>Done:</strong> “N of M steps”.</li></ul>
+<h3 id="ticking-off-done-and-its-on">Ticking off: Done and It’s on</h3>
+<ul><li><strong>Done</strong> ticks off a step without time on its own.</li><li><strong>It’s on</strong> is for pot and oven steps: the hands-on part is finished, the pot is on the stove or the oven door is shut. From now the time on its own runs; when it is up, the step is done.</li></ul>
+<p>After every tick and every minute, CookPlanner <strong>replans</strong> the rest: if you were faster, everything moves forward; if you were slower, the rest shifts. <strong>Undo</strong> takes back the last tick.</p>
+<h3 id="pause-timeline-end">Pause, timeline, end</h3>
+<ul><li><strong>Pause</strong> stops the clock (“Paused, the clock is stopped”), <strong>Resume</strong> sets it running again.</li><li><strong>Timeline</strong> at the top shows the running plan as a chart with a red line for <strong>now</strong>; finished steps are faded.</li><li><strong>End</strong> at the top asks first: <strong>End and keep the record</strong> files the cook under Cooked, <strong>End without a record</strong> discards it, <strong>Keep cooking</strong> goes back. If no step is done yet, there is nothing to keep.</li></ul>
+<p>Android’s back key does not close cook mode – so no run carries on unseen in the background. You only leave through <strong>End</strong>.</p>
+<h3 id="read-aloud">Read aloud</h3>
+<p>With the <strong>Read aloud</strong> switch the app speaks each new step with its ingredients, the oven temperature and the minutes, announces finished pots (“Cabbage: time is up.”) and at the end “Done, plate up!”. It uses Android’s text-to-speech; the setting is kept.</p>
+<h3 id="voice-commands">Voice commands</h3>
+<p>With the <strong>Voice commands</strong> switch cook mode listens (the first time Android asks for the microphone). While the app itself is speaking, it does not listen.</p>
+<div class="table-wrap"><table>
+<colgroup><col class="first" style="--w: 38%"></colgroup>
+<thead><tr><th>Command</th><th>Effect</th></tr></thead>
+<tbody>
+<tr><td>“Done” (also “finished”, “complete”)</td><td>Ticks off the step in your hands</td></tr>
+<tr><td>“It’s on” (also “in the oven”, “simmering”)</td><td>Pot or oven is running, the time on its own begins</td></tr>
+<tr><td>“Undo” / “Back”</td><td>Takes back the last tick</td></tr>
+<tr><td>“Read” / “Repeat”</td><td>Reads the current step again</td></tr>
+<tr><td>“What’s next” / “Next step”</td><td>Reads the next step</td></tr>
+<tr><td>“Ingredients”</td><td>Reads the current step’s ingredients</td></tr>
+<tr><td>“How long” / “Time left”</td><td>Time left on the step and on the plan</td></tr>
+<tr><td>“Pause” / “Hold on”</td><td>Stops the clock</td></tr>
+<tr><td>“Carry on” / “Continue”</td><td>Sets the clock running again</td></tr>
+<tr><td>“Stop” / “Quiet”</td><td>Stops the speaking</td></tr>
+</tbody></table></div>
+<p>The commands work in the app’s language; in German, for example, “Erledigt”, “Steht”, “Was kommt”. If the device has no speech recognition, the app says so.</p>
+<h3 id="screen-and-restart">Screen and restart</h3>
+<p>While cook mode is open, the screen stays on. If the app is closed (by the system, an update or swiping it away), the next launch opens the run again – up to six hours after the start. <strong>Start cooking</strong> on the same dish also picks up a running run instead of starting anew.</p>
+<hr>
+<h2 id="10-notifications">10. Notifications</h2>
+<p>While you cook, CookPlanner schedules notifications for the next steps – even when the phone lies locked in a corner:</p>
+<ul><li><strong>“Component · up now”</strong> with the step as its title, when a step comes into your hands.</li><li><strong>“Component · time is up”</strong> when a pot or the oven is done.</li></ul>
+<p>The app asks for permission the first time you tap <strong>Start</strong> in cook mode. Without it, cook mode shows: “Notifications are off – CookPlanner stays silent while the screen is dark.” You can turn them on in Android’s settings under <strong>Apps → CookPlanner → Notifications</strong>.</p>
+<p>Good to know:</p>
+<ul><li>The next 20 notifications are always scheduled; while the app is open, they follow every replan.</li><li>While the app is in the background, the notifications stay at their times.</li><li><strong>End</strong>, <strong>Pause</strong> and a new run withdraw all pending notifications.</li><li>Some manufacturers’ battery savers delay notifications. If they come late, exempt CookPlanner from battery optimisation.</li></ul>
+<hr>
+<h2 id="11-cooked">11. Cooked</h2>
+<p>The <strong>Cooked</strong> tab collects every cook you ended with a record or entered by hand.</p>
+<figure><img class="screenshot" src="images/cookplanner/android/gekocht.png" alt="The Cooked tab" loading="lazy">
+<figcaption>Cooked: the records by month, with view, search and stars at the top.</figcaption>
+</figure>
+<h3 id="views">Views</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 12ch"></colgroup>
+<thead><tr><th>View</th><th>Shows</th></tr></thead>
+<tbody>
+<tr><td>List</td><td>The records by month, newest first, with a thumbnail</td></tr>
+<tr><td>Gallery</td><td>The photos of all records</td></tr>
+<tr><td>Hit list</td><td>The dishes by stars, what went down best</td></tr>
+<tr><td>Statistics</td><td>How often cooked, different dishes, average stars, against the plan, the last twelve months as bars, cooked most often</td></tr>
+</tbody></table></div>
+<p>The search field (<strong>Search dish</strong>) filters by name; with the star button ☆ at the top you choose a <strong>Minimum rating</strong> (All, or 1 to 5 stars and up).</p>
+<h3 id="a-record">A record</h3>
+<p>Tap an entry to open it:</p>
+<ul><li><strong>How was it?</strong> – stars, a note (“less salt next time”) and a photo: <strong>Take photo</strong>, <strong>Choose photo</strong> or <strong>Remove photo</strong>.</li><li><strong>Took</strong>, <strong>Planned</strong> and <strong>Difference</strong> in minutes.</li><li><strong>Steps</strong> – for each step, when it was done, how long it took and what was planned. If the cook was ended early, it says how many steps were done.</li><li><strong>Delete entry</strong> removes the record.</li></ul>
+<h3 id="add-a-cooked-dish">Add a cooked dish</h3>
+<p>If you cooked without the stopwatch, add it with <strong>+ → Add a cooked dish</strong>: choose the dish, the date (<strong>Cooked on</strong>), <strong>Save</strong>. The entry gets stars, note and photo like any other, but no times.</p>
+<h3 id="cooking-yearbook">Cooking yearbook</h3>
+<p><strong>+ → Cooking yearbook</strong> turns a year into a PDF: a cover with a photo, the year in figures (cooking days, dishes, hours at the stove, rating, within the plan, longest session), the months with their photos, the favourite dishes with best time, what the clock taught, and room for resolutions. Choose the <strong>Year</strong> and the <strong>Name on the cover</strong>, then <strong>Share the cooking yearbook</strong>. Without records there is no book yet.</p>
+<hr>
+<h2 id="12-cooking-plan-as-pdf">12. Cooking plan as PDF</h2>
+<p><strong>⋮ → Cooking plan as PDF</strong> on the plan makes an A4 sheet to print, pin up or send:</p>
+<ul><li>A header with name, duration and number of people.</li><li>The <strong>timeline</strong> – one row per component, bars with the step number.</li><li>The <strong>steps</strong> – each with minute, hands, time on its own, stove or oven and its ingredients.</li><li>The dish’s <strong>ingredients</strong>.</li></ul>
+<p>With <strong>With clock times</strong> and a <strong>Start</strong>, real times appear on the sheet (“Start 18:30 · ready 19:05”), otherwise minutes from 0. <strong>Share the plan</strong> opens Android’s share menu – to print, save or send.</p>
+<hr>
+<h2 id="13-settings">13. Settings</h2>
+<p><strong>⋮ → Settings</strong> in the dish list:</p>
+<figure><img class="screenshot" src="images/cookplanner/android/einstellungen.png" alt="The settings" loading="lazy">
+<figcaption>The settings: time budget and kitchen.</figcaption>
+</figure>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Setting</th><th>Range</th><th>Default</th></tr></thead>
+<tbody>
+<tr><td>Time budget</td><td>10 to 180 minutes in steps of 5</td><td>35 minutes</td></tr>
+<tr><td>Burners</td><td>1 to 8</td><td>4</td></tr>
+<tr><td>Ovens</td><td>0 to 3</td><td>1</td></tr>
+</tbody></table></div>
+<p>Every change applies at once to all verdicts and plans. The ovens count as preheated when the clock starts. The app remembers further choices where you make them: the view of the timeline, the cook-mode clock, read aloud, servings and shopping ticks per dish, the view and minimum rating under Cooked, your own collections.</p>
+<hr>
+<h2 id="14-backup-and-moving-to-another-device">14. Backup and moving to another device</h2>
+<p>On Android all data lives on this device only. A backup protects against loss and takes your dishes to another device – also to an iPhone with CookPlanner; the format is the same.</p>
+<h3 id="backing-up">Backing up</h3>
+<p><strong>⋮ → Back up dishes and records</strong> in the dish list writes a file <code>….cookplanner</code> (named after the date) with all your own dishes, all records and their photos. Android asks where with <strong>Save as</strong> – for example the Downloads folder or Google Drive. The app shows no confirmation of its own; Android’s dialog confirms itself.</p>
+<h3 id="sharing-a-dish">Sharing a dish</h3>
+<p><strong>⋮ → Share</strong> on the plan of your own dish saves just this dish as a <code>.cookplanner</code> file, also through <strong>Save as</strong>. You can then send the file.</p>
+<h3 id="importing">Importing</h3>
+<p><strong>⋮ → Import dishes</strong> opens the file picker. CookPlanner adds new dishes and records with photos; what is already there stays unchanged. Afterwards the app reports how many dishes and records were added and how many were already there. A file from a newer version of CookPlanner is refused – update the app first.</p>
+<blockquote class="note"><p>If you uninstall the app, dishes and records are gone. Back up first – and preferably regularly.</p></blockquote>
+<hr>
+<h2 id="15-privacy">15. Privacy</h2>
+<ul><li><strong>Dishes, records, photos and settings</strong> stay on your device only. The developer has no access to them.</li><li><strong>Recipe analysis:</strong> only when importing does the recipe text go to a Google service (Firebase Cloud Functions with AI analysis). It is used for the analysis, not for advertising.</li><li><strong>Photos</strong> for the import never leave the device: the text is recognised on the phone, and only the text goes to the analysis – and only when you tap <strong>Analyse</strong>.</li><li><strong>Web pages</strong> are loaded on the device; only the recipe text goes to the analysis.</li><li><strong>Sign-in:</strong> for the analysis the app signs in anonymously with Firebase. There is no account, no name, no email address. A check through Google Play makes sure the request comes from the real app.</li><li><strong>Voice commands</strong> use Android’s speech recognition, on the device where possible; CookPlanner stores none of it. <strong>Read aloud</strong> uses Android’s text-to-speech.</li><li>No advertising, no tracking.</li></ul>
+<hr>
+<h2 id="16-frequently-asked-questions">16. Frequently asked questions</h2>
+<p><strong>Why does the dish say “N minutes short”?</strong><br>Read the reason on the plan. If the chain is too long, only shorter steps or a larger budget help; if there is too much hands-on work, simplify steps; if hands or equipment collide, more burners or ovens in the settings help. Look at the <strong>How it fits</strong> card too.</p>
+<p><strong>The dish has no plan at all, only a red sentence.</strong><br>Usually it needs an oven or a burner, and the kitchen is set to 0 in the settings. Or steps wait for each other in a circle – then check the <strong>Waits for</strong> ticks.</p>
+<p><strong>Can I change an example?</strong><br>Not directly. <strong>⋮ → Use as a template</strong> creates a copy that is yours.</p>
+<p><strong>Do the times change when I cook for more people?</strong><br>No, only the amounts. If you notice it takes longer, cook in Practice mode and take over the measured times afterwards.</p>
+<p><strong>Notifications do not come, or come late.</strong><br>Check the permission under <strong>Apps → CookPlanner → Notifications</strong> and exempt the app from battery optimisation. Cook mode shows a note when notifications are off.</p>
+<p><strong>I left cook mode by mistake.</strong><br>Open the app again, or tap <strong>Start cooking</strong> on the same dish: the run continues, up to six hours after the start.</p>
+<p><strong>The voice commands do not react.</strong><br>Check the microphone permission and say the commands briefly and clearly. While the app reads aloud, it does not listen. Without speech recognition on the device there are no voice commands.</p>
+<p><strong>The import reports an error.</strong><br>Check the internet connection. With “The hourly analysis limit is reached”, try again later; if it timed out, import a long recipe in two parts. Nothing recognised in the photos? Take them in more light and straight from above.</p>
+<p><strong>How do I take my dishes to a new phone or an iPhone?</strong><br>With <strong>Back up dishes and records</strong> on the old device and <strong>Import dishes</strong> on the new one (<a href="#14-backup-and-moving-to-another-device">chapter 14</a>).</p>
+<hr>
+<h2 id="17-what-only-the-iphone-has">17. What only the iPhone has</h2>
+<p>CookPlanner for Android can do almost everything the iPhone app can. A few things depend on Apple services and are missing on Android:</p>
+<div class="table-wrap"><table>
+<colgroup><col class="first" style="--w: 38%"></colgroup>
+<thead><tr><th>On the iPhone</th><th>On Android</th></tr></thead>
+<tbody>
+<tr><td>iCloud sync between iPhone and iPad</td><td>No sync; move devices with the backup file</td></tr>
+<tr><td>Live Activity on the Lock Screen and in the Dynamic Island</td><td>Notifications per step</td></tr>
+<tr><td>Alarms through AlarmKit for finished pots</td><td>“time is up” notifications</td></tr>
+<tr><td>Siri and Shortcuts (“How much longer”, “Step done”)</td><td>Voice commands in cook mode</td></tr>
+<tr><td>Dishes in Spotlight search</td><td>Search in the app</td></tr>
+<tr><td>Importing a recipe from the browser through “Share”</td><td><strong>+ → Import from web page</strong> with the address</td></tr>
+<tr><td>Keyboard shortcuts on the iPad</td><td>–</td></tr>
+<tr><td>CookPlanner Pro as a one-time purchase (menu, read aloud and voice commands, cooking yearbook, statistics, your own collections, plan as PDF, measured times, more recipe analyses)</td><td>Everything free, nothing to buy</td></tr>
+</tbody></table></div>
+</article>
+
+<footer>
+  <p><a href="#top">Back to top</a> · <a href="cookplanner.html#en">Help and contact</a> · <a href="cookplanner-privacy.html">Privacy</a> · <a href="impressum.html">Legal notice</a></p>
+</footer>
+
+</main>
+</body>
+</html>
