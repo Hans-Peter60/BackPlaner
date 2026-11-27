@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CookPlanner pour Android – Manuel de l’utilisateur</title>
+<style>
+  :root {
+    --bg-top: #FAEDD1;
+    --bg-bottom: #EDCC9E;
+    --card: #FFFFFF;
+    --title: #593314;
+    --text: #2A1A0A;
+    --subtitle: #734D29;
+    --accent: #945B29;
+    --rule: #E6D3B8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-top: #291F17;
+      --bg-bottom: #17120D;
+      --card: #332921;
+      --title: #F5E6CC;
+      --text: #F2E8DA;
+      --subtitle: #D1B899;
+      --accent: #E3934F;
+      --rule: #4A3C30;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0 1rem 4rem;
+    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+    background: linear-gradient(var(--bg-top), var(--bg-bottom)) no-repeat;
+    background-attachment: fixed;
+  }
+  main { max-width: 44rem; margin: 0 auto; }
+  header { text-align: center; padding: 3rem 0 1rem; }
+  h1 { color: var(--title); font-size: 2.2rem; margin: 0 0 .3rem; }
+  .claim { color: var(--subtitle); margin: 0; }
+  nav { text-align: center; margin: 1.5rem 0 2rem; }
+  nav a {
+    display: inline-block; margin: .2rem .4rem; padding: .4rem .9rem;
+    color: var(--accent); text-decoration: none;
+    border: 1px solid var(--accent); border-radius: 999px;
+  }
+  nav a:hover, nav a:focus { text-decoration: underline; }
+  nav a[aria-current] { background: var(--accent); color: var(--card); }
+  article {
+    background: var(--card); border-radius: 16px;
+    padding: 1.5rem 1.75rem; margin-bottom: 1.5rem;
+  }
+  /* Only running text may break inside an overlong word; table cells wrap
+     at spaces, otherwise the browser squeezes the term column to a sliver. */
+  article p, article li, article figcaption { overflow-wrap: break-word; }
+  h2 { color: var(--title); font-size: 1.5rem; margin: 2rem 0 .6rem; }
+  h3 { color: var(--title); font-size: 1.15rem; margin: 1.6rem 0 .3rem; }
+  h4 { color: var(--title); font-size: 1rem; margin: 1.2rem 0 .3rem; }
+  article > h2:first-child { margin-top: 0; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--rule); margin: 2rem 0; }
+  code {
+    font: .9em ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: var(--bg-top); border-radius: 4px; padding: 0 .3em;
+  }
+  blockquote.note {
+    margin: 1rem 0; border-left: 4px solid var(--accent);
+    padding-left: 1rem; color: var(--subtitle);
+  }
+  blockquote.note p { margin: 0; }
+  .table-wrap { overflow-x: auto; margin: 1rem 0; }
+  table { border-collapse: collapse; width: 100%; font-size: .95em; }
+  th, td { text-align: left; vertical-align: top; padding: .45rem .6rem; border-bottom: 1px solid var(--rule); }
+  th { color: var(--title); }
+  col.first { width: var(--w); }
+  table.firm th:first-child, table.firm td:first-child { white-space: nowrap; }
+  @media (max-width: 480px) {
+    /* On a phone a one-line term column would leave no room for the
+       explanation, so the term may wrap at spaces and takes 40 %. */
+    table.firm th:first-child, table.firm td:first-child { white-space: normal; }
+    col.first { width: min(var(--w), 40%); }
+    /* Tables with three or more columns: smaller type, tighter padding and
+       hyphenation, so that the last column is not pushed off the screen. */
+    table.wide { font-size: .88em; }
+    table.wide th, table.wide td { padding: .35rem .4rem; hyphens: auto; }
+  }
+  figure { margin: 1.5rem 0; text-align: center; }
+  img.screenshot {
+    max-width: min(100%, 320px); height: auto;
+    border-radius: 12px; box-shadow: 0 3px 10px rgba(0,0,0,.15);
+  }
+  figcaption { color: var(--subtitle); font-size: .9em; margin-top: .5rem; }
+  footer { text-align: center; color: var(--subtitle); font-size: .9rem; }
+</style>
+</head>
+<body>
+<main id="top">
+
+<header>
+  <h1>CookPlanner pour Android – Manuel de l’utilisateur</h1>
+  <p class="claim">Mise à jour : 27/11/2026 · version Android 1.0</p>
+</header>
+
+<nav aria-label="Choisir la langue">
+  <a href="cookplanner.html#fr">Aide et contact</a>
+  <a href="cookplanner-android-manual-de.html" lang="de">Deutsch</a>
+  <a href="cookplanner-android-manual-en.html" lang="en">English</a>
+  <a href="cookplanner-android-manual-fr.html" lang="fr" aria-current="page">Français</a>
+  <a href="cookplanner-privacy.html">Confidentialité</a>
+  <a href="impressum.html">Mentions légales</a>
+</nav>
+
+<article>
+<hr>
+<h2 id="sommaire">Sommaire</h2>
+<ol><li><a href="#1-ce-que-fait-cookplanner">Ce que fait CookPlanner</a></li><li><a href="#2-configuration-requise">Configuration requise</a></li><li><a href="#3-notions-de-base">Notions de base</a></li><li><a href="#4-la-liste-des-plats">La liste des plats</a></li><li><a href="#5-le-plan">Le plan</a></li><li><a href="#6-créer-et-modifier-un-plat">Créer et modifier un plat</a></li><li><a href="#7-importer">Importer</a></li><li><a href="#8-composer-un-menu">Composer un menu</a></li><li><a href="#9-mode-cuisine">Mode cuisine</a></li><li><a href="#10-notifications">Notifications</a></li><li><a href="#11-cuisiné">Cuisiné</a></li><li><a href="#12-plan-de-cuisson-en-pdf">Plan de cuisson en PDF</a></li><li><a href="#13-réglages">Réglages</a></li><li><a href="#14-sauvegarde-et-changement-dappareil">Sauvegarde et changement d’appareil</a></li><li><a href="#15-confidentialité">Confidentialité</a></li><li><a href="#16-questions-fréquentes">Questions fréquentes</a></li><li><a href="#17-ce-qui-existe-seulement-sur-liphone">Ce qui existe seulement sur l’iPhone</a></li></ol>
+<hr>
+<h2 id="1-ce-que-fait-cookplanner">1. Ce que fait CookPlanner</h2>
+<p>Un plat avec viande, garniture, sauce et décoration, une seule personne aux fourneaux et un temps fixé : CookPlanner ordonne les étapes pour que <strong>tout soit prêt en même temps</strong>, et vous dit à l’avance si le temps suffit. Son sous-titre : « Cuisiner contre la montre ».</p>
+<ul><li>Chaque étape a du <strong>travail manuel</strong> (vous êtes occupé) et un temps pendant lequel elle <strong>se fait toute seule</strong> (mijoter, cuire au four, reposer).</li><li>CookPlanner tient compte de <strong>votre cuisine</strong> : combien de feux, combien de fours et combien de temps vous avez.</li><li>Le <strong>verdict</strong> dit clairement si le plat tient dans le temps imparti – et sinon, pourquoi et ce qui aiderait.</li><li>En <strong>mode cuisine</strong>, l’application vous guide pas à pas avec une horloge et replanifie après chaque coche.</li></ul>
+<p>En plus : import depuis un texte, des photos et des pages web, ingrédients avec portions et liste de courses, menus de plusieurs services, un relevé de chaque cuisson avec étoiles, note et photo, temps mesurés pour le prochain plan, lecture à voix haute et commandes vocales, le plan de cuisson en PDF et un livre de l’année en cuisine.</p>
+<p>CookPlanner Pro n’existe pas encore sur Android : <strong>toutes les fonctions de ce manuel sont gratuites</strong>, il n’y a rien à acheter.</p>
+<h3 id="démarrage-rapide--votre-première-cuisine-contre-la-montre-en-cinq-étapes">Démarrage rapide : votre première cuisine contre la montre en cinq étapes</h3>
+<ol><li>Sous <strong>⋮ → Réglages</strong>, réglez votre temps imparti et votre cuisine (feux, fours).</li><li>Dans la liste des plats, touchez l’un des <strong>Exemples</strong> ou créez le vôtre avec <strong>+ → Nouveau plat</strong>.</li><li>Lisez le verdict sur le plan (« Tient en 35 minutes » ou « Il manque 9 minutes ») et regardez le déroulé.</li><li>Touchez <strong>Commencer à cuisiner</strong>, choisissez l’horloge (Défi, Entraînement ou Détendu) et touchez <strong>Départ</strong>.</li><li>Cochez chaque étape avec <strong>Fait</strong> ; signalez casseroles et étapes au four avec <strong>C’est parti</strong>. À la fin, <strong>Arrêter et garder le relevé</strong>.</li></ol>
+<figure><img class="screenshot" src="images/cookplanner/android/gerichte.png" alt="La liste des plats avec les collections en puces" loading="lazy">
+<figcaption>La liste des plats : en haut le temps imparti et les puces, ensuite Mes plats et les exemples avec leur verdict.</figcaption>
+</figure>
+<hr>
+<h2 id="2-configuration-requise">2. Configuration requise</h2>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 11ch"></colgroup>
+<thead><tr><th>Élément</th><th>Valeur</th></tr></thead>
+<tbody>
+<tr><td>Appareils</td><td>Téléphones et tablettes Android</td></tr>
+<tr><td>Système</td><td>Android 9.0 ou plus récent</td></tr>
+<tr><td>Langues</td><td>Allemand, anglais, français – l’application suit la langue de l’appareil ; pour les autres langues, elle s’affiche en anglais</td></tr>
+<tr><td>Affichage</td><td>Mode clair et mode sombre</td></tr>
+<tr><td>Internet</td><td>Seulement pour l’import depuis un texte, des photos ou des pages web (l’analyse se fait dans le cloud). Planifier, cuisiner, les relevés et la sauvegarde fonctionnent hors ligne</td></tr>
+<tr><td>Connexion</td><td>Aucune. Pour l’analyse, l’application se connecte de façon anonyme en arrière-plan</td></tr>
+<tr><td>Données</td><td>Plats, relevés, photos et réglages restent uniquement sur cet appareil ; il n’y a pas de synchronisation entre appareils sur Android (voir le <a href="#14-sauvegarde-et-changement-dappareil">chapitre 14</a>)</td></tr>
+</tbody></table></div>
+<p>L’application ne demande ces autorisations qu’au moment où elle en a besoin :</p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Autorisation</th><th>Pour quoi</th><th>Sans elle</th></tr></thead>
+<tbody>
+<tr><td>Notifications</td><td>Bannières « à faire maintenant » et « le temps est écoulé » en mode cuisine</td><td>Le mode cuisine fonctionne, mais reste muet écran éteint</td></tr>
+<tr><td>Appareil photo</td><td>Photographier une page de livre de cuisine, une photo pour un relevé</td><td>Les photos peuvent toujours être choisies dans les fichiers</td></tr>
+<tr><td>Micro</td><td>Commandes vocales en mode cuisine</td><td>Pas de commandes vocales</td></tr>
+<tr><td>Internet</td><td>Analyse de recette, chargement d’une page web</td><td>Pas d’import ; tout le reste fonctionne</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="3-notions-de-base">3. Notions de base</h2>
+<p><strong>Plat</strong><br>Ce qui finit dans l’assiette, par exemple « Suprême de pintade, chou frisé à la crème, pleurotes du panicaut et poire au verjus ». Un plat a un nom, éventuellement un nombre de personnes, des ingrédients et des étapes.</p>
+<p><strong>Composant</strong><br>Une partie du plat préparée à part – viande, chou, champignons, sauce. Dans le plan, chaque composant a sa propre colonne, et le travail manuel est compté par composant.</p>
+<p><strong>Étape</strong><br>Un travail avec une durée : « Émincer le chou », « Saisir la pintade ». Une étape appartient à un composant, peut occuper un feu ou un four et attendre d’autres étapes.</p>
+<p><strong>Mains et « se fait seul »</strong><br>Chaque étape a deux temps : <strong>Mains</strong> – les minutes pendant lesquelles vous êtes occupé – et <strong>ensuite seul</strong> – les minutes pendant lesquelles la casserole mijote ou le four cuit sans vous. Pendant ce temps, vous pouvez faire autre chose ; c’est exactement ce dont le plan profite.</p>
+<p><strong>Temps imparti</strong><br>Les minutes dans lesquelles tout doit être prêt (35 par défaut). Le verdict mesure chaque plat à cette aune.</p>
+<p><strong>Feux et fours</strong><br>Combien de feux et de fours compte votre cuisine. Une étape sur la plaque occupe un feu, une étape au four un four, chacune pour son travail manuel et son temps seul. Les fours sont considérés comme préchauffés quand le chrono démarre.</p>
+<p><strong>Doit continuer bientôt</strong><br>Certains résultats ne supportent pas l’attente : une viande saisie se retourne aussitôt, une viande reposée ne doit pas refroidir. Avec « Doit continuer bientôt », vous indiquez combien de temps une étape peut attendre au plus avant la suivante.</p>
+<p><strong>Chaîne</strong><br>La plus longue suite d’étapes qui s’attendent les unes les autres. Aucun plan ne peut être plus court que la chaîne, aussi habilement que vous travailliez en parallèle.</p>
+<p><strong>Attend</strong><br>Une étape ne commence que lorsque les étapes qu’elle attend sont terminées. Sans indication, elle peut commencer tout de suite. Le dressage attend en général la dernière étape de chaque composant.</p>
+<hr>
+<h2 id="4-la-liste-des-plats">4. La liste des plats</h2>
+<p>L’application a deux onglets en bas : <strong>Plats</strong> et <strong>Cuisiné</strong> (<a href="#11-cuisiné">chapitre 11</a>). La liste des plats affiche en haut « Un plat, une personne, 35 minutes » avec votre temps imparti, puis les puces et deux sections :</p>
+<ul><li><strong>Mes plats</strong> – ce que vous avez créé, importé ou enregistré comme menu.</li><li><strong>Exemples</strong> – trois plats prêts à essayer. On ne peut pas les modifier, mais on peut les utiliser comme modèle (<a href="#6-créer-et-modifier-un-plat">chapitre 6</a>).</li></ul>
+<p>Chaque ligne montre le nom, les composants et le <strong>verdict</strong> en vert (« Tient en 35 minutes ») ou en rouge (« Il manque 9 minutes »). Si aucun plan ne peut être calculé – par exemple parce que le plat demande un four et que la cuisine est réglée sur 0 four –, la raison s’affiche à la place.</p>
+<h3 id="recherche">Recherche</h3>
+<p>Le champ de recherche se trouve au-dessus de la liste. Il cherche dans le plat, le composant et l’ingrédient : « chou » trouve aussi un plat où le chou n’est qu’un ingrédient.</p>
+<h3 id="puces">Puces</h3>
+<p>Les six puces fixes filtrent d’une touche ; une seconde touche lève le filtre :</p>
+<div class="table-wrap"><table>
+<colgroup><col class="first" style="--w: 38%"></colgroup>
+<thead><tr><th>Puce</th><th>Affiche</th></tr></thead>
+<tbody>
+<tr><td>Tient dans le temps</td><td>Les plats qui tiennent dans le temps imparti avec votre cuisine</td></tr>
+<tr><td>Rapide</td><td>Les plats dont le plan dure 30 minutes au plus</td></tr>
+<tr><td>Sans four</td><td>Les plats qui n’ont besoin que des plaques</td></tr>
+<tr><td>Favoris</td><td>Les plats notés en moyenne d’au moins quatre étoiles</td></tr>
+<tr><td>Jamais cuisiné</td><td>Les plats sans relevé</td></tr>
+<tr><td>Pas cuisiné depuis longtemps</td><td>Les plats pas cuisinés depuis 60 jours, ou jamais</td></tr>
+</tbody></table></div>
+<h3 id="filtre-et-collections-personnelles">Filtre et collections personnelles</h3>
+<p>Sous <strong>⋮ → Filtre</strong>, vous combinez plusieurs conditions :</p>
+<ul><li><strong>Durée :</strong> Tous, Jusqu’à 30 minutes, 31 à 45 minutes, 46 à 60 minutes, Plus d’une heure.</li><li><strong>Équipement :</strong> Tous, Avec four, Plaques seulement, Sans cuisson.</li><li><strong>Origine :</strong> Tous, Personnels, Importés, Exemples.</li><li><strong>Historique :</strong> Tous, Jamais cuisiné, Pas cuisiné depuis longtemps, Favoris.</li><li>Interrupteurs <strong>Tient dans le temps</strong> et <strong>Peu de travail manuel</strong> (les mains occupées au plus 60 pour cent du plan).</li></ul>
+<p><strong>Réinitialiser les filtres</strong> efface tout. Saisissez un <strong>Nom</strong> en bas et touchez <strong>Enregistrer la collection</strong> : les filtres choisis apparaissent comme une puce à part après les six fixes. Sous <strong>Vos propres collections</strong>, vous supprimez une collection.</p>
+<h3 id="les-menus----et---">Les menus « + » et « ⋮ »</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 6ch"></colgroup>
+<thead><tr><th>Menu</th><th>Entrées</th></tr></thead>
+<tbody>
+<tr><td>+</td><td>Nouveau plat, Importer depuis un texte, Importer depuis des photos, Importer depuis une page web, Composer un menu</td></tr>
+<tr><td>⋮</td><td>Sauvegarder plats et relevés, Importer des plats, Filtre, Réglages</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="5-le-plan">5. Le plan</h2>
+<p>Toucher un plat ouvre son <strong>Plan</strong>. En haut figure le nom, dessous le bouton <strong>Commencer à cuisiner</strong> (<a href="#9-mode-cuisine">chapitre 9</a>), puis une série de cartes.</p>
+<figure><img class="screenshot" src="images/cookplanner/android/plan.png" alt="Le plan d’un plat avec verdict et ingrédients" loading="lazy">
+<figcaption>Le plan : en haut le verdict avec sa raison et ses chiffres, dessous les ingrédients avec portions et liste de courses.</figcaption>
+</figure>
+<h3 id="le-verdict">Le verdict</h3>
+<p>En grand, en vert ou en rouge : <strong>Tient en N minutes</strong> ou <strong>Il manque N minutes</strong>. Dessous, la raison :</p>
+<div class="table-wrap"><table>
+<colgroup><col class="first" style="--w: 38%"></colgroup>
+<thead><tr><th>Raison</th><th>Signification</th></tr></thead>
+<tbody>
+<tr><td>« N min de marge, N min sans travail manuel. »</td><td>Ça tient ; il reste cette réserve, et vos mains sont libres pendant ce temps</td></tr>
+<tr><td>« La chaîne la plus longue dure N minutes … »</td><td>La chaîne dépasse le temps imparti ; travailler en parallèle n’aide pas, seules des étapes plus courtes aident</td></tr>
+<tr><td>« Le travail manuel seul dure N minutes … »</td><td>Une personne ne suffit pas ; supprimer ou simplifier des étapes</td></tr>
+<tr><td>« Chaîne … et mains … tiennent séparément, mais entrent en collision … »</td><td>Mains ou équipement ne suffisent pas pour tout à la fois – plus de feux ou de fours, ou plus de temps</td></tr>
+</tbody></table></div>
+<p>La petite ligne dessous indique la durée du plan, la <strong>chaîne</strong> et les <strong>mains</strong> en minutes.</p>
+<h3 id="ingrédients-et-portions">Ingrédients et portions</h3>
+<p>La carte <strong>Ingrédients</strong> indique combien d’ingrédients compte le plat. Si la recette donne un nombre de personnes, changez-le avec <strong>Pour N personnes</strong> (1 à 24) ; sinon, il y a <strong>Quantité ×0,5 à ×4</strong>. Seules les quantités changent, <strong>les temps restent les mêmes</strong>. Le choix vaut par plat pour le plan, le mode cuisine et la liste de courses, et il est conservé.</p>
+<h3 id="liste-de-courses">Liste de courses</h3>
+<p><strong>Liste de courses</strong> ouvre les ingrédients par rayon (Fruits &amp; légumes, Produits laitiers &amp; œufs, Épices &amp; herbes …), les ingrédients identiques regroupés. Cochez ce que vous avez déjà ; <strong>Tout est là</strong> et <strong>Rien à la maison</strong> posent toutes les coches d’un coup. <strong>Partager ce qui manque</strong> envoie le reste sous forme de texte par le menu de partage d’Android, par exemple vers une application de notes ou de courses. Les coches sont conservées par plat.</p>
+<h3 id="pour-que-ça-tienne">Pour que ça tienne</h3>
+<p>Si un plat ne tient pas et que ce ne sont pas les mains qui coincent, CookPlanner vérifie si des temps de cuisson plus courts aident : les étapes avec une <strong>fourchette</strong> (<a href="#6-créer-et-modifier-un-plat">chapitre 6</a>) sont planifiées au bas de la fourchette. La carte <strong>Pour que ça tienne</strong> nomme chaque étape concernée (« Braiser le chou : 12 au lieu de 15 minutes ») et dit si cela suffit ou combien de minutes manquent encore. Le plat lui-même reste inchangé.</p>
+<h3 id="cuisiné">Cuisiné</h3>
+<p>Si vous avez déjà cuisiné le plat en mode cuisine, la carte <strong>Cuisiné</strong> montre les cinq dernières fois avec la date et le temps passé (ou « Détendu »). Avec <strong>Reprendre les durées mesurées</strong>, vous voyez pour chaque étape le temps actuel et le temps mesuré – la médiane des temps cochés sur les cinq derniers passages au plus. Pour les casseroles et les étapes au four, le travail manuel reste ; seul le temps seul s’adapte. <strong>Appliquer</strong> inscrit les temps dans le plat ; pour un exemple, le bouton s’appelle <strong>Comme plat personnel</strong> et crée une copie sous Mes plats.</p>
+<h3 id="travail-manuel-par-composant">Travail manuel par composant</h3>
+<p>Une barre par composant, la plus longue en haut : vous voyez quelle partie du plat vous occupe le plus.</p>
+<h3 id="déroulé--chronologie-ou-liste">Déroulé : chronologie ou liste</h3>
+<p>La carte <strong>Déroulé</strong> montre le plan soit en <strong>Chronologie</strong>, soit en <strong>Liste</strong> (le choix est conservé).</p>
+<ul><li><strong>Chronologie :</strong> une colonne par composant, le temps s’écoule de haut en bas. Les barres pleines sont du travail manuel, les barres hachurées se font seules. Les étapes d’un composant qui se chevauchent sont côte à côte. Touchez une barre : sous le diagramme apparaissent l’étape, « Minute 12 à 27 », le travail manuel, le temps seul et, le cas échéant, la température du four.</li><li><strong>Liste :</strong> chaque étape avec sa minute, plaque ou four et les minutes de travail manuel, dans l’ordre du plan.</li></ul>
+<figure><img class="screenshot" src="images/cookplanner/android/zeitachse.png" alt="La chronologie d’un plan" loading="lazy">
+<figcaption>La chronologie : une colonne par composant, travail manuel plein, « se fait seul » hachuré.</figcaption>
+</figure>
+<h3 id="tenir-au-chaud">Tenir au chaud</h3>
+<p>Si un composant est prêt tôt et attend dix minutes ou plus le dressage, la carte <strong>Tenir au chaud</strong> le nomme avec son temps d’attente (« Sauce attend 12 minutes »).</p>
+<h3 id="le-menu----du-plan">Le menu « ⋮ » du plan</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 16ch"></colgroup>
+<thead><tr><th>Plat</th><th>Entrées</th></tr></thead>
+<tbody>
+<tr><td>Plat personnel</td><td>Plan de cuisson en PDF, Modifier, Partager, Supprimer le plat</td></tr>
+<tr><td>Exemple</td><td>Plan de cuisson en PDF, Utiliser comme modèle</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="6-créer-et-modifier-un-plat">6. Créer et modifier un plat</h2>
+<p><strong>+ → Nouveau plat</strong> ouvre l’éditeur vide, <strong>⋮ → Modifier</strong> sur le plan l’ouvre avec votre plat. Pour un exemple, <strong>⋮ → Utiliser comme modèle</strong> crée une copie que vous adaptez dans l’éditeur et enregistrez comme plat personnel.</p>
+<p>L’éditeur a quatre sections :</p>
+<ul><li><strong>Plat :</strong> nom et nombre de personnes (<strong>Portions non indiquées</strong> si vous n’en choisissez pas).</li><li><strong>Ingrédients :</strong> une ligne par ingrédient ; <strong>Ajouter un ingrédient</strong> ouvre une page à part.</li><li><strong>Étapes :</strong> une ligne par étape avec mains, temps seul et poste ; <strong>Ajouter une étape</strong> ouvre une page à part.</li><li><strong>Plan :</strong> le verdict pendant que vous tapez – vous voyez tout de suite l’effet d’une modification.</li></ul>
+<p><strong>Enregistrer</strong> est possible dès que le plat a un nom et au moins une étape. <strong>Annuler</strong> abandonne les modifications.</p>
+<h3 id="ingrédient">Ingrédient</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 19ch"></colgroup>
+<thead><tr><th>Champ</th><th>Signification</th></tr></thead>
+<tbody>
+<tr><td>Ingrédient</td><td>Le nom, p. ex. « Chou frisé »</td></tr>
+<tr><td>Quantité et unité</td><td>Comme dans la recette ; <strong>Choisir l’unité</strong> ou <strong>Sans unité</strong>. Sans quantité pour « sel » ou « poivre »</td></tr>
+<tr><td>Remarque</td><td>p. ex. « petit » ou « bien affiné »</td></tr>
+<tr><td>Composant</td><td>La partie du plat à laquelle l’ingrédient appartient</td></tr>
+</tbody></table></div>
+<p><strong>Supprimer l’ingrédient</strong> le retire. Les ingrédients forment la liste de courses ; ceux que vous utilisez dans une étape se choisissent à l’étape.</p>
+<h3 id="étape">Étape</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 28ch"></colgroup>
+<thead><tr><th>Champ</th><th>Signification</th></tr></thead>
+<tbody>
+<tr><td>Ce qu’il faut faire</td><td>Le texte de l’étape, p. ex. « Saisir la pintade côté peau »</td></tr>
+<tr><td>Composant</td><td>À saisir, ou à prendre parmi les existants avec <strong>Choisir le composant</strong></td></tr>
+<tr><td>Mains</td><td>Minutes pendant lesquelles vous êtes occupé (0 à 120)</td></tr>
+<tr><td>Ensuite seul</td><td>Minutes pendant lesquelles l’étape se fait sans vous : mijoter, cuire, reposer (0 à 600)</td></tr>
+<tr><td>Fourchette</td><td>Seulement avec un temps seul : <strong>Au moins</strong> et <strong>Au plus</strong> de minutes de cuisson. « Pour que ça tienne » utilise le bas de la fourchette</td></tr>
+<tr><td>Poste</td><td><strong>Aucun</strong>, <strong>Feu</strong> ou <strong>Four</strong> ; pour le four, la température (50 à 300 °C)</td></tr>
+<tr><td>Doit continuer bientôt</td><td>Combien de temps le résultat peut attendre au plus : 0 minute pour retourner après avoir saisi, 3 pour une viande reposée, 10 pour une sauce tenue au chaud</td></tr>
+<tr><td>Ingrédients de cette étape</td><td>Cochez les ingrédients utilisés ici ; en mode cuisine, ils apparaissent sous l’étape</td></tr>
+<tr><td>Attend</td><td>Cochez les étapes précédentes qui doivent être terminées avant</td></tr>
+</tbody></table></div>
+<p>Une nouvelle étape attend d’abord l’étape précédente de son composant, jusqu’à ce que vous changiez le choix. <strong>Attendre tous les composants</strong> coche la dernière étape de chaque composant – ce qu’il faut pour le dressage. <strong>Supprimer l’étape</strong> retire une étape existante.</p>
+<blockquote class="note"><p>Si des étapes s’attendent en cercle, le plan le signale. Vérifiez alors les coches sous <strong>Attend</strong>.</p></blockquote>
+<hr>
+<h2 id="7-importer">7. Importer</h2>
+<p>Au lieu de saisir un plat, faites décomposer une recette. Les trois voies se trouvent sous <strong>+</strong> :</p>
+<ul><li><strong>Importer depuis un texte :</strong> collez le texte de la recette dans le champ (au moins quelques lignes) et touchez <strong>Analyser</strong>.</li><li><strong>Importer depuis des photos :</strong> <strong>Prendre une photo</strong> (appareil photo) ou <strong>Choisir une photo</strong> (fichiers). Le texte est reconnu <strong>sur le téléphone</strong> et ajouté au champ, où vous pouvez le vérifier et le corriger. Prenez plusieurs pages l’une après l’autre. Puis <strong>Analyser</strong>.</li><li><strong>Importer depuis une page web :</strong> saisissez l’adresse de la page de recette et touchez <strong>Analyser</strong>. La page est chargée sur l’appareil ; seul le texte de la recette part à l’analyse.</li></ul>
+<figure><img class="screenshot" src="images/cookplanner/android/import.png" alt="La feuille d’import avec le texte reconnu" loading="lazy">
+<figcaption>Importer depuis des photos : le texte reconnu sur le téléphone est dans le champ et peut être vérifié avant l’analyse.</figcaption>
+</figure>
+<p>L’analyse est effectuée par un service de Google (Firebase). Elle décompose la recette en étapes, estime le travail manuel et le temps seul, reconnaît plaque et four et reprend les ingrédients avec leurs quantités. Le résultat affiche le nom et « N étapes, M ingrédients », et le cas échéant <strong>À vérifier</strong> avec des remarques sur ce qui est incertain.</p>
+<ul><li><strong>Vérifier dans l’éditeur</strong> ouvre le plat dans l’éditeur (<a href="#6-créer-et-modifier-un-plat">chapitre 6</a>). Ce n’est qu’avec <strong>Enregistrer</strong> qu’il rejoint Mes plats.</li><li><strong>Recommencer</strong> abandonne le résultat et vous laisse modifier le texte.</li></ul>
+<p>Sur Android, il n’y a pas de limite mensuelle d’analyses. Le nombre par heure est limité ; une fois la limite atteinte, réessayez plus tard. Si une analyse dure trop longtemps, importez une longue recette en deux parties.</p>
+<hr>
+<h2 id="8-composer-un-menu">8. Composer un menu</h2>
+<p><strong>+ → Composer un menu</strong> réunit plusieurs plats en un seul plan, par exemple entrée, plat principal et dessert.</p>
+<ol><li>Choisissez un <strong>plat</strong> pour chaque service. <strong>Ajouter un service</strong> en ajoute d’autres, <strong>Supprimer</strong> en retire un.</li><li>Entre les services, indiquez combien de <strong>minutes avant le service suivant</strong> s’écoulent, ou <strong>Avec le service suivant</strong>. L’entrée est servie autant de minutes avant le plat principal, et le plat principal se cuisine pendant que les invités mangent.</li><li>Donnez un <strong>Nom du menu</strong>. En bas, vous voyez déjà combien d’étapes et d’ingrédients il compte et combien de temps dure le plan.</li><li><strong>Enregistrer</strong> range le menu comme plat personnel sous Mes plats, avec des étapes comme « Servir Entrée ».</li></ol>
+<p>Le menu se cuisine comme n’importe quel plat ; ses ingrédients forment une seule liste de courses.</p>
+<hr>
+<h2 id="9-mode-cuisine">9. Mode cuisine</h2>
+<p><strong>Commencer à cuisiner</strong> sur le plan ouvre le mode cuisine. Avant le départ, vous choisissez l’<strong>Horloge</strong> :</p>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 14ch"></colgroup>
+<thead><tr><th>Horloge</th><th>Ce qu’elle fait</th></tr></thead>
+<tbody>
+<tr><td>Défi</td><td>L’horloge décompte le temps imparti, comme à l’émission. Une fois le temps écoulé, elle compte le dépassement</td></tr>
+<tr><td>Entraînement</td><td>L’horloge part de 0:00 – vous apprenez combien de temps le plat prend vraiment</td></tr>
+<tr><td>Détendu</td><td>Pas d’horloge, pas de retard : les étapes viennent dans l’ordre, seuls casserole et four gardent leur temps</td></tr>
+</tbody></table></div>
+<p><strong>Départ</strong> lance l’horloge. L’application retient votre dernier choix.</p>
+<figure><img class="screenshot" src="images/cookplanner/android/kochmodus.png" alt="Le mode cuisine avec l’horloge et l’étape en cours" loading="lazy">
+<figcaption>Le mode cuisine : l’horloge en haut, dessous ce qui vous revient maintenant.</figcaption>
+</figure>
+<h3 id="ce-que-montre-lécran">Ce que montre l’écran</h3>
+<ul><li><strong>Horloge :</strong> temps restant ou écoulé selon le mode, avec « plan terminé à la minute N » ; après une replanification, si vous serez prêt plus tôt ou plus tard que prévu.</li><li><strong>Maintenant :</strong> l’étape entre vos mains avec ses ingrédients et le temps restant (« encore 3 min », « en retard » en rouge). Mains libres, on lit « Mains libres, suite dans N min » ; à la fin « Terminé, dressez ! ».</li><li><strong>Ensuite :</strong> les trois étapes suivantes, avec « dans N min ».</li><li><strong>Se fait tout seul :</strong> ce qui mijote ou cuit, avec le temps restant. Si vous retirez une casserole plus tôt, cochez-la ici.</li><li><strong>Fait :</strong> « N étapes sur M ».</li></ul>
+<h3 id="cocher--fait-et-cest-parti">Cocher : Fait et C’est parti</h3>
+<ul><li><strong>Fait</strong> coche une étape sans temps seul.</li><li><strong>C’est parti</strong> vaut pour les étapes en casserole et au four : le travail manuel est terminé, la casserole est sur le feu ou la porte du four fermée. Le temps seul commence ; une fois écoulé, l’étape est terminée.</li></ul>
+<p>Après chaque coche et chaque minute, CookPlanner <strong>replanifie</strong> la suite : si vous avez été plus rapide, tout avance ; plus lent, la suite se décale. <strong>Annuler</strong> retire la dernière coche.</p>
+<h3 id="pause-chronologie-terminer">Pause, chronologie, terminer</h3>
+<ul><li><strong>Pause</strong> arrête l’horloge (« Pause, le chrono est arrêté »), <strong>Reprendre</strong> la relance.</li><li><strong>Chronologie</strong> en haut montre le plan en cours sous forme de diagramme avec une ligne rouge pour <strong>maintenant</strong> ; les étapes terminées sont pâles.</li><li><strong>Terminer</strong> en haut demande confirmation : <strong>Arrêter et garder le relevé</strong> range la cuisson sous Cuisiné, <strong>Arrêter sans relevé</strong> l’abandonne, <strong>Continuer</strong> revient en arrière. Si aucune étape n’est encore faite, il n’y a rien à consigner.</li></ul>
+<p>La touche Retour d’Android ne ferme pas le mode cuisine – pour qu’aucune cuisson ne continue en arrière-plan sans qu’on la voie. On ne le quitte que par <strong>Terminer</strong>.</p>
+<h3 id="lire-à-voix-haute">Lire à voix haute</h3>
+<p>Avec l’interrupteur <strong>Lire à voix haute</strong>, l’application énonce chaque nouvelle étape avec ses ingrédients, la température du four et les minutes, annonce les casseroles prêtes (« Chou : le temps est écoulé. ») et, à la fin, « Terminé, dressez ! ». Elle utilise la synthèse vocale d’Android ; le réglage est conservé.</p>
+<h3 id="commandes-vocales">Commandes vocales</h3>
+<p>Avec l’interrupteur <strong>Commandes vocales</strong>, le mode cuisine écoute (la première fois, Android demande l’accès au micro). Tant que l’application parle elle-même, elle n’écoute pas.</p>
+<div class="table-wrap"><table>
+<colgroup><col class="first" style="--w: 38%"></colgroup>
+<thead><tr><th>Commande</th><th>Effet</th></tr></thead>
+<tbody>
+<tr><td>« C’est fait » (aussi « Terminé », « Fini »)</td><td>Coche l’étape entre vos mains</td></tr>
+<tr><td>« C’est parti » (aussi « Sur le feu », « Au four »)</td><td>Casserole ou four en route, le temps seul commence</td></tr>
+<tr><td>« Annuler » / « Retour »</td><td>Retire la dernière coche</td></tr>
+<tr><td>« Lire » / « Répète »</td><td>Relit l’étape en cours</td></tr>
+<tr><td>« Et après » / « Étape suivante »</td><td>Lit l’étape suivante</td></tr>
+<tr><td>« Ingrédients »</td><td>Lit les ingrédients de l’étape en cours</td></tr>
+<tr><td>« Combien de temps » / « Temps restant »</td><td>Temps restant de l’étape et du plan</td></tr>
+<tr><td>« Pause »</td><td>Arrête l’horloge</td></tr>
+<tr><td>« On continue » / « Reprendre »</td><td>Relance l’horloge</td></tr>
+<tr><td>« Stop » / « Silence »</td><td>Arrête la lecture</td></tr>
+</tbody></table></div>
+<p>Les commandes valent dans la langue de l’application ; en allemand, par exemple, « Erledigt », « Steht », « Was kommt ». Si l’appareil n’a pas de reconnaissance vocale, l’application le dit.</p>
+<h3 id="écran-et-redémarrage">Écran et redémarrage</h3>
+<p>Tant que le mode cuisine est ouvert, l’écran reste allumé. Si l’application est fermée (par le système, une mise à jour ou d’un glissement), le prochain lancement rouvre la cuisson – jusqu’à six heures après le départ. <strong>Commencer à cuisiner</strong> sur le même plat reprend aussi une cuisson en cours au lieu d’en lancer une nouvelle.</p>
+<hr>
+<h2 id="10-notifications">10. Notifications</h2>
+<p>Pendant que vous cuisinez, CookPlanner programme des notifications pour les étapes suivantes – même quand le téléphone est verrouillé dans un coin :</p>
+<ul><li><strong>« Composant · à faire maintenant »</strong> avec l’étape comme titre, quand une étape vous revient.</li><li><strong>« Composant · le temps est écoulé »</strong> quand une casserole ou le four a terminé.</li></ul>
+<p>L’application demande l’autorisation la première fois que vous touchez <strong>Départ</strong> en mode cuisine. Sans elle, le mode cuisine l’indique : CookPlanner reste muet écran éteint. Vous pouvez les activer dans les réglages d’Android sous <strong>Applications → CookPlanner → Notifications</strong>.</p>
+<p>Bon à savoir :</p>
+<ul><li>Les 20 prochaines notifications sont toujours programmées ; tant que l’application est ouverte, elles suivent chaque replanification.</li><li>Quand l’application est en arrière-plan, les notifications gardent leurs heures.</li><li><strong>Terminer</strong>, <strong>Pause</strong> et une nouvelle cuisson retirent toutes les notifications en attente.</li><li>Les économiseurs de batterie de certains fabricants retardent les notifications. Si elles arrivent en retard, exemptez CookPlanner de l’optimisation de la batterie.</li></ul>
+<hr>
+<h2 id="11-cuisiné">11. Cuisiné</h2>
+<p>L’onglet <strong>Cuisiné</strong> rassemble chaque cuisson terminée avec relevé ou saisie à la main.</p>
+<figure><img class="screenshot" src="images/cookplanner/android/gekocht.png" alt="L’onglet Cuisiné" loading="lazy">
+<figcaption>Cuisiné : les relevés par mois, en haut l’affichage, la recherche et les étoiles.</figcaption>
+</figure>
+<h3 id="affichages">Affichages</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 14ch"></colgroup>
+<thead><tr><th>Affichage</th><th>Montre</th></tr></thead>
+<tbody>
+<tr><td>Liste</td><td>Les relevés par mois, les plus récents d’abord, avec une vignette</td></tr>
+<tr><td>Galerie</td><td>Les photos de tous les relevés</td></tr>
+<tr><td>Palmarès</td><td>Les plats par étoiles, ce qui a le mieux plu</td></tr>
+<tr><td>Statistiques</td><td>Combien de fois cuisiné, plats différents, étoiles en moyenne, par rapport au plan, les douze derniers mois en barres, les plus cuisinés</td></tr>
+</tbody></table></div>
+<p>Le champ de recherche (<strong>Rechercher un plat</strong>) filtre par nom ; avec le bouton étoile ☆ en haut, vous choisissez une <strong>Note minimale</strong> (Tous, ou à partir de 1 à 5 étoiles).</p>
+<h3 id="un-relevé">Un relevé</h3>
+<p>Touchez une entrée pour l’ouvrir :</p>
+<ul><li><strong>C’était comment ?</strong> – étoiles, une note (« moins de sel la prochaine fois ») et une photo : <strong>Prendre une photo</strong>, <strong>Choisir une photo</strong> ou <strong>Retirer la photo</strong>.</li><li><strong>Durée réelle</strong>, <strong>Prévu</strong> et <strong>Écart</strong> en minutes.</li><li><strong>Étapes</strong> – pour chaque étape, quand elle a été terminée, combien de temps elle a pris et ce qui était prévu. Si la cuisson a été arrêtée avant la fin, on voit combien d’étapes étaient faites.</li><li><strong>Supprimer l’entrée</strong> efface le relevé.</li></ul>
+<h3 id="ajouter-un-plat-cuisiné">Ajouter un plat cuisiné</h3>
+<p>Si vous avez cuisiné sans chronomètre, ajoutez-le avec <strong>+ → Ajouter un plat cuisiné</strong> : choisissez le plat, la date (<strong>Cuisiné le</strong>), <strong>Enregistrer</strong>. L’entrée reçoit étoiles, note et photo comme les autres, mais pas de temps.</p>
+<h3 id="livre-de-lannée-en-cuisine">Livre de l’année en cuisine</h3>
+<p><strong>+ → Livre de l’année en cuisine</strong> fait d’une année un PDF : une couverture avec photo, l’année en chiffres (jours de cuisine, plats, heures aux fourneaux, note, dans le plan, plus longue session), les mois avec leurs photos, les plats préférés avec meilleur temps, ce que l’horloge a appris et de la place pour des résolutions. Choisissez l’<strong>Année</strong> et le <strong>Nom sur la couverture</strong>, puis <strong>Partager le livre de l’année</strong>. Sans relevés, il n’y a pas encore de livre.</p>
+<hr>
+<h2 id="12-plan-de-cuisson-en-pdf">12. Plan de cuisson en PDF</h2>
+<p><strong>⋮ → Plan de cuisson en PDF</strong> sur le plan produit une feuille A4 à imprimer, afficher ou envoyer :</p>
+<ul><li>Un en-tête avec nom, durée et nombre de personnes.</li><li>La <strong>chronologie</strong> – une ligne par composant, des barres avec le numéro de l’étape.</li><li>Le <strong>déroulé</strong> – chaque étape avec minute, mains, temps seul, plaque ou four et ses ingrédients.</li><li>Les <strong>ingrédients</strong> du plat.</li></ul>
+<p>Avec <strong>Avec les heures</strong> et un <strong>Départ</strong>, de vraies heures figurent sur la feuille (« Début 18:30 · prêt 19:05 »), sinon des minutes depuis 0. <strong>Partager le déroulé</strong> ouvre le menu de partage d’Android – pour imprimer, enregistrer ou envoyer.</p>
+<hr>
+<h2 id="13-réglages">13. Réglages</h2>
+<p><strong>⋮ → Réglages</strong> dans la liste des plats :</p>
+<figure><img class="screenshot" src="images/cookplanner/android/einstellungen.png" alt="Les réglages" loading="lazy">
+<figcaption>Les réglages : temps imparti et cuisine.</figcaption>
+</figure>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Réglage</th><th>Plage</th><th>Par défaut</th></tr></thead>
+<tbody>
+<tr><td>Temps imparti</td><td>10 à 180 minutes par pas de 5</td><td>35 minutes</td></tr>
+<tr><td>Feux</td><td>1 à 8</td><td>4</td></tr>
+<tr><td>Fours</td><td>0 à 3</td><td>1</td></tr>
+</tbody></table></div>
+<p>Chaque modification vaut aussitôt pour tous les verdicts et plans. Les fours sont considérés comme préchauffés quand le chrono démarre. L’application retient d’autres choix là où vous les faites : l’affichage du déroulé, l’horloge du mode cuisine, la lecture à voix haute, les portions et les coches de courses par plat, l’affichage et la note minimale sous Cuisiné, vos propres collections.</p>
+<hr>
+<h2 id="14-sauvegarde-et-changement-dappareil">14. Sauvegarde et changement d’appareil</h2>
+<p>Sur Android, toutes les données se trouvent uniquement sur cet appareil. Une sauvegarde protège contre la perte et transporte vos plats vers un autre appareil – y compris un iPhone avec CookPlanner, le format est le même.</p>
+<h3 id="sauvegarder">Sauvegarder</h3>
+<p><strong>⋮ → Sauvegarder plats et relevés</strong> dans la liste des plats écrit un fichier <code>….cookplanner</code> (nommé d’après la date) avec tous vos plats, tous les relevés et leurs photos. Android demande où l’enregistrer avec <strong>Enregistrer sous</strong> – par exemple dans Téléchargements ou Google Drive. L’application n’affiche pas de confirmation propre ; la boîte de dialogue d’Android confirme elle-même.</p>
+<h3 id="partager-un-plat">Partager un plat</h3>
+<p><strong>⋮ → Partager</strong> sur le plan d’un plat personnel enregistre seulement ce plat comme fichier <code>.cookplanner</code>, également via <strong>Enregistrer sous</strong>. Vous pouvez ensuite envoyer le fichier.</p>
+<h3 id="importer">Importer</h3>
+<p><strong>⋮ → Importer des plats</strong> ouvre le sélecteur de fichiers. CookPlanner ajoute les nouveaux plats et relevés avec leurs photos ; ce qui existe déjà reste inchangé. Ensuite, l’application indique combien de plats et de relevés ont été ajoutés et combien étaient déjà là. Un fichier d’une version plus récente de CookPlanner est refusé – mettez d’abord l’application à jour.</p>
+<blockquote class="note"><p>Si vous désinstallez l’application, plats et relevés disparaissent. Sauvegardez avant – et de préférence régulièrement.</p></blockquote>
+<hr>
+<h2 id="15-confidentialité">15. Confidentialité</h2>
+<ul><li><strong>Plats, relevés, photos et réglages</strong> restent uniquement sur votre appareil. Le développeur n’y a pas accès.</li><li><strong>Analyse de recette :</strong> ce n’est qu’à l’import que le texte de la recette part vers un service de Google (Firebase Cloud Functions avec analyse par IA). Il sert à l’analyse, pas à la publicité.</li><li>Les <strong>photos</strong> pour l’import ne quittent pas l’appareil : le texte est reconnu sur le téléphone, et seul le texte part à l’analyse – et seulement quand vous touchez <strong>Analyser</strong>.</li><li>Les <strong>pages web</strong> sont chargées sur l’appareil ; seul le texte de la recette part à l’analyse.</li><li><strong>Connexion :</strong> pour l’analyse, l’application se connecte de façon anonyme à Firebase. Il n’y a ni compte, ni nom, ni adresse e-mail. Une vérification via Google Play garantit que la requête vient de la véritable application.</li><li>Les <strong>commandes vocales</strong> utilisent la reconnaissance vocale d’Android, sur l’appareil quand c’est possible ; CookPlanner n’en garde rien. <strong>Lire à voix haute</strong> utilise la synthèse vocale d’Android.</li><li>Pas de publicité, pas de pistage.</li></ul>
+<hr>
+<h2 id="16-questions-fréquentes">16. Questions fréquentes</h2>
+<p><strong>Pourquoi le plat indique-t-il « Il manque N minutes » ?</strong><br>Lisez la raison sur le plan. Si la chaîne est trop longue, seules des étapes plus courtes ou un temps imparti plus grand aident ; s’il y a trop de travail manuel, simplifiez des étapes ; si mains ou équipement entrent en collision, davantage de feux ou de fours dans les réglages aident. Regardez aussi la carte <strong>Pour que ça tienne</strong>.</p>
+<p><strong>Le plat n’a pas de plan du tout, seulement une phrase en rouge.</strong><br>Le plus souvent, il lui faut un four ou un feu, et la cuisine est réglée sur 0. Ou des étapes s’attendent en cercle – vérifiez alors les coches sous <strong>Attend</strong>.</p>
+<p><strong>Puis-je modifier un exemple ?</strong><br>Pas directement. <strong>⋮ → Utiliser comme modèle</strong> crée une copie qui vous appartient.</p>
+<p><strong>Les temps changent-ils si je cuisine pour plus de personnes ?</strong><br>Non, seulement les quantités. Si vous constatez que c’est plus long, cuisinez en mode Entraînement, puis reprenez les durées mesurées.</p>
+<p><strong>Les notifications n’arrivent pas, ou en retard.</strong><br>Vérifiez l’autorisation sous <strong>Applications → CookPlanner → Notifications</strong> et exemptez l’application de l’optimisation de la batterie. Le mode cuisine affiche une remarque quand les notifications sont désactivées.</p>
+<p><strong>J’ai quitté le mode cuisine par erreur.</strong><br>Rouvrez l’application, ou touchez <strong>Commencer à cuisiner</strong> sur le même plat : la cuisson continue, jusqu’à six heures après le départ.</p>
+<p><strong>Les commandes vocales ne réagissent pas.</strong><br>Vérifiez l’autorisation du micro et dites les commandes brièvement et clairement. Pendant la lecture à voix haute, l’application n’écoute pas. Sans reconnaissance vocale sur l’appareil, il n’y a pas de commandes vocales.</p>
+<p><strong>L’import signale une erreur.</strong><br>Vérifiez la connexion Internet. Avec « La limite horaire d’analyses est atteinte », réessayez plus tard ; en cas de délai dépassé, importez une longue recette en deux parties. Rien de reconnu sur les photos ? Photographiez avec plus de lumière, bien à plat depuis le dessus.</p>
+<p><strong>Comment transférer mes plats vers un nouveau téléphone ou un iPhone ?</strong><br>Avec <strong>Sauvegarder plats et relevés</strong> sur l’ancien appareil et <strong>Importer des plats</strong> sur le nouveau (<a href="#14-sauvegarde-et-changement-dappareil">chapitre 14</a>).</p>
+<hr>
+<h2 id="17-ce-qui-existe-seulement-sur-liphone">17. Ce qui existe seulement sur l’iPhone</h2>
+<p>CookPlanner pour Android sait faire presque tout ce que fait l’application iPhone. Quelques fonctions dépendent de services Apple et manquent sur Android :</p>
+<div class="table-wrap"><table>
+<colgroup><col class="first" style="--w: 38%"></colgroup>
+<thead><tr><th>Sur l’iPhone</th><th>Sur Android</th></tr></thead>
+<tbody>
+<tr><td>Synchronisation iCloud entre iPhone et iPad</td><td>Pas de synchronisation ; changement d’appareil par le fichier de sauvegarde</td></tr>
+<tr><td>Activité en direct sur l’écran verrouillé et dans la Dynamic Island</td><td>Notifications par étape</td></tr>
+<tr><td>Alarmes via AlarmKit pour les casseroles prêtes</td><td>Notifications « le temps est écoulé »</td></tr>
+<tr><td>Siri et Raccourcis (« Combien de temps encore », « Étape terminée »)</td><td>Commandes vocales en mode cuisine</td></tr>
+<tr><td>Plats dans la recherche Spotlight</td><td>Recherche dans l’application</td></tr>
+<tr><td>Importer une recette depuis le navigateur via « Partager »</td><td><strong>+ → Importer depuis une page web</strong> avec l’adresse</td></tr>
+<tr><td>Raccourcis clavier sur l’iPad</td><td>–</td></tr>
+<tr><td>CookPlanner Pro en achat unique (menu, lecture à voix haute et commandes vocales, livre de l’année, statistiques, collections personnelles, plan en PDF, durées mesurées, plus d’analyses de recettes)</td><td>Tout est gratuit, rien à acheter</td></tr>
+</tbody></table></div>
+</article>
+
+<footer>
+  <p><a href="#top">Haut de page</a> · <a href="cookplanner.html#fr">Aide et contact</a> · <a href="cookplanner-privacy.html">Confidentialité</a> · <a href="impressum.html">Mentions légales</a></p>
+</footer>
+
+</main>
+</body>
+</html>

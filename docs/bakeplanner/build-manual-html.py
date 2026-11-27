@@ -1,11 +1,19 @@
 #!/usr/bin/env python3
-"""Builds the HTML pages of the user manual for the BakePlanner website.
+"""Builds the HTML pages of the user manuals for the BakePlanner website.
 
-Reads the three Markdown manuals in this folder and writes
-``website/manual-de.html``, ``website/manual-en.html`` and
-``website/manual-fr.html`` in the look of ``website/index.html``. The
-screenshots are copied to ``website/images`` so the relative image paths of
-the Markdown keep working.
+Three manuals, each in German, English and French, in the look of
+``website/index.html``:
+
+- BakePlanner (iPhone, iPad, Mac): the Markdown in this folder →
+  ``website/manual-<lang>.html``
+- BakePlanner for Android: ``Android-*.md`` in this folder →
+  ``website/android-manual-<lang>.html``
+- CookPlanner for Android: ``docs/cookplanner/Android-*.md`` →
+  ``website/cookplanner-android-manual-<lang>.html``
+
+The screenshots are copied to ``website/images`` (CookPlanner's to
+``website/images/cookplanner``, its image paths rewritten to match), so the
+relative image paths of the Markdown keep working.
 
 Run it again whenever a manual changes, then upload the ``website`` folder
 to the ``bakeplanner`` GitHub Pages repository:
@@ -29,10 +37,10 @@ from pathlib import Path
 DOCS = Path(__file__).resolve().parent
 WEBSITE = DOCS.parent / "website"
 
-MANUALS = {
+# Per language: the words around a manual. Each manual set below names its
+# sources and titles; the rest is shared.
+CHROME = {
     "de": {
-        "source": "Benutzerhandbuch.md",
-        "title": "BakePlanner – Benutzerhandbuch",
         "back": "Hilfe und Kontakt",
         "privacy": "Datenschutz",
         "imprint": "Impressum",
@@ -40,8 +48,6 @@ MANUALS = {
         "top": "Nach oben",
     },
     "en": {
-        "source": "User-Manual.md",
-        "title": "BakePlanner – User Manual",
         "back": "Help and contact",
         "privacy": "Privacy",
         "imprint": "Legal notice",
@@ -49,8 +55,6 @@ MANUALS = {
         "top": "Back to top",
     },
     "fr": {
-        "source": "Manuel-utilisateur.md",
-        "title": "BakePlanner – Manuel de l’utilisateur",
         "back": "Aide et contact",
         "privacy": "Confidentialité",
         "imprint": "Mentions légales",
@@ -58,6 +62,59 @@ MANUALS = {
         "top": "Haut de page",
     },
 }
+
+MANUALS = {
+    "de": {
+        "source": "Benutzerhandbuch.md",
+        "title": "BakePlanner – Benutzerhandbuch",
+    },
+    "en": {
+        "source": "User-Manual.md",
+        "title": "BakePlanner – User Manual",
+    },
+    "fr": {
+        "source": "Manuel-utilisateur.md",
+        "title": "BakePlanner – Manuel de l’utilisateur",
+    },
+}
+
+# The manual sets: where the Markdown is, what the pages are called, where
+# "Help and contact" and the privacy policy are, and where the pictures go.
+MANUAL_SETS = [
+    {
+        "folder": DOCS,
+        "page": "manual",
+        "help": "index.html",
+        "privacy_page": "privacy.html",
+        "images": "images",
+        "sources": {lang: meta["source"] for lang, meta in MANUALS.items()},
+        "titles": {lang: meta["title"] for lang, meta in MANUALS.items()},
+    },
+    {
+        "folder": DOCS,
+        "page": "android-manual",
+        "help": "index.html",
+        "privacy_page": "privacy.html",
+        "images": "images",
+        "sources": {"de": "Android-Benutzerhandbuch.md", "en": "Android-User-Manual.md",
+                    "fr": "Android-Manuel-utilisateur.md"},
+        "titles": {"de": "BakePlanner für Android – Benutzerhandbuch",
+                   "en": "BakePlanner for Android – User Manual",
+                   "fr": "BakePlanner pour Android – Manuel de l’utilisateur"},
+    },
+    {
+        "folder": DOCS.parent / "cookplanner",
+        "page": "cookplanner-android-manual",
+        "help": "cookplanner.html",
+        "privacy_page": "cookplanner-privacy.html",
+        "images": "images/cookplanner",
+        "sources": {"de": "Android-Benutzerhandbuch.md", "en": "Android-User-Manual.md",
+                    "fr": "Android-Manuel-utilisateur.md"},
+        "titles": {"de": "CookPlanner für Android – Benutzerhandbuch",
+                   "en": "CookPlanner for Android – User Manual",
+                   "fr": "CookPlanner pour Android – Manuel de l’utilisateur"},
+    },
+]
 
 LANGUAGE_NAMES = {"de": "Deutsch", "en": "English", "fr": "Français"}
 
@@ -387,9 +444,9 @@ PAGE = """<!DOCTYPE html>
 </header>
 
 <nav aria-label="{languages}">
-  <a href="index.html#{lang}">{back}</a>
+  <a href="{help}#{lang}">{back}</a>
 {language_links}
-  <a href="privacy.html">{privacy}</a>
+  <a href="{privacy_page}">{privacy}</a>
   <a href="impressum.html">{imprint}</a>
 </nav>
 
@@ -398,7 +455,7 @@ PAGE = """<!DOCTYPE html>
 </article>
 
 <footer>
-  <p><a href="#top">{top}</a> · <a href="index.html#{lang}">{back}</a> · <a href="privacy.html">{privacy}</a> · <a href="impressum.html">{imprint}</a></p>
+  <p><a href="#top">{top}</a> · <a href="{help}#{lang}">{back}</a> · <a href="{privacy_page}">{privacy}</a> · <a href="impressum.html">{imprint}</a></p>
 </footer>
 
 </main>
@@ -407,41 +464,49 @@ PAGE = """<!DOCTYPE html>
 """
 
 
-def language_links(current: str) -> str:
+def language_links(current: str, page: str) -> str:
     links = []
     for code, name in LANGUAGE_NAMES.items():
         current_attr = ' aria-current="page"' if code == current else ""
-        links.append(f'  <a href="manual-{code}.html" lang="{code}"{current_attr}>{name}</a>')
+        links.append(f'  <a href="{page}-{code}.html" lang="{code}"{current_attr}>{name}</a>')
     return "\n".join(links)
 
 
 def build() -> None:
-    for lang, meta in MANUALS.items():
-        source = (DOCS / meta["source"]).read_text(encoding="utf-8")
-        heading, subtitle, body = convert(source)
-        page = PAGE.format(
-            lang=lang,
-            title=html.escape(meta["title"]),
-            css=CSS,
-            heading=inline(heading or meta["title"]),
-            subtitle=inline(subtitle),
-            languages=meta["languages"],
-            back=meta["back"],
-            language_links=language_links(lang),
-            privacy=meta["privacy"],
-            imprint=meta["imprint"],
-            top=meta["top"],
-            body=body,
-        )
-        target = WEBSITE / f"manual-{lang}.html"
-        target.write_text(page, encoding="utf-8")
-        print(f"wrote {target.relative_to(DOCS.parent)} ({len(page):,} bytes)")
+    for manual in MANUAL_SETS:
+        for lang, source_name in manual["sources"].items():
+            chrome = CHROME[lang]
+            source = (manual["folder"] / source_name).read_text(encoding="utf-8")
+            heading, subtitle, body = convert(source)
+            if manual["images"] != "images":
+                body = body.replace('src="images/', f'src="{manual["images"]}/')
+            page = PAGE.format(
+                lang=lang,
+                title=html.escape(manual["titles"][lang]),
+                css=CSS,
+                heading=inline(heading or manual["titles"][lang]),
+                subtitle=inline(subtitle),
+                languages=chrome["languages"],
+                back=chrome["back"],
+                help=manual["help"],
+                language_links=language_links(lang, manual["page"]),
+                privacy=chrome["privacy"],
+                privacy_page=manual["privacy_page"],
+                imprint=chrome["imprint"],
+                top=chrome["top"],
+                body=body,
+            )
+            target = WEBSITE / f"{manual['page']}-{lang}.html"
+            target.write_text(page, encoding="utf-8")
+            print(f"wrote {target.relative_to(DOCS.parent)} ({len(page):,} bytes)")
 
-    # Screenshots, including the per-language subfolders.
+    # Screenshots, including the per-language and per-platform subfolders;
+    # CookPlanner's beneath BakePlanner's.
     target_images = WEBSITE / "images"
     if target_images.exists():
         shutil.rmtree(target_images)
     shutil.copytree(DOCS / "images", target_images)
+    shutil.copytree(DOCS.parent / "cookplanner" / "images", target_images / "cookplanner")
     count = sum(1 for p in target_images.rglob("*") if p.is_file())
     print(f"copied {count} images to {target_images.relative_to(DOCS.parent)}")
 
