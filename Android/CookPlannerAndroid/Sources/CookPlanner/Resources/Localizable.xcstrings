@@ -936,6 +936,23 @@
         }
       }
     },
+    "Auf den Fotos wurde kein Text erkannt." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No text was recognized in the photos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun texte n’a été reconnu sur les photos."
+          }
+        }
+      }
+    },
     "Auf diesem Gerät gibt es keine Spracherkennung." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -966,6 +983,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "sur %lld passages"
+          }
+        }
+      }
+    },
+    "Aus Fotos importieren" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import from photos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importer depuis des photos"
           }
         }
       }
@@ -1956,6 +1990,23 @@
         }
       }
     },
+    "Ein Kochbuch oder ein Zettel: Der Text wird auf dem Telefon erkannt und erscheint im Feld, wo Du ihn prüfen kannst. Mehrere Seiten nacheinander aufnehmen. Die Fotos verlassen das Gerät nicht." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A cookbook or a note: the text is recognized on the phone and appears in the field, where you can check it. Take several pages one after another. The photos never leave the device."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un livre de cuisine ou une fiche : le texte est reconnu sur le téléphone et apparaît dans le champ, où vous pouvez le vérifier. Prenez plusieurs pages l’une après l’autre. Les photos ne quittent pas l’appareil."
+          }
+        }
+      }
+    },
     "Ein neuer Schritt folgt dem vorherigen Schritt seiner Komponente, bis Du die Auswahl änderst. Das Anrichten wartet auf den letzten Schritt jeder Komponente." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2411,6 +2462,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Retirer la photo"
+          }
+        }
+      }
+    },
+    "Fotos" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photos"
           }
         }
       }
@@ -5148,6 +5216,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Partager"
+          }
+        }
+      }
+    },
+    "Text wird erkannt …" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recognizing text …"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reconnaissance du texte …"
           }
         }
       }

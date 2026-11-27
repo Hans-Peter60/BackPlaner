@@ -2,3 +2,11 @@
 # its public API bridged to the app's native Swift.
 skip:
   bridging: true
+
+# ML Kit's text recognition for the photo import (TextReader), with the
+# Latin model in the app, so it works offline and without Play services.
+build:
+  contents:
+    - block: 'dependencies'
+      contents:
+        - 'implementation("com.google.mlkit:text-recognition:16.0.1")'

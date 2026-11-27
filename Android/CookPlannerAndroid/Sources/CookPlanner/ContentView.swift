@@ -76,6 +76,10 @@ struct DishListView: View {
     @State var composesMenu = false
     @State var showsImport = false
     @State var importsFromWeb = false
+    @State var importsFromPhotos = false
+    /// New for every import: Skip keeps a sheet's state between
+    /// openings, and the last result would show again.
+    @State var importID = UUID()
     @State var showsFilter = false
     @State var collections = SavedCollectionStore.shared
     @Environment(\.colorScheme) var colorScheme
@@ -112,10 +116,20 @@ struct DishListView: View {
                     }
                     Button(String(localized: "Aus Text importieren", bundle: .module)) {
                         importsFromWeb = false
+                        importsFromPhotos = false
+                        importID = UUID()
+                        showsImport = true
+                    }
+                    Button(String(localized: "Aus Fotos importieren", bundle: .module)) {
+                        importsFromWeb = false
+                        importsFromPhotos = true
+                        importID = UUID()
                         showsImport = true
                     }
                     Button(String(localized: "Aus Webseite importieren", bundle: .module)) {
                         importsFromWeb = true
+                        importsFromPhotos = false
+                        importID = UUID()
                         showsImport = true
                     }
                     Button(String(localized: "Menü zusammenstellen", bundle: .module)) {
@@ -160,14 +174,15 @@ struct DishListView: View {
             }
         }
         .appSheet(isPresented: $showsImport) {
-            DishImportView(fromWeb: importsFromWeb) { dish in
+            DishImportView(fromWeb: importsFromWeb, fromPhotos: importsFromPhotos, onImported: { dish in
                 editing = dish
                 // The editor opens once the import sheet has gone.
                 Task {
                     try? await Task.sleep(nanoseconds: 450_000_000)
                     showsEditor = true
                 }
-            }
+            })
+            .id(importID)
         }
         .appSheet(isPresented: $showsEditor) {
             DishEditorView(library: library, dish: editing) { dish in
