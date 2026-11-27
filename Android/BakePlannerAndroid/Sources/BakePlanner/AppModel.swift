@@ -646,6 +646,8 @@ final class AppModel {
         // The serving size from the settings, as the iPhone takes it
         // (2 is the recipe as stored).
         let scale = Double(AppSettings.storedServingSize) / 2
+        // A rhythm plans by itself only with Pro, as on the iPhone.
+        guard BakePro.shared.isUnlocked(.recurringPlans) else { return }
         for recipe in recipes where recipe.content.recurrenceIntervalDays > 0 {
             guard let plan = RecurringBakePlanner.dueOccurrence(of: rhythmRecipe(recipe), steps: store) else { continue }
             logger.info("automatic occurrence of \(recipe.content.name) at \(plan.baseDate)")
@@ -812,7 +814,7 @@ final class AppModel {
             let needed = ShoppingListBuilder.entriesToBuy(ShoppingListBuilder.entries(of: content), scale: scale)
             guard !needed.isEmpty else { return .nothingToBuy }
             // What the pantry covers stays off the list, as on the iPhone.
-            let entries = deductsPantry ? PantryMatcher.reduce(needed, pantry: availablePantry) : needed
+            let entries = deductsPantry && BakePro.shared.isUnlocked(.pantry) ? PantryMatcher.reduce(needed, pantry: availablePantry) : needed
             guard !entries.isEmpty else { return .allInPantry }
 
             let lists = try openedListStore()
@@ -1435,6 +1437,8 @@ final class AppModel {
     }
 
     func reservePantry(recipe: RecipeExportData, planID: UUID, scale: Double, planEnd: Date) {
+        // The pantry is Pro; without it a plan books nothing.
+        guard BakePro.shared.isUnlocked(.pantry) else { return }
         do {
             let items = try openedPantryStore()
             let reservations = try openedReservationStore()

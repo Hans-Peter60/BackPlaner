@@ -38,7 +38,11 @@ enum SettingsFile {
                 logger.error("could not read the settings: \(error)")
             }
         }
-        AppSettings.settingsReader = { key in SettingsFile.value(forKey: key) }
+        AppSettings.settingsReader = { key in
+            // Oven profiles are Pro: locked, the package plans without them.
+            if key == AppSettingsKeys.ovenProfiles && !BakePro.ovenProfilesOpen { return nil }
+            return SettingsFile.value(forKey: key)
+        }
     }
 
     /// The stored value, nil when there is none (the default applies).

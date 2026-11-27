@@ -23,8 +23,9 @@ Stand: 27.11.2026 · Android-Fassung 2.4
 15. [Einheiten und Portionen](#15-einheiten-und-portionen)
 16. [Daten, Sicherung und Gerätewechsel](#16-daten-sicherung-und-gerätewechsel)
 17. [Datenschutz](#17-datenschutz)
-18. [Häufige Fragen](#18-häufige-fragen)
-19. [Was es nur auf dem iPhone gibt](#19-was-es-nur-auf-dem-iphone-gibt)
+18. [BakePlanner Pro](#18-bakeplanner-pro)
+19. [Häufige Fragen](#19-häufige-fragen)
+20. [Was es nur auf dem iPhone gibt](#20-was-es-nur-auf-dem-iphone-gibt)
 
 ---
 
@@ -39,7 +40,7 @@ BakePlanner ist eine Backplanungs-App für Brot, Brötchen und Gebäck. Sie unte
 
 Dazu kommen: eine gemeinsame öffentliche Rezept-Datenbank, eigene Rezepte auf dem Gerät, Import aus Fotos, von Internetseiten und aus Text, Einkaufslisten nach Regalen sortiert, ein Vorrat, eine Backhistorie mit Fotos, Messwerten und Statistik, ein Anstellgut-Tagebuch mit Reifezeit-Schätzung, Rezept-Varianten mit Vergleich, ein Backmodus mit Vorlesen und vier Bäckerrechner.
 
-**Auf Android ist alles frei.** Es gibt kein Pro und nichts zu kaufen.
+**Kostenlos und BakePlanner Pro.** Der Kern der App ist kostenlos: Rezepte, Planen mit Erinnerungen, Backmodus mit Vorlesen, Backhistorie, die Rezept-Datenbank, die Rechner und die Sicherung. Einige weitergehende Funktionen – etwa Einkaufslisten, Vorrat, Backtag und Ofenprofile – gehören zu **BakePlanner Pro**, einem einmaligen Kauf über Google Play ohne Abo (siehe [Kapitel 18](#18-bakeplanner-pro)).
 
 ### Schnellstart: In fünf Schritten zum ersten Backplan
 
@@ -59,6 +60,7 @@ Beim ersten Planen fragt Android, ob BakePlanner Benachrichtigungen senden darf.
 |-------|------|
 | Android | 9.0 oder neuer; eine eigene App-Sprache unabhängig von der Systemsprache ab Android 13 |
 | Bezug | Google Play (zurzeit als geschlossener Test) |
+| Kosten | Kostenlos; BakePlanner Pro als einmaliger In-App-Kauf über Google Play (siehe [Kapitel 18](#18-bakeplanner-pro)) |
 | Größe | Rund 55–60 MB Download, rund 190 MB installiert – die App bringt ihre eigene Laufzeit mit |
 | Sprachen | Deutsch, Englisch, Französisch |
 | Darstellung | Hell- und Dunkelmodus nach der Systemeinstellung, Schriftgröße nach der Android-Einstellung „Schriftgröße“ |
@@ -122,12 +124,16 @@ Nach dem Start öffnet sich die App im Tab **Rezepte**. Am unteren Rand liegen d
 | **Zeitleiste** | Alle geplanten Schritte als Timeline oder Liste, dazu der Backmodus (siehe [Kapitel 9](#9-zeitleiste-und-backtag-planen)) |
 | **Vorrat** | Was Du zu Hause hast: Mehle, Saaten, Hefe mit Menge und Haltbarkeit (siehe [Kapitel 12](#12-vorrat)) |
 
+**Einkauf** und **Vorrat** gehören zu BakePlanner Pro. Ohne Pro zeigen die beiden Tabs, was die Funktion macht, und **Mehr erfahren** (siehe [Kapitel 18](#18-bakeplanner-pro)).
+
 Oben rechts im Tab **Rezepte** stehen zwei Menüs:
 
 | Menü | Einträge |
 |------|----------|
 | **Mehr** | **Einstellungen**, **Rezepte importieren** (eine Sicherungsdatei oder ein einzeln gesichertes Rezept einlesen), **Rezepte exportieren** (eigene Rezepte als Datei), **Backtag planen** und **Rechner** |
 | **+** (Neues Rezept) | **Von Hand**, **Nach Bäckerprozent**, **Von einer Internetseite**, **Aus Fotos**, **Aus Text** (siehe [Kapitel 8](#8-neues-rezept-anlegen-und-bearbeiten)) |
+
+Einträge mit dem Zusatz **„· PRO“** – hier **Backtag planen · PRO** und **Nach Bäckerprozent · PRO** – gehören zu BakePlanner Pro; solange Pro nicht freigeschaltet ist, öffnen sie die Pro-Seite (siehe [Kapitel 18](#18-bakeplanner-pro)).
 
 Mit dem Zurück-Pfeil oben links oder der Zurück-Geste von Android kommst Du aus jedem geöffneten Bildschirm zurück. Blätter wie das Planungsblatt oder das Bearbeiten schließt **Abbrechen** beziehungsweise **Schließen** oben links.
 
@@ -150,14 +156,14 @@ Die öffentliche Rezept-Datenbank teilen sich alle Nutzer von BakePlanner, auf A
 Ein öffentliches Rezept öffnet sich als durchgehende Seite: Bild, Name und Beschreibung, Menge und Teiggewicht, Gesamtgewicht, die TA-Zeile, darunter Gesamtzutaten, Komponenten und Verarbeitungsschritte. Dazu drei Schaltflächen:
 
 - **Planen** – öffnet das Planungsblatt (siehe [Kapitel 7](#7-planen-backmodus-und-erinnerungen)).
-- **Rezept zur Einkaufsliste hinzufügen** – siehe [Kapitel 11](#11-einkaufslisten).
+- **Rezept zur Einkaufsliste hinzufügen** – siehe [Kapitel 11](#11-einkaufslisten). Gehört zu BakePlanner Pro.
 - **Als eigenes Rezept speichern** – legt eine vollständige Kopie samt Bild auf Deinem Gerät an. Erst diese Kopie kannst Du bearbeiten. Eine schon vorhandene Kopie bleibt, wie sie ist.
 
 ### Weitere Aktionen
 
 Oben rechts unter **Weitere Aktionen**:
 
-- **Rezept teilen** – erzeugt ein PDF des Rezepts in der gewählten Menge und öffnet das Teilen-Menü von Android.
+- **Rezept teilen** – erzeugt ein PDF des Rezepts in der gewählten Menge und öffnet das Teilen-Menü von Android. Gehört zu BakePlanner Pro (siehe [Kapitel 18](#18-bakeplanner-pro)).
 - **Rezept melden** – mit einem Grund (anstößig, Spam, Urheberrecht, Sonstiges). Das Rezept wird **sofort für alle Nutzer** ausgeblendet, bis ein Administrator es geprüft hat.
 - **Autor blockieren** – alle Rezepte dieses Autors verschwinden **nur auf Deinem Gerät** aus der Liste.
 - **Rezept bearbeiten** und **Mein Rezept löschen** – nur bei Rezepten, die von Deinem Konto stammen. Bearbeitet wird das Rezept in der Datenbank; Deine lokale Fassung bleibt davon unberührt.
@@ -197,6 +203,8 @@ Mit Vorrat kommen die Schalter **Aus dem Vorrat** (nur Rezepte, deren Zutaten vo
 
 **Fertig bis.** Im Blatt **Filter …** wählst Du mit **Fertig bis** Datum und Uhrzeit, zu der das Brot fertig sein soll. Die Liste zeigt dann nur Rezepte, die bis dahin noch zu schaffen sind, und schreibt den nötigen Start unter jedes: „Start heute 17:45“, „Start morgen 06:10“, gegebenenfalls mit „Schritte in der Nacht“. Das Ziel steht als erster Chip über der Liste; ein Tipp darauf ändert es.
 
+> **Gehört zu BakePlanner Pro:** eigene Sammlungen und **Fertig bis** (siehe [Kapitel 18](#18-bakeplanner-pro)). Ohne Pro steht im Blatt **Filter …** statt **Fertig bis** und **Sammlung sichern** der Eintrag **Sammlungen und Fertig bis · PRO**; gesicherte Sammlungen und der Fertig-bis-Chip verschwinden aus der Liste. Die gesicherten Sammlungen bleiben gespeichert und kommen mit dem Kauf zurück. Suche, Facetten und die vorgegebenen Sammlungen sind kostenlos.
+
 ### Rezept löschen
 
 Wische ein eigenes Rezept in der Liste nach links und bestätige die Rückfrage. Mit dem Rezept verschwinden seine Backhistorie und sein Anstellgut-Tagebuch. Öffentliche Rezepte lassen sich hier nicht löschen.
@@ -211,8 +219,8 @@ Von oben nach unten:
 
 1. **Bild** mit **Bild ändern**, **Kamera** und **Bild entfernen**, darunter die Beschreibung und – falls hinterlegt – der **Link zum Rezept**.
 2. **Menge** (Faktor) und **Teiggewicht**, das **Gesamtgewicht**, die **Bearbeitungsdauer** und die Zeile **„TA 172 · Hydration 72 %“**; ein Tipp darauf öffnet die Aufschlüsselung (siehe [Kapitel 15](#15-einheiten-und-portionen)). Bei regelmäßig geplanten Rezepten folgt „Nächster Backtermin“ beziehungsweise „Nächste Fütterung“.
-3. **Vorrat** – sobald etwas im Vorrat steht: „Alle 5 Zutaten sind im Vorrat“ oder was fehlt (siehe [Kapitel 12](#12-vorrat)).
-4. **Planen** und **Rezept zur Einkaufsliste hinzufügen**.
+3. **Vorrat** – mit BakePlanner Pro, sobald etwas im Vorrat steht: „Alle 5 Zutaten sind im Vorrat“ oder was fehlt (siehe [Kapitel 12](#12-vorrat)).
+4. **Planen** und **Rezept zur Einkaufsliste hinzufügen** (Pro).
 5. **Gesamtzutaten**, **Komponenten** und **Verarbeitungsschritte**. Mehl- und Anstellgut-Zeilen sind antippbar (siehe [Kapitel 13](#13-rechner)).
 6. **Letztes Mal**, **Backvorgang eintragen** und **Bisherige Backvorgänge** – bei einem Anstellgut stattdessen das **Anstellgut-Tagebuch**.
 7. **Varianten** – die Rezepte, die aus diesem entstanden sind.
@@ -225,6 +233,8 @@ Oben rechts stehen **Bearbeiten** (siehe [Kapitel 8](#8-neues-rezept-anlegen-und
 | **Rezept teilen** | Erzeugt ein PDF mit Bild, Komponenten, Gesamtzutaten und Schritten in der gewählten Menge und öffnet das Teilen-Menü |
 | **Veröffentlichen** | Stellt das Rezept in die Rezept-Datenbank (siehe unten) |
 | **Variante anlegen** | Legt eine Variante an (siehe unten) |
+
+**Rezept sichern** und **Rezept teilen** gehören zu BakePlanner Pro (siehe [Kapitel 18](#18-bakeplanner-pro)); ohne Pro tragen sie den Zusatz „· PRO“ und öffnen die Pro-Seite. Alle Rezepte auf einmal sicherst Du kostenlos über **Mehr → Rezepte exportieren**.
 
 **Veröffentlichen** setzt zweierlei voraus: die **Anmeldung mit Apple** unter *Einstellungen → Konto* (sonst erscheint „Anmeldung nötig“) und ein **Rezeptbild** (sonst „Bild erforderlich“). Beim ersten Mal akzeptierst Du die Nutzungsbedingungen (siehe [Kapitel 17](#17-datenschutz)), dann folgt die Rückfrage **Rezept veröffentlichen?** mit **Öffentlich speichern**. Danach steht auf der Seite „Veröffentlicht“, und der Eintrag entfällt: Ein Rezept wird nur einmal veröffentlicht, Änderungen machst Du danach an der öffentlichen Fassung (siehe [Kapitel 5](#5-rezept-datenbank)).
 
@@ -264,7 +274,7 @@ Das ist der Kern der App. **Planen** auf der Rezeptseite öffnet das Planungsbla
 |---------|----------|
 | **Starten ab / Fertig bis** | **Starten ab**: Ich fange zu diesem Zeitpunkt an – wann bin ich fertig? **Fertig bis**: Ich will zu diesem Zeitpunkt fertig sein – wann muss ich anfangen? |
 | **Datum** und **Startzeit** | Der Bezugszeitpunkt der Planung |
-| **Ofen** und **Umluft** | Nur mit zwei oder mehr Ofenprofilen (siehe [Kapitel 14](#14-einstellungen)): der Ofen für dieses Brot, vorbelegt mit dem aus den Einstellungen, und ob er mit Umluft backt |
+| **Ofen** und **Umluft** | Nur mit BakePlanner Pro und zwei oder mehr Ofenprofilen (siehe [Kapitel 14](#14-einstellungen)): der Ofen für dieses Brot, vorbelegt mit dem aus den Einstellungen, und ob er mit Umluft backt |
 | **Dauer ändern** | Schalter. Aktiv erscheint pro Schritt ein Feld für die Dauer; **Dauer übernehmen** speichert die neuen Dauern im Rezept |
 
 Ändere den Zeitpunkt und beobachte, wie sich die Uhrzeiten unter **Verarbeitungsschritte** anpassen. Gespeichert wird erst mit **Planen** oben rechts.
@@ -361,6 +371,8 @@ Für Rezepte aus einer Nachricht, einer Notiz oder von einer Seite, die der Web-
 
 Für alle, die Rezepte als Formel denken: Du gibst jede Zutat als Anteil vom Mehl ein, die App rechnet die Gramm.
 
+> Gehört zu BakePlanner Pro (siehe [Kapitel 18](#18-bakeplanner-pro)). Ohne Pro heißt der Eintrag im Menü **+** „Nach Bäckerprozent · PRO“ und öffnet die Pro-Seite.
+
 1. **Rezeptname** eintragen.
 2. **Vorgabe**: **Mehl gesamt** (etwa 500 g) oder **Teiggewicht** (etwa 850 g) und die Menge.
 3. **Komponenten und Zutaten** in Prozent; alle Prozente beziehen sich auf das gesamte Mehl des Rezepts, die Mehle müssen zusammen 100 Prozent ergeben. Weitere Komponenten legst Du mit **Neue Komponente** und **Hinzufügen** an. Neben jeder Zeile stehen die errechneten Gramm.
@@ -376,7 +388,7 @@ Das Formular – beim Anlegen „Neues Rezept“, beim Ändern „Bearbeiten“ 
 - **Rezeptbild** – **Bild hinzufügen** aus den Dateien oder **Kamera**. Fotos werden schon beim Auswählen auf Bildschirmgröße verkleinert. Zum Veröffentlichen ist ein Bild nötig.
 - **Beschreibung**.
 - **Bewertung** – fünf Sterne; ein zweiter Tipp auf denselben Stern nimmt die Bewertung zurück. Darunter **Tags, durch Komma getrennt**.
-- **Regelmäßig planen** (bei einem Anstellgut **Regelmäßig auffrischen**) mit „alle … Tage“: Nach dem letzten Backen plant die App den nächsten Termin von selbst, zur selben Uhrzeit wie der Beginn des ersten Schritts. Solche Termine erscheinen erst zwei Tage vorher in der Zeitleiste; die Erinnerungen kommen trotzdem pünktlich.
+- **Regelmäßig planen** (bei einem Anstellgut **Regelmäßig auffrischen**) mit „alle … Tage“: Nach dem letzten Backen plant die App den nächsten Termin von selbst, zur selben Uhrzeit wie der Beginn des ersten Schritts. Solche Termine erscheinen erst zwei Tage vorher in der Zeitleiste; die Erinnerungen kommen trotzdem pünktlich. Wiederkehrende Backpläne gehören zu BakePlanner Pro (siehe [Kapitel 18](#18-bakeplanner-pro)): Ohne Pro ist der Schalter gesperrt, darunter steht „Wiederkehrende Backpläne gehören zu BakePlanner Pro.“, und Rezepte mit Rhythmus werden nicht von selbst geplant.
 - **Komponente** – je Komponente ein Name und ihre Zutaten mit **Menge**, **Einheit** und **Zutat**. Die Menge darf ein Bruch sein („1/2“, „1 1/2“), die Einheit ein Kürzel aus [Kapitel 15](#15-einheiten-und-portionen). **Zutat hinzufügen**, **Komponente entfernen**, darunter **Komponente hinzufügen**. Eine Zutatenzeile löschst Du durch Wischen.
 - **Verarbeitungsschritte** – je Schritt **Nr.**, Text und Dauer in **Minuten** (auch „1:30“ oder „1,5 h“). **Schritt hinzufügen** zählt auf die nächste ganze Zahl weiter, **Unterschritt hinzufügen** legt einen Parallelschritt wie 3.1 an. Löschen durch Wischen.
 
@@ -433,6 +445,8 @@ Sind keine Schritte geplant, steht dort „Keine geplanten Schritte – Öffne e
 
 ### Backtag planen
 
+> Gehört zu BakePlanner Pro (siehe [Kapitel 18](#18-bakeplanner-pro)). Ohne Pro heißt der Eintrag „Backtag planen · PRO“ und öffnet die Pro-Seite.
+
 **Rezepte → Mehr → Backtag planen** plant mehrere Brote auf einmal:
 
 1. Unter **Rezepte** wählst Du die Brote; Anstellgut-Rezepte stehen nicht zur Wahl.
@@ -476,6 +490,8 @@ Der Eintrag („Backanmerkungen- / hinweise“) hat:
 
 **Darstellung → Statistik** rechnet zusammen, was die gerade gezeigten, schon vergangenen Backvorgänge ergeben: oben **Brote gesamt**, **Dieses Jahr**, **Pro Monat** und die Durchschnittsbewertung, darunter **Brote je Monat**, **Meistgebacken**, **Bewertungen**, **Stückgare und Raumtemperatur** (ein Punkt je Backen) und **Krume und Ofentrieb**. Die Diagramme sind einfache Balken und Punkte ohne Achsenbeschriftung. Je mehr Messwerte Du einträgst, desto mehr zeigt die Statistik.
 
+> Die Statistik gehört zu BakePlanner Pro (siehe [Kapitel 18](#18-bakeplanner-pro)). Ohne Pro zeigt **Statistik**, was sie kann, und **Mehr erfahren**.
+
 ### Backhistorie aus Fotos
 
 Das Foto-Symbol oben im Tab **Backhistorie** holt alte Brotfotos in die Historie:
@@ -485,9 +501,13 @@ Das Foto-Symbol oben im Tab **Backhistorie** holt alte Brotfotos in die Historie
 3. Prüfe jede Zeile: Datum wählen, wenn „Kein Datum im Foto“ steht, Rezept wählen oder ändern. Zeilen mit „Schon in der Backhistorie an diesem Tag“ werden übersprungen.
 4. **Anlegen** schreibt die Einträge mit dem Foto.
 
+> Gehört zu BakePlanner Pro (siehe [Kapitel 18](#18-bakeplanner-pro)). Ohne Pro öffnet das Foto-Symbol die Pro-Seite.
+
 ---
 
 ## 11. Einkaufslisten
+
+> Gehört zu BakePlanner Pro (siehe [Kapitel 18](#18-bakeplanner-pro)). Ohne Pro zeigt der Tab **Einkauf**, was die Funktion macht, und **Mehr erfahren**; **Rezept zur Einkaufsliste hinzufügen** trägt den Zusatz „· PRO“.
 
 ### Zutaten auf eine Liste setzen
 
@@ -524,6 +544,8 @@ Im Tab **Einkauf** steht je Liste „Einkaufsliste vom …“, darunter die enth
 ## 12. Vorrat
 
 Der Tab **Vorrat** führt, was Du zu Hause hast – nach denselben Regalen wie die Einkaufsliste.
+
+> Gehört zu BakePlanner Pro (siehe [Kapitel 18](#18-bakeplanner-pro)). Ohne Pro zeigt der Tab **Vorrat**, was die Funktion macht, und **Mehr erfahren**. Die Karte **Vorrat** auf der Rezeptseite und **Vorrat abziehen** fehlen dann, und Pläne reservieren nichts aus dem Vorrat. Eingetragene Posten bleiben gespeichert.
 
 ![Vorrat auf Android mit Posten nach Regalen, Mengen und Haltbarkeit](images/android/vorrat.png)
 
@@ -577,6 +599,10 @@ Rechnet aus, wie viel Teig in eine Form passt: **Kastenform** und **Runde Form**
 
 **Rezepte → Mehr → Einstellungen.** Die Einstellungen gelten nur auf diesem Gerät.
 
+### BakePlanner Pro
+
+Ganz oben steht **BakePlanner Pro**, daneben **Mehr erfahren** oder nach dem Kauf **Freigeschaltet**. Ein Tipp öffnet die Pro-Seite mit Kauf und **Käufe wiederherstellen** (siehe [Kapitel 18](#18-bakeplanner-pro)).
+
 ### Allgemein
 
 **Sprache** öffnet Androids Einstellung „App-Sprache“ (ab Android 13). Dort wählst Du Deutsch, Englisch oder Französisch unabhängig von der Gerätesprache; ohne Auswahl folgt die App der Systemsprache. In der App selbst gibt es keine Sprachauswahl.
@@ -599,6 +625,8 @@ Rechnet aus, wie viel Teig in eine Form passt: **Kastenform** und **Runde Form**
 ### Backöfen
 
 Deine Öfen als Profile: **Name**, **Vorheizzeit**, **Vorheizzeit mit Backstein**, die **Abweichung** (ob der Ofen heißer oder kälter läuft, als der Regler zeigt) und der **Umluft-Abschlag**. **Geplant wird mit** ist der Ofen, den Planungsblatt und Backtag vorschlagen; **Ofen hinzufügen** legt einen weiteren an, **Ofen löschen** entfernt ihn. Mit Ofenprofilen nennen die Ofenschritte die Reglereinstellung („Backofen anstellen (250 °C, am Regler 240 °C)“), und die Zahl der Öfen ist die Zahl der Profile. Das Rezept merkt sich den Ofen nicht; vorbelegt ist immer der aus den Einstellungen.
+
+> Ofenprofile gehören zu BakePlanner Pro (siehe [Kapitel 18](#18-bakeplanner-pro)). Ohne Pro steht unter **Backöfen** nur ein Hinweis, und die App plant, als gäbe es keine Ofenprofile: mit den Vorheizzeiten und der Zahl der **Backöfen** aus **Backplanung**, ohne Ofenwahl im Planungsblatt. Gesicherte Profile bleiben erhalten und gelten nach dem Kauf wieder.
 
 ### Backplanung
 
@@ -722,7 +750,7 @@ Eigene Rezepte, geplante Schritte, Einkaufslisten, Backhistorie, Anstellgut-Tage
 
 - **Einstellungen → Sicherung → Vollständige Sicherung erstellen** schreibt alle eigenen Rezepte samt Bildern, die Backhistorie mit Fotos, das Anstellgut-Tagebuch und den Vorrat in eine Datei. Lege sie in Google Drive ab, schick sie Dir per Mail oder kopiere sie auf den Rechner.
 - **Rezepte → Mehr → Rezepte exportieren** sichert eine Auswahl: Rezepte anhaken oder **Alle auswählen**, auf Wunsch **Mit Backhistorie, Anstellgut-Tagebuch und Vorrat**, dann **Exportieren**. Einige Rezepte ohne den Schalter sind eine Weitergabe an andere.
-- **Rezept sichern** unter **Weitere Aktionen** auf einer Rezeptseite schreibt ein einzelnes Rezept ohne Backhistorie.
+- **Rezept sichern** unter **Weitere Aktionen** auf einer Rezeptseite schreibt ein einzelnes Rezept ohne Backhistorie. Das gehört zu BakePlanner Pro; die vollständige Sicherung und **Rezepte exportieren** sind kostenlos.
 
 Rezeptbilder und Backfotos verkleinert Android schon beim Auswählen auf Bildschirmgröße; so bleibt auch eine Sicherung mit vielen Fotos handlich.
 
@@ -764,7 +792,67 @@ Mit **Ablehnen** wird nichts hochgeladen; das Rezept bleibt lokal. Gegen unerwü
 
 ---
 
-## 18. Häufige Fragen
+## 18. BakePlanner Pro
+
+BakePlanner Pro ist ein **einmaliger Kauf** über Google Play – kein Abo. Den Preis nennt die Pro-Seite so, wie Google Play ihn für Dein Land angibt. Einmal gekauft, bleiben die Funktionen dauerhaft freigeschaltet.
+
+### Was enthalten ist
+
+| Funktion | Was sie macht | Wo in der App |
+|----------|---------------|---------------|
+| **Rezepte als PDF teilen** | Ein Rezept in der gezeigten Menge als PDF drucken oder verschicken | Rezeptseite → **Weitere Aktionen** → **Rezept teilen**, auch bei öffentlichen Rezepten (siehe [Kapitel 6](#6-eigene-rezepte)) |
+| **Rezepte weitergeben** | Ein einzelnes Rezept als Datei, die sich wieder importieren lässt | Rezeptseite → **Weitere Aktionen** → **Rezept sichern** |
+| **Wiederkehrende Backpläne** | Ein Rezept plant sich in seinem Rhythmus von selbst, etwa das Füttern des Anstellguts | Rezept-Formular → **Regelmäßig planen** beziehungsweise **Regelmäßig auffrischen** (siehe [Kapitel 8](#8-neues-rezept-anlegen-und-bearbeiten)) |
+| **Einkaufslisten** | Die Zutaten eines Rezepts auf eine Liste setzen, nach Regalen sortiert, und abhaken | Tab **Einkauf**; Rezeptseite → **Rezept zur Einkaufsliste hinzufügen** (siehe [Kapitel 11](#11-einkaufslisten)) |
+| **Vorrat** | Mehle, Saaten und Hefe mit Menge und Haltbarkeit; Gekauftes wandert hinein, Pläne reservieren daraus | Tab **Vorrat**; Karte **Vorrat** auf der Rezeptseite; **Vorrat abziehen** (siehe [Kapitel 12](#12-vorrat)) |
+| **Backtag planen** | Mehrere Brote zu einer Wunschzeit, passend zu Öfen und Backpause | **Rezepte → Mehr → Backtag planen** (siehe [Kapitel 9](#9-zeitleiste-und-backtag-planen)) |
+| **Sammlungen und Fertig bis** | Eigene Filter-Kombinationen als Chip sichern; nur Rezepte sehen, die bis zu einer Uhrzeit noch zu schaffen sind | Blatt **Filter …** → **Sammlung sichern** und **Fertig bis** (siehe [Kapitel 6](#6-eigene-rezepte)) |
+| **Backstatistik** | Die Backhistorie als Zahlen und Diagramme: wie oft, was am meisten, wie bewertet | Tab **Backhistorie** → **Darstellung** → **Statistik** (siehe [Kapitel 10](#10-backhistorie)) |
+| **Rezept nach Bäckerprozent** | Ein neues Rezept aus Anteilen vom Mehl; die App rechnet die Gramm | **+** → **Nach Bäckerprozent** (siehe [Kapitel 8](#8-neues-rezept-anlegen-und-bearbeiten)) |
+| **Ofenprofile** | Jeder Ofen mit Vorheizzeiten, Abweichung und Umluft-Abschlag; Plan und Ofenschritte rechnen mit dem gewählten Ofen | **Einstellungen → Backöfen**; Ofenwahl im Planungsblatt und beim Backtag (siehe [Kapitel 14](#14-einstellungen)) |
+| **Backhistorie aus Fotos** | Alte Brotfotos werden zu Einträgen in der Backhistorie | Tab **Backhistorie** → Foto-Symbol (siehe [Kapitel 10](#10-backhistorie)) |
+
+### Was kostenlos bleibt
+
+Alles andere: eigene Rezepte und ihr Import aus Fotos, von Internetseiten und aus Text, Rezept-Varianten und das Anstellgut-Tagebuch, das Planen mit Erinnerungen samt Gare heute, die Zeitleiste, der Backmodus mit Vorlesen, die Backhistorie, die öffentliche Rezept-Datenbank mit Veröffentlichen, die vier Rechner, Suche, Facetten und die vorgegebenen Sammlungen sowie die Sicherung: **Einstellungen → Sicherung**, **Mehr → Rezepte exportieren** und **Mehr → Rezepte importieren** – auch für ein einzeln gesichertes Rezept, das Dir jemand schickt.
+
+### Woran Du Pro-Funktionen erkennst
+
+- Menüeinträge und Schaltflächen tragen den Zusatz **„· PRO“**: **Backtag planen**, **Nach Bäckerprozent**, **Rezept sichern**, **Rezept teilen** und **Rezept zur Einkaufsliste hinzufügen**.
+- Die Tabs **Einkauf** und **Vorrat** und die Darstellung **Statistik** zeigen statt ihres Inhalts, was die Funktion macht, und **Mehr erfahren**.
+- Im Blatt **Filter …** ersetzt **Sammlungen und Fertig bis · PRO** die Einträge **Fertig bis** und **Sammlung sichern**.
+- Andere Stellen sind ohne Pro gesperrt oder ausgeblendet: der Schalter **Regelmäßig planen**, die Ofenprofile unter **Einstellungen → Backöfen**, die Karte **Vorrat** und **Vorrat abziehen**. Die Kapitel zu den einzelnen Funktionen beschreiben das genauer.
+
+Ein Tipp auf eine gesperrte Funktion öffnet die Pro-Seite. Was Du schon angelegt hast – Einkaufslisten, Vorratsposten, gesicherte Sammlungen, Ofenprofile –, bleibt ohne Pro gespeichert und erscheint wieder, sobald Pro freigeschaltet ist.
+
+### Pro kaufen
+
+1. Öffne **Einstellungen → BakePlanner Pro** oder tippe auf eine gesperrte Funktion.
+2. Die Pro-Seite listet unter **Enthalten** alle Funktionen, die angetippte zuerst.
+3. **Pro freischalten** nennt rechts den Preis aus Google Play. Ein Tipp öffnet den Kaufdialog von Google Play.
+4. Nach dem Kauf schließt sich die Seite; in den Einstellungen steht **Freigeschaltet**.
+
+Steht statt des Preises „Preis nicht verfügbar“, erreicht die App Google Play gerade nicht – prüfe die Internetverbindung und ob Google Play auf dem Gerät eingerichtet ist. „Der Kauf ist im Moment nicht möglich. Bitte versuche es später noch einmal.“ heißt dasselbe.
+
+### Ausstehende Zahlung
+
+Wählst Du in Google Play eine Zahlungsart, die erst später bestätigt wird, steht auf der Pro-Seite „Die Zahlung ist noch nicht abgeschlossen. Pro wird freigeschaltet, sobald Google Play sie bestätigt.“ Du musst nichts weiter tun: Sobald Google Play die Zahlung bestätigt, schaltet die App Pro frei.
+
+### Käufe wiederherstellen
+
+Der Kauf gehört zu Deinem Google-Konto und gilt auf allen Android-Geräten, auf denen Google Play mit diesem Konto angemeldet ist – auch nach einer Neuinstallation. Die App liest den Kauf beim Start und jedes Mal, wenn sie in den Vordergrund kommt; ohne Internet merkt sie sich, dass Pro gekauft ist. Fehlt der Kauf trotzdem, tippe auf der Pro-Seite auf **Käufe wiederherstellen**.
+
+### Codes einlösen
+
+Einen Aktionscode für BakePlanner Pro löst Du im Play Store ein: Profilbild → **Zahlungen und Abos** → Code einlösen. Der Code kommt als Kauf an; öffne danach BakePlanner, und Pro ist freigeschaltet. Erscheint es nicht gleich, hilft **Käufe wiederherstellen**.
+
+### iPhone und Android
+
+Pro auf dem iPhone und Pro auf Android sind **getrennte Käufe**: Der App Store und Google Play kennen die Käufe des anderen nicht. Ein Kauf auf dem iPhone gilt auf Android nicht, und umgekehrt. Auch die Sicherungsdatei überträgt Rezepte und Daten, aber keinen Kauf.
+
+---
+
+## 19. Häufige Fragen
 
 **Es kommen keine Erinnerungen.**
 Prüfe in den Android-Einstellungen unter *Apps → BakePlanner → Benachrichtigungen*, ob Benachrichtigungen erlaubt sind. Prüfe außerdem, ob in der Zeitleiste überhaupt Schritte stehen; für Zeitpunkte in der Vergangenheit kommen keine Erinnerungen.
@@ -805,14 +893,24 @@ Wasser, Salz und alles, was man selbst ansetzt, werden absichtlich weggelassen, 
 **Ich habe das Rezept geändert, der Plan zeigt noch den alten Stand.**
 Geplante Schritte sind eine Momentaufnahme. Tippe in der Zeitleiste auf **Neu planen** und wähle **Bestehenden Plan ersetzen**.
 
+**Ich habe BakePlanner Pro auf dem iPhone gekauft – warum ist es auf Android gesperrt?**
+Käufe im App Store und in Google Play sind getrennt; ein Kauf gilt nur auf seiner Plattform. Für Android kaufst Du Pro unter *Einstellungen → BakePlanner Pro* (siehe [Kapitel 18](#18-bakeplanner-pro)).
+
+**Ich habe Pro gekauft, aber die Funktionen sind noch gesperrt.**
+Prüfe, ob Google Play auf diesem Gerät mit dem Google-Konto angemeldet ist, mit dem Du gekauft hast, und tippe auf der Pro-Seite auf **Käufe wiederherstellen**. Steht dort, dass die Zahlung noch nicht abgeschlossen ist, wartet die App auf die Bestätigung von Google Play.
+
+**Wie löse ich einen Code für BakePlanner Pro ein?**
+Im Play Store unter Profilbild → **Zahlungen und Abos** → Code einlösen. Danach BakePlanner öffnen; falls nötig, **Käufe wiederherstellen** tippen.
+
 ---
 
-## 19. Was es nur auf dem iPhone gibt
+## 20. Was es nur auf dem iPhone gibt
 
 Die iPhone-Fassung von BakePlanner kann außerdem:
 
 | Funktion | Auf Android |
 |----------|-------------|
+| BakePlanner Pro, auf dem iPhone zusätzlich mit Widgets und Live-Aktivität, Backjahr-Buch, freihändigem Backmodus, Anstellgut-Diagramm und Kalender-Prüfung | BakePlanner Pro gibt es auch auf Android, als eigener Kauf über Google Play (siehe [Kapitel 18](#18-bakeplanner-pro)); ein Kauf gilt nur auf seiner Plattform |
 | Abgleich über iCloud zwischen allen Geräten | Kein Abgleich; Sicherungsdatei (siehe [Kapitel 16](#16-daten-sicherung-und-gerätewechsel)) |
 | Automatische Übersetzung öffentlicher Rezepte und Menü „Rezept übersetzen“ | Hinterlegte Übersetzung oder Originalsprache |
 | Übersetzung der Zutaten auf Einkaufslisten | Nicht vorgesehen |

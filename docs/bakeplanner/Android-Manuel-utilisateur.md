@@ -23,8 +23,9 @@ Mise à jour : 27/11/2026 · version Android 2.4
 15. [Unités et quantités](#15-unités-et-quantités)
 16. [Données, sauvegarde et changement d’appareil](#16-données-sauvegarde-et-changement-dappareil)
 17. [Confidentialité](#17-confidentialité)
-18. [Questions fréquentes](#18-questions-fréquentes)
-19. [Ce que seul l’iPhone propose](#19-ce-que-seul-liphone-propose)
+18. [BakePlanner Pro](#18-bakeplanner-pro)
+19. [Questions fréquentes](#19-questions-fréquentes)
+20. [Ce que seul l’iPhone propose](#20-ce-que-seul-liphone-propose)
 
 ---
 
@@ -39,7 +40,7 @@ BakePlanner est une app de planification pour le pain, les petits pains et la p�
 
 S’y ajoutent : une base de recettes publique commune, vos propres recettes sur l’appareil, l’import depuis des photos, des pages web et du texte, des listes de courses triées par rayon, une réserve, un historique de cuisson avec photos, mesures et statistiques, un journal du levain avec estimation de la maturation, des variantes de recette avec comparaison, un mode cuisson qui lit à voix haute et quatre calculatrices de boulanger.
 
-**Sur Android, tout est gratuit.** Il n’y a pas de Pro et rien à acheter.
+**Gratuit, et BakePlanner Pro.** L’essentiel de l’app est gratuit : recettes, planification avec rappels, mode cuisson avec lecture à voix haute, historique de cuisson, base de recettes, calculatrices et sauvegarde. Certaines fonctions avancées — listes de courses, réserve, journée de cuisson ou profils de four, par exemple — font partie de **BakePlanner Pro**, un achat unique via Google Play, sans abonnement (voir [chapitre 18](#18-bakeplanner-pro)).
 
 ### Démarrage rapide : votre premier plan de cuisson en cinq étapes
 
@@ -59,6 +60,7 @@ S’y ajoutent : une base de recettes publique commune, vos propres recettes sur
 |-------|--------|
 | Android | 9.0 ou plus récent ; une langue de l’app distincte de celle du système à partir d’Android 13 |
 | Distribution | Google Play (actuellement en test fermé) |
+| Coût | Gratuit ; BakePlanner Pro en achat intégré unique via Google Play (voir [chapitre 18](#18-bakeplanner-pro)) |
 | Taille | Environ 55–60 Mo à télécharger, environ 190 Mo une fois installée — l’app embarque son propre environnement d’exécution |
 | Langues | Allemand, anglais, français |
 | Affichage | Mode clair et sombre selon le réglage du système, taille de police selon le réglage Android « Taille de la police » |
@@ -122,12 +124,16 @@ Au démarrage, l’app s’ouvre sur l’onglet **Recettes**. Les cinq onglets s
 | **Timeline** | Toutes les étapes planifiées en timeline ou en liste, ainsi que le mode cuisson (voir [chapitre 9](#9-timeline-et-journée-de-cuisson)) |
 | **Réserve** | Ce que vous avez à la maison : farines, graines, levure avec quantité et date limite (voir [chapitre 12](#12-réserve)) |
 
+**Courses** et **Réserve** font partie de BakePlanner Pro. Sans Pro, les deux onglets montrent ce que fait la fonction, avec **En savoir plus** (voir [chapitre 18](#18-bakeplanner-pro)).
+
 En haut à droite de l’onglet **Recettes**, deux menus :
 
 | Menu | Entrées |
 |------|---------|
 | **Plus** | **Réglages**, **Importer des recettes** (lire un fichier de sauvegarde ou une recette sauvegardée seule), **Exporter des recettes** (vos recettes dans un fichier), **Planifier une journée de cuisson** et **Calculatrices** |
 | **+** (Nouvelle recette) | **À la main**, **Pourcentages boulanger**, **Depuis une page web**, **À partir de photos**, **À partir d’un texte** (voir [chapitre 8](#8-créer-et-modifier-une-recette)) |
+
+Les entrées portant le suffixe **« · PRO »** — ici **Planifier une journée de cuisson · PRO** et **Pourcentages boulanger · PRO** — font partie de BakePlanner Pro ; tant que Pro n’est pas débloqué, elles ouvrent la page Pro (voir [chapitre 18](#18-bakeplanner-pro)).
 
 La flèche retour en haut à gauche ou le geste retour d’Android vous ramène depuis n’importe quel écran. Les feuilles comme la feuille de planification ou l’éditeur se ferment avec **Annuler** ou **Fermer** en haut à gauche.
 
@@ -150,14 +156,14 @@ La base de recettes publique est partagée par tous les utilisateurs de BakePlan
 Une recette publique s’ouvre sur une page continue : image, nom et description, quantité et poids de pâte, poids total, la ligne TA, puis le total des ingrédients, les composants et les étapes de préparation. Trois boutons :
 
 - **Planifier** — ouvre la feuille de planification (voir [chapitre 7](#7-planifier-mode-cuisson-et-rappels)).
-- **Ajouter la recette à la liste de courses** — voir [chapitre 11](#11-listes-de-courses).
+- **Ajouter la recette à la liste de courses** — voir [chapitre 11](#11-listes-de-courses). Fait partie de BakePlanner Pro.
 - **Enregistrer comme ma recette** — crée une copie complète, image comprise, sur votre appareil. Seule cette copie peut être modifiée. Une copie déjà existante reste telle quelle.
 
 ### Plus d’actions
 
 En haut à droite, sous **Plus d’actions** :
 
-- **Partager la recette** — crée un PDF de la recette dans la quantité choisie et ouvre le menu de partage d’Android.
+- **Partager la recette** — crée un PDF de la recette dans la quantité choisie et ouvre le menu de partage d’Android. Fait partie de BakePlanner Pro (voir [chapitre 18](#18-bakeplanner-pro)).
 - **Signaler la recette** — avec un motif (choquant, spam, droit d’auteur, autre). La recette est masquée **aussitôt pour tous les utilisateurs** jusqu’à ce qu’un administrateur l’ait examinée.
 - **Bloquer l'auteur** — toutes les recettes de cet auteur disparaissent de la liste **sur votre appareil uniquement**.
 - **Modifier la recette** et **Supprimer ma recette** — seulement pour les recettes issues de votre compte. Vous modifiez la recette dans la base ; votre version locale n’est pas touchée.
@@ -197,6 +203,8 @@ Avec une réserve s’ajoutent les interrupteurs **Avec la réserve** (seulement
 
 **Terminé pour.** Dans la feuille **Filtre …**, **Terminé pour** fixe la date et l’heure auxquelles le pain doit être prêt. La liste ne montre alors que les recettes encore réalisables et inscrit sous chacune le départ nécessaire : « Début aujourd’hui 17:45 », « Début demain 06:10 », avec « Étapes la nuit » le cas échéant. L’objectif figure comme première puce au-dessus de la liste ; touchez-la pour le changer.
 
+> **Fait partie de BakePlanner Pro :** vos propres collections et **Terminé pour** (voir [chapitre 18](#18-bakeplanner-pro)). Sans Pro, la feuille **Filtre …** affiche **Collections et prêt pour · PRO** à la place de **Terminé pour** et **Enregistrer la collection** ; les collections enregistrées et la puce « Terminé pour » disparaissent de la liste. Les collections enregistrées sont conservées et reviennent avec l’achat. La recherche, les facettes et les collections prédéfinies sont gratuites.
+
 ### Supprimer une recette
 
 Balayez une de vos recettes vers la gauche dans la liste et confirmez. Son historique de cuisson et son journal du levain disparaissent avec elle. Les recettes publiques ne se suppriment pas ici.
@@ -211,8 +219,8 @@ De haut en bas :
 
 1. **Image** avec **Changer l’image**, **Appareil photo** et **Supprimer l’image**, en dessous la description et — s’il existe — le **Lien vers la recette**.
 2. **Quantité** (facteur) et **Poids de pâte**, le **poids total**, la **durée de préparation** et la ligne **« TA 172 · hydratation 72 % »** ; touchez-la pour le détail (voir [chapitre 15](#15-unités-et-quantités)). Les recettes planifiées régulièrement ajoutent « Prochaine cuisson » ou « Prochain nourrissage ».
-3. **Réserve** — dès que la réserve contient quelque chose : « Les 5 ingrédients sont dans la réserve » ou ce qui manque (voir [chapitre 12](#12-réserve)).
-4. **Planifier** et **Ajouter la recette à la liste de courses**.
+3. **Réserve** — avec BakePlanner Pro, dès que la réserve contient quelque chose : « Les 5 ingrédients sont dans la réserve » ou ce qui manque (voir [chapitre 12](#12-réserve)).
+4. **Planifier** et **Ajouter la recette à la liste de courses** (Pro).
 5. **Total des ingrédients**, **Composants** et **Étapes de préparation**. Les lignes de farine et de levain se touchent (voir [chapitre 13](#13-calculatrices)).
 6. **La dernière fois**, **Noter une cuisson** et **Cuissons précédentes** — pour un levain, le **Journal du levain** à la place.
 7. **Variantes** — les recettes nées de celle-ci.
@@ -225,6 +233,8 @@ En haut à droite se trouvent **Modifier** (voir [chapitre 8](#8-créer-et-modif
 | **Partager la recette** | Crée un PDF avec image, composants, total des ingrédients et étapes dans la quantité choisie et ouvre le menu de partage |
 | **Publier** | Met la recette dans la base de recettes (voir ci-dessous) |
 | **Créer une variante** | Crée une variante (voir ci-dessous) |
+
+**Sauvegarder la recette** et **Partager la recette** font partie de BakePlanner Pro (voir [chapitre 18](#18-bakeplanner-pro)) ; sans Pro, elles portent le suffixe « · PRO » et ouvrent la page Pro. Toutes les recettes à la fois se sauvegardent gratuitement avec **Plus → Exporter des recettes**.
 
 **Publier** suppose deux choses : la **connexion avec Apple** sous *Réglages → Compte* (sinon « Connexion requise » apparaît) et une **image de la recette** (sinon « Image requise »). La première fois, vous acceptez les conditions d’utilisation (voir [chapitre 17](#17-confidentialité)) ; suit la question **Publier la recette ?** avec **Enregistrer publiquement**. Ensuite, la page indique « Publié » et l’entrée disparaît : une recette n’est publiée qu’une fois, les modifications ultérieures se font sur la version publique (voir [chapitre 5](#5-base-de-recettes)).
 
@@ -264,7 +274,7 @@ C’est le cœur de l’app. **Planifier** sur la page de la recette ouvre la fe
 |---------|----------|
 | **Commencer à / Terminé pour** | **Commencer à** : je commence à ce moment — quand aurai-je fini ? **Terminé pour** : je veux avoir fini à ce moment — quand dois-je commencer ? |
 | **Date** et **Heure de début** | Le moment de référence du plan |
-| **Four** et **Chaleur tournante** | Seulement avec deux profils de four ou plus (voir [chapitre 14](#14-réglages)) : le four pour ce pain, prérempli avec celui des réglages, et s’il cuit en chaleur tournante |
+| **Four** et **Chaleur tournante** | Seulement avec BakePlanner Pro et deux profils de four ou plus (voir [chapitre 14](#14-réglages)) : le four pour ce pain, prérempli avec celui des réglages, et s’il cuit en chaleur tournante |
 | **Modifier les durées** | Interrupteur. Activé, chaque étape reçoit un champ de durée ; **Appliquer la durée** enregistre les nouvelles durées dans la recette |
 
 Changez le moment et observez comment les heures sous **Étapes de préparation** s’adaptent. Rien n’est enregistré avant que vous touchiez **Planifier** en haut à droite.
@@ -361,6 +371,8 @@ Pour les recettes venant d’un message, d’une note ou d’une page que l’im
 
 Pour ceux qui pensent les recettes comme une formule : vous saisissez chaque ingrédient en part de la farine, l’app calcule les grammes.
 
+> Fait partie de BakePlanner Pro (voir [chapitre 18](#18-bakeplanner-pro)). Sans Pro, l’entrée du menu **+** s’appelle « Pourcentages boulanger · PRO » et ouvre la page Pro.
+
 1. Saisissez le **Nom de la recette**.
 2. **Donnée** : **Farine totale** (par exemple 500 g) ou **Poids de pâte** (par exemple 850 g) et la quantité.
 3. **Composants et ingrédients** en pourcentage ; tous les pourcentages se rapportent à la farine totale de la recette, et les farines doivent faire 100 pour cent ensemble. D’autres composants s’ajoutent avec **Nouveau composant** et **Ajouter**. Les grammes calculés figurent à côté de chaque ligne.
@@ -376,7 +388,7 @@ L’éditeur — « Nouvelle recette » à la création, « Modifier » lors d�
 - **Image de la recette** — **Ajouter une image** depuis les fichiers ou **Appareil photo**. Les photos sont réduites à la taille de l’écran dès leur sélection. Publier demande une image.
 - **Description**.
 - **Note** — cinq étoiles ; toucher à nouveau la même étoile annule la note. En dessous, **Tags, séparés par des virgules**.
-- **Planifier régulièrement** (pour un levain **Rafraîchir régulièrement**) avec « tous les … jours » : après la dernière cuisson, l’app planifie d’elle-même la date suivante, à la même heure que le début de la première étape. Ces dates n’apparaissent dans la timeline que deux jours avant ; les rappels arrivent tout de même à l’heure.
+- **Planifier régulièrement** (pour un levain **Rafraîchir régulièrement**) avec « tous les … jours » : après la dernière cuisson, l’app planifie d’elle-même la date suivante, à la même heure que le début de la première étape. Ces dates n’apparaissent dans la timeline que deux jours avant ; les rappels arrivent tout de même à l’heure. Les plans de cuisson récurrents font partie de BakePlanner Pro (voir [chapitre 18](#18-bakeplanner-pro)) : sans Pro, l’interrupteur est désactivé, en dessous figure « Les plans de cuisson récurrents font partie de BakePlanner Pro. », et les recettes à rythme ne sont pas planifiées d’elles-mêmes.
 - **Composant** — par composant un nom et ses ingrédients avec **Quantité**, **Unité** et **Ingrédient**. La quantité peut être une fraction (« 1/2 », « 1 1/2 »), l’unité une abréviation du [chapitre 15](#15-unités-et-quantités). **Ajouter un ingrédient**, **Supprimer le composant**, en dessous **Ajouter un composant**. Balayez une ligne d’ingrédient pour la supprimer.
 - **Étapes de préparation** — par étape le **N°**, le texte et la durée en **Minutes** (aussi « 1:30 » ou « 1,5 h »). **Ajouter une étape** passe au nombre entier suivant, **Ajouter une sous-étape** crée une étape parallèle comme 3.1. Balayez pour supprimer.
 
@@ -433,6 +445,8 @@ Sans étape planifiée, l’onglet indique « Aucune étape planifiée — Ouvre
 
 ### Planifier une journée de cuisson
 
+> Fait partie de BakePlanner Pro (voir [chapitre 18](#18-bakeplanner-pro)). Sans Pro, l’entrée s’appelle « Planifier une journée de cuisson · PRO » et ouvre la page Pro.
+
 **Recettes → Plus → Planifier une journée de cuisson** planifie plusieurs pains à la fois :
 
 1. Sous **Recettes**, vous choisissez les pains ; les recettes de levain ne sont pas proposées.
@@ -476,6 +490,8 @@ L’entrée (« Notes de cuisson ») comporte :
 
 **Affichage → Statistiques** additionne ce que donnent les cuissons affichées, déjà passées : en haut **Pains au total**, **Cette année**, **Par mois** et la note moyenne, en dessous **Pains par mois**, **Les plus cuits**, **Notes**, **Apprêt et température ambiante** (un point par cuisson) et **Mie et développement au four**. Les graphiques sont de simples barres et points sans légende d’axe. Plus vous notez de mesures, plus les statistiques en montrent.
 
+> Les statistiques font partie de BakePlanner Pro (voir [chapitre 18](#18-bakeplanner-pro)). Sans Pro, **Statistiques** montre ce qu’elles font, avec **En savoir plus**.
+
 ### Historique de cuisson à partir de photos
 
 Le symbole photo en haut de l’onglet **Historique de cuisson** fait entrer d’anciennes photos de pain dans l’historique :
@@ -485,9 +501,13 @@ Le symbole photo en haut de l’onglet **Historique de cuisson** fait entrer d�
 3. Vérifiez chaque ligne : choisissez une date là où figure « Pas de date dans la photo – en choisir une », choisissez ou changez la recette. Les lignes marquées « Déjà dans l’historique ce jour-là » sont ignorées.
 4. **Créer** écrit les entrées avec leurs photos.
 
+> Fait partie de BakePlanner Pro (voir [chapitre 18](#18-bakeplanner-pro)). Sans Pro, le symbole photo ouvre la page Pro.
+
 ---
 
 ## 11. Listes de courses
+
+> Fait partie de BakePlanner Pro (voir [chapitre 18](#18-bakeplanner-pro)). Sans Pro, l’onglet **Courses** montre ce que fait la fonction, avec **En savoir plus** ; **Ajouter la recette à la liste de courses** porte le suffixe « · PRO ».
 
 ### Mettre des ingrédients sur une liste
 
@@ -524,6 +544,8 @@ Dans l’onglet **Courses**, chaque liste affiche « Liste de courses du … »,
 ## 12. Réserve
 
 L’onglet **Réserve** recense ce que vous avez à la maison — selon les mêmes rayons que la liste de courses.
+
+> Fait partie de BakePlanner Pro (voir [chapitre 18](#18-bakeplanner-pro)). Sans Pro, l’onglet **Réserve** montre ce que fait la fonction, avec **En savoir plus**. La carte **Réserve** de la page de recette et **Déduire la réserve** manquent alors, et les plans ne réservent rien dans la réserve. Les articles saisis sont conservés.
 
 ![Réserve sur Android avec les articles par rayon, les quantités et les dates limites](images/android/vorrat.png)
 
@@ -577,6 +599,10 @@ Calcule la quantité de pâte qui tient dans un moule ou un banneton : **Moule �
 
 **Recettes → Plus → Réglages.** Les réglages ne valent que pour cet appareil.
 
+### BakePlanner Pro
+
+Tout en haut figure **BakePlanner Pro**, à côté **En savoir plus** ou, après l’achat, **Débloqué**. Un appui ouvre la page Pro avec l’achat et **Restaurer les achats** (voir [chapitre 18](#18-bakeplanner-pro)).
+
 ### Général
 
 **Langue** ouvre le réglage Android « Langue de l’application » (à partir d’Android 13). Vous y choisissez l’allemand, l’anglais ou le français indépendamment de la langue de l’appareil ; sans choix, l’app suit la langue du système. Il n’y a pas de sélecteur de langue dans l’app elle-même.
@@ -599,6 +625,8 @@ Calcule la quantité de pâte qui tient dans un moule ou un banneton : **Moule �
 ### Fours
 
 Vos fours sous forme de profils : **Nom**, **Temps de préchauffage**, **Temps de préchauffage avec pierre**, l’**Écart** (si le four chauffe plus ou moins que ce qu’indique le thermostat) et la **Réduction chaleur tournante**. **Planification avec** est le four que proposent la feuille de planification et la journée de cuisson ; **Ajouter un four** en crée un autre, **Supprimer le four** le retire. Avec des profils de four, les étapes du four indiquent le réglage du thermostat (« Allumer le four (250 °C, thermostat sur 240 °C) »), et le nombre de fours est le nombre de profils. La recette ne mémorise pas le four ; celui des réglages est toujours prérempli.
+
+> Les profils de four font partie de BakePlanner Pro (voir [chapitre 18](#18-bakeplanner-pro)). Sans Pro, **Fours** n’affiche qu’une remarque, et l’app planifie comme s’il n’y avait pas de profils de four : avec les temps de préchauffage et le nombre de **Fours** de **Planification de cuisson**, sans choix du four dans la feuille de planification. Les profils enregistrés sont conservés et s’appliquent de nouveau après l’achat.
 
 ### Planification de cuisson
 
@@ -722,7 +750,7 @@ Vos recettes, étapes planifiées, listes de courses, historique de cuisson, jou
 
 - **Réglages → Sauvegarde → Créer une sauvegarde complète** écrit toutes vos recettes avec leurs images, l’historique de cuisson avec ses photos, le journal du levain et la réserve dans un fichier. Placez-le dans Google Drive, envoyez-le-vous par e-mail ou copiez-le sur votre ordinateur.
 - **Recettes → Plus → Exporter des recettes** sauvegarde une sélection : cochez des recettes ou **Tout sélectionner**, au besoin **Avec l’historique de cuisson, le journal du levain et la réserve**, puis **Exporter**. Quelques recettes sans l’interrupteur servent à les transmettre à d’autres.
-- **Sauvegarder la recette** sous **Plus d’actions** sur une page de recette écrit une seule recette, sans historique.
+- **Sauvegarder la recette** sous **Plus d’actions** sur une page de recette écrit une seule recette, sans historique. Cela fait partie de BakePlanner Pro ; la sauvegarde complète et **Exporter des recettes** sont gratuites.
 
 Sur Android, les images de recette et les photos de cuisson sont réduites à la taille de l’écran dès leur sélection ; même une sauvegarde riche en photos reste ainsi maniable.
 
@@ -764,7 +792,67 @@ Avec **Refuser**, rien n’est téléversé ; la recette reste locale. Contre le
 
 ---
 
-## 18. Questions fréquentes
+## 18. BakePlanner Pro
+
+BakePlanner Pro est un **achat unique** via Google Play — sans abonnement. La page Pro affiche le prix tel que Google Play l’indique pour votre pays. Une fois achetées, les fonctions restent débloquées pour toujours.
+
+### Ce qui est inclus
+
+| Fonction | Ce qu’elle fait | Où dans l’app |
+|----------|-----------------|---------------|
+| **Partager des recettes en PDF** | Imprimer ou envoyer une recette en PDF dans la quantité affichée | Page de la recette → **Plus d’actions** → **Partager la recette**, aussi pour les recettes publiques (voir [chapitre 6](#6-mes-recettes)) |
+| **Transmettre des recettes** | Une seule recette dans un fichier qui se réimporte | Page de la recette → **Plus d’actions** → **Sauvegarder la recette** |
+| **Plans de cuisson récurrents** | Une recette se planifie d’elle-même selon son rythme, par exemple le nourrissage du levain | Éditeur de recette → **Planifier régulièrement** ou **Rafraîchir régulièrement** (voir [chapitre 8](#8-créer-et-modifier-une-recette)) |
+| **Listes de courses** | Mettre les ingrédients d’une recette sur une liste triée par rayon, et les cocher | Onglet **Courses** ; page de la recette → **Ajouter la recette à la liste de courses** (voir [chapitre 11](#11-listes-de-courses)) |
+| **Réserve** | Farines, graines et levure avec quantité et date limite ; les achats y entrent, les plans y réservent | Onglet **Réserve** ; carte **Réserve** de la page de recette ; **Déduire la réserve** (voir [chapitre 12](#12-réserve)) |
+| **Planifier une journée de cuisson** | Plusieurs pains pour une heure voulue, en tenant compte des fours et de la pause de cuisson | **Recettes → Plus → Planifier une journée de cuisson** (voir [chapitre 9](#9-timeline-et-journée-de-cuisson)) |
+| **Collections et prêt pour** | Enregistrer vos combinaisons de filtres comme puce ; ne voir que les recettes encore réalisables pour une heure donnée | Feuille **Filtre …** → **Enregistrer la collection** et **Terminé pour** (voir [chapitre 6](#6-mes-recettes)) |
+| **Statistiques de cuisson** | L’historique de cuisson en chiffres et graphiques : combien de fois, quoi le plus, quelle note | Onglet **Historique de cuisson** → **Affichage** → **Statistiques** (voir [chapitre 10](#10-historique-de-cuisson)) |
+| **Recette en pourcentages du boulanger** | Une nouvelle recette à partir de parts de la farine ; l’app calcule les grammes | **+** → **Pourcentages boulanger** (voir [chapitre 8](#8-créer-et-modifier-une-recette)) |
+| **Profils de four** | Chaque four avec ses temps de préchauffage, son écart et sa réduction en chaleur tournante ; le plan et les étapes du four tiennent compte du four choisi | **Réglages → Fours** ; choix du four dans la feuille de planification et pour la journée de cuisson (voir [chapitre 14](#14-réglages)) |
+| **Historique de cuisson à partir de photos** | D’anciennes photos de pain deviennent des entrées de l’historique | Onglet **Historique de cuisson** → symbole photo (voir [chapitre 10](#10-historique-de-cuisson)) |
+
+### Ce qui reste gratuit
+
+Tout le reste : vos recettes et leur import depuis des photos, des pages web et du texte, les variantes de recette et le journal du levain, la planification avec rappels, pousse aujourd’hui comprise, la timeline, le mode cuisson avec lecture à voix haute, l’historique de cuisson, la base de recettes publique avec la publication, les quatre calculatrices, la recherche, les facettes et les collections prédéfinies, ainsi que la sauvegarde : **Réglages → Sauvegarde**, **Plus → Exporter des recettes** et **Plus → Importer des recettes** — aussi pour une recette sauvegardée seule que quelqu’un vous envoie.
+
+### Reconnaître les fonctions Pro
+
+- Les entrées de menu et les boutons portent le suffixe **« · PRO »** : **Planifier une journée de cuisson**, **Pourcentages boulanger**, **Sauvegarder la recette**, **Partager la recette** et **Ajouter la recette à la liste de courses**.
+- Les onglets **Courses** et **Réserve** et l’affichage **Statistiques** montrent, au lieu de leur contenu, ce que fait la fonction, avec **En savoir plus**.
+- Dans la feuille **Filtre …**, **Collections et prêt pour · PRO** remplace **Terminé pour** et **Enregistrer la collection**.
+- D’autres éléments sont désactivés ou masqués sans Pro : l’interrupteur **Planifier régulièrement**, les profils de four sous **Réglages → Fours**, la carte **Réserve** et **Déduire la réserve**. Les chapitres consacrés à chaque fonction le décrivent plus en détail.
+
+Toucher une fonction verrouillée ouvre la page Pro. Ce que vous avez déjà créé — listes de courses, articles de la réserve, collections enregistrées, profils de four — reste enregistré sans Pro et réapparaît dès que Pro est débloqué.
+
+### Acheter Pro
+
+1. Ouvrez **Réglages → BakePlanner Pro** ou touchez une fonction verrouillée.
+2. La page Pro liste toutes les fonctions sous **Inclus**, celle que vous avez touchée en premier.
+3. **Débloquer Pro** affiche à droite le prix de Google Play. Un appui ouvre la boîte d’achat de Google Play.
+4. Après l’achat, la page se ferme ; les réglages affichent **Débloqué**.
+
+Si « Prix indisponible » apparaît à la place du prix, l’app ne joint pas Google Play pour le moment — vérifiez la connexion Internet et que Google Play est configuré sur l’appareil. « L’achat n’est pas possible pour le moment. Veuillez réessayer plus tard. » signifie la même chose.
+
+### Paiement en attente
+
+Si vous choisissez dans Google Play un mode de paiement confirmé plus tard, la page Pro indique « Le paiement n’est pas encore finalisé. Pro sera débloqué dès que Google Play le confirmera. » Vous n’avez rien d’autre à faire : dès que Google Play confirme le paiement, l’app débloque Pro.
+
+### Restaurer les achats
+
+L’achat appartient à votre compte Google et vaut sur tous les appareils Android où Google Play est connecté avec ce compte — même après une réinstallation. L’app lit l’achat au lancement et chaque fois qu’elle revient au premier plan ; sans Internet, elle se souvient que Pro a été acheté. Si l’achat manque malgré tout, touchez **Restaurer les achats** sur la page Pro.
+
+### Utiliser un code
+
+Un code promotionnel pour BakePlanner Pro s’utilise dans le Play Store : photo de profil → **Paiements et abonnements** → utiliser un code. Le code arrive comme un achat ; ouvrez ensuite BakePlanner, et Pro est débloqué. S’il n’apparaît pas tout de suite, **Restaurer les achats** aide.
+
+### iPhone et Android
+
+Pro sur l’iPhone et Pro sur Android sont des **achats distincts** : l’App Store et Google Play ne connaissent pas les achats de l’autre. Un achat sur l’iPhone ne vaut pas sur Android, et inversement. Le fichier de sauvegarde transporte recettes et données, mais aucun achat.
+
+---
+
+## 19. Questions fréquentes
 
 **Aucun rappel n’arrive.**
 Vérifiez dans les réglages Android, sous *Applications → BakePlanner → Notifications*, que les notifications sont autorisées. Vérifiez aussi qu’il y a bien des étapes dans la timeline ; les moments passés ne reçoivent pas de rappel.
@@ -805,14 +893,24 @@ L’eau, le sel et tout ce que l’on prépare soi-même sont omis volontairemen
 **J’ai modifié la recette, mais le plan montre encore l’ancienne version.**
 Les étapes planifiées sont un instantané. Touchez **Replanifier** dans la timeline et choisissez **Remplacer le plan existant**.
 
+**J’ai acheté BakePlanner Pro sur l’iPhone — pourquoi est-il verrouillé sur Android ?**
+Les achats de l’App Store et de Google Play sont distincts ; un achat ne vaut que sur sa plateforme. Pour Android, vous achetez Pro sous *Réglages → BakePlanner Pro* (voir [chapitre 18](#18-bakeplanner-pro)).
+
+**J’ai acheté Pro, mais les fonctions restent verrouillées.**
+Vérifiez que Google Play est connecté sur cet appareil avec le compte Google utilisé pour l’achat, puis touchez **Restaurer les achats** sur la page Pro. S’il est indiqué que le paiement n’est pas encore finalisé, l’app attend la confirmation de Google Play.
+
+**Comment utiliser un code pour BakePlanner Pro ?**
+Dans le Play Store, sous photo de profil → **Paiements et abonnements** → utiliser un code. Ouvrez ensuite BakePlanner ; au besoin, touchez **Restaurer les achats**.
+
 ---
 
-## 19. Ce que seul l’iPhone propose
+## 20. Ce que seul l’iPhone propose
 
 La version iPhone de BakePlanner sait en outre :
 
 | Fonction | Sur Android |
 |----------|-------------|
+| BakePlanner Pro, sur l’iPhone aussi avec widgets et activité en direct, livre de l’année de cuisson, mode cuisson mains libres, diagramme du levain et vérification de l’agenda | BakePlanner Pro existe aussi sur Android, comme achat distinct via Google Play (voir [chapitre 18](#18-bakeplanner-pro)) ; un achat ne vaut que sur sa plateforme |
 | Synchronisation par iCloud entre tous les appareils | Pas de synchronisation ; fichier de sauvegarde (voir [chapitre 16](#16-données-sauvegarde-et-changement-dappareil)) |
 | Traduction automatique des recettes publiques et menu « Traduire la recette » | Traduction enregistrée ou langue d’origine |
 | Traduction des ingrédients des listes de courses | Non prévu |

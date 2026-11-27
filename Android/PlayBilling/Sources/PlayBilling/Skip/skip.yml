@@ -1,0 +1,11 @@
+# Skip configuration for the PlayBilling module: transpiled to Kotlin, its
+# public API bridged to the app's native Swift.
+skip:
+  bridging: true
+
+# Google Play Billing for the one-time purchase "Pro".
+build:
+  contents:
+    - block: 'dependencies'
+      contents:
+        - 'implementation("com.android.billingclient:billing-ktx:7.1.1")'

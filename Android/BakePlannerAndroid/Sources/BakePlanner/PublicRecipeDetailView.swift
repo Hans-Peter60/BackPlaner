@@ -72,7 +72,11 @@ struct PublicRecipeDetailView: View {
             ToolbarItem(placement: .primaryAction) {
                 Menu {
                     if let content {
-                        Button("Rezept teilen") {
+                        Button(BakePro.shared.title(String(localized: "Rezept teilen", bundle: .module), for: .pdfExport)) {
+                            guard BakePro.shared.isUnlocked(.pdfExport) else {
+                                BakePro.shared.offer(.pdfExport)
+                                return
+                            }
                             sharingFailed = !RecipePDFSharing.share(
                                 RecipePrintData(data: content, scale: scale, bakersPercentages: model.showsBakersPercentages))
                         }
@@ -308,9 +312,10 @@ struct PublicRecipeDetailView: View {
                 .tint(Palette.accent(colorScheme))
 
                 Button {
-                    addsToShoppingList = true
+                    proGated(.shoppingList) { addsToShoppingList = true }
                 } label: {
-                    Label("Rezept zur Einkaufsliste hinzufügen", systemImage: "cart")
+                    Label(BakePro.shared.title(String(localized: "Rezept zur Einkaufsliste hinzufügen", bundle: .module), for: .shoppingList),
+                          systemImage: "cart")
                 }
                 .buttonStyle(.bordered)
                 .tint(Palette.accent(colorScheme))

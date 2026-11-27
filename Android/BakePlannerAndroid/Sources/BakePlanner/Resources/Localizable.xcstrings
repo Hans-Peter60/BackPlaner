@@ -223,6 +223,134 @@
         }
       }
     },
+    "Alte Brotfotos werden zur Backhistorie: Datum und Titel aus den Fotos, das Rezept nach dem Titel vorgeschlagen – zum Prüfen, dann mit einem Tipp angelegt." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Old bread photos become baking history: date and title from the photos, the recipe suggested by the title – to check, then created with one tap."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vos anciennes photos de pain deviennent un historique de cuisson : date et titre tirés des photos, recette proposée d’après le titre – à vérifier, puis créé d’un geste."
+          }
+        }
+      }
+    },
+    "Backstatistik" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baking statistics"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Statistiques de cuisson"
+          }
+        }
+      }
+    },
+    "Der Kauf gilt auf allen Android-Geräten mit Deinem Google-Konto; einen Code löst Du im Play Store unter „Zahlungen und Abos“ ein. Ein Kauf auf dem iPhone gilt hier nicht. Alles andere in der App bleibt kostenlos: Rezepte, Zeitplan, Backmodus, Backhistorie, Rezept-Datenbank und die Rechner." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The purchase applies on every Android device with your Google account; you redeem a code in the Play Store under “Payments & subscriptions”. A purchase on the iPhone does not apply here. Everything else in the app stays free: recipes, schedule, bake mode, baking history, recipe database and the calculators."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’achat vaut sur tous les appareils Android de votre compte Google ; un code s’utilise dans le Play Store sous « Paiements et abonnements ». Un achat sur l’iPhone ne vaut pas ici. Tout le reste de l’application reste gratuit : recettes, planning, mode cuisson, historique de cuisson, base de recettes et calculateurs."
+          }
+        }
+      }
+    },
+    "Der Kauf ist im Moment nicht möglich. Bitte versuche es später noch einmal." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The purchase isn’t possible right now. Please try again later."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’achat n’est pas possible pour le moment. Veuillez réessayer plus tard."
+          }
+        }
+      }
+    },
+    "Der Kauf konnte nicht abgeschlossen werden." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The purchase could not be completed."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’achat n’a pas pu être finalisé."
+          }
+        }
+      }
+    },
+    "Die Backhistorie als Zahlen und Diagramme: wie oft, was am meisten, wie bewertet." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The baking history as numbers and charts: how often, what most, how rated."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’historique de cuisson en chiffres et graphiques : combien de fois, quoi le plus, quelle note."
+          }
+        }
+      }
+    },
+    "Die Zahlung ist noch nicht abgeschlossen. Pro wird freigeschaltet, sobald Google Play sie bestätigt." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The payment is not complete yet. Pro is unlocked as soon as Google Play confirms it."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le paiement n’est pas encore finalisé. Pro sera débloqué dès que Google Play le confirmera."
+          }
+        }
+      }
+    },
+    "Die Zutaten eines Rezepts auf eine Einkaufsliste setzen und abhaken." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Put a recipe’s ingredients on a shopping list and tick them off."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mettre les ingrédients d’une recette sur une liste de courses et les cocher."
+          }
+        }
+      }
+    },
     "Diese Garzeiten übernehmen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -236,6 +364,422 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Utiliser ces temps de pousse"
+          }
+        }
+      }
+    },
+    "Eigene Filter-Kombinationen als Chip sichern und mit „Fertig bis“ nur die Rezepte sehen, die bis dahin noch zu schaffen sind." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save your own filter combinations as a chip, and with \"Finish by\" see only the recipes that can still be made by then."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrez vos combinaisons de filtres comme puce et, avec « Prêt pour », ne voyez que les recettes encore réalisables d’ici là."
+          }
+        }
+      }
+    },
+    "Ein Rezept in der gezeigten Portionsgröße als PDF drucken oder verschicken." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Print or send a recipe as a PDF at the serving size shown."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imprimer ou envoyer une recette en PDF à la taille de portion affichée."
+          }
+        }
+      }
+    },
+    "Ein Rezept plant sich in seinem Rhythmus von selbst, etwa das Füttern des Anstellguts." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A recipe schedules itself on its rhythm, such as feeding the sourdough starter."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une recette se planifie d’elle-même à son rythme, par exemple le rafraîchi du levain chef."
+          }
+        }
+      }
+    },
+    "Ein einzelnes Rezept als Datei weitergeben, die sich wieder importieren lässt." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hand over a single recipe as a file that can be imported again."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transmettre une seule recette sous forme de fichier réimportable."
+          }
+        }
+      }
+    },
+    "Ein neues Rezept aus Anteilen vom Mehl: Bäckerprozente eingeben, die App rechnet die Gramm." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A new recipe from shares of the flour: enter baker's percentages, the app works out the grams."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une nouvelle recette à partir de parts de farine : saisissez les pourcentages du boulanger, l’app calcule les grammes."
+          }
+        }
+      }
+    },
+    "Einkaufslisten, Vorrat, Backtag, Sammlungen, Statistik, Ofenprofile und mehr – einmal kaufen, kein Abo." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shopping lists, pantry, baking day, collections, statistics, oven profiles and more – buy once, no subscription."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listes de courses, réserve, journée de cuisson, collections, statistiques, profils de four et plus – un seul achat, sans abonnement."
+          }
+        }
+      }
+    },
+    "Einmal kaufen, dauerhaft nutzen. Kein Abo." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buy once, use forever. No subscription."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Achetez une fois, utilisez pour toujours. Sans abonnement."
+          }
+        }
+      }
+    },
+    "Enthalten" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Included"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inclus"
+          }
+        }
+      }
+    },
+    "Freigeschaltet" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlocked"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Débloqué"
+          }
+        }
+      }
+    },
+    "Jeder Ofen mit seinen Vorheizzeiten, ob er heißer oder kälter läuft, als der Regler zeigt, und dem Umluft-Abschlag. Der Plan rechnet mit dem gewählten Ofen, und die Ofenschritte nennen die Reglereinstellung." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Each oven with its preheating times, whether it runs hotter or colder than its dial shows, and its convection reduction. The plan works with the chosen oven, and the oven steps name the dial setting."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque four avec ses temps de préchauffage, s’il chauffe plus ou moins que n’affiche le thermostat, et sa réduction pour la chaleur tournante. Le plan utilise le four choisi, et les étapes du four indiquent le réglage du thermostat."
+          }
+        }
+      }
+    },
+    "Käufe wiederherstellen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore Purchases"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurer les achats"
+          }
+        }
+      }
+    },
+    "Mehle, Saaten und Hefe mit Menge und Haltbarkeit führen; Gekauftes wandert aus der Einkaufsliste hinein." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep flours, seeds and yeast with amounts and shelf life; what you bought moves in from the shopping list."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tenir farines, graines et levure avec quantités et durée de conservation ; vos achats y passent depuis la liste de courses."
+          }
+        }
+      }
+    },
+    "Mehr erfahren" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Learn more"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En savoir plus"
+          }
+        }
+      }
+    },
+    "Mehrere Brote für einen Backtag: Wunschzeit für das letzte, und die App legt die Startzeiten so, dass Öfen und Backpause passen." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Several breads for one baking day: the time you want the last one ready, and the app lays the start times so that ovens and the pause between bakes fit."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plusieurs pains pour une journée de cuisson : l’heure voulue pour le dernier, et l’app place les débuts pour que fours et pause entre cuissons concordent."
+          }
+        }
+      }
+    },
+    "Ofenprofile" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oven profiles"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profils de four"
+          }
+        }
+      }
+    },
+    "Ofenprofile gehören zu BakePlanner Pro: jeder Ofen mit seinen Vorheizzeiten, ob er heißer oder kälter läuft, und dem Umluft-Abschlag." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oven profiles are part of BakePlanner Pro: each oven with its preheating times, whether it runs hot or cold, and its convection reduction."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les profils de four font partie de BakePlanner Pro : chaque four avec ses temps de préchauffage, s’il chauffe plus ou moins que le thermostat, et sa réduction en chaleur tournante."
+          }
+        }
+      }
+    },
+    "Preis nicht verfügbar" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Price unavailable"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prix indisponible"
+          }
+        }
+      }
+    },
+    "Pro freischalten" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlock Pro"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Débloquer Pro"
+          }
+        }
+      }
+    },
+    "Pro ist freigeschaltet" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro is unlocked"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro est débloqué"
+          }
+        }
+      }
+    },
+    "Rezept nach Bäckerprozent" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipe from baker's percentages"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recette en pourcentages du boulanger"
+          }
+        }
+      }
+    },
+    "Rezepte als PDF teilen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share recipes as PDF"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager des recettes en PDF"
+          }
+        }
+      }
+    },
+    "Rezepte weitergeben" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hand over recipes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transmettre des recettes"
+          }
+        }
+      }
+    },
+    "Sammlungen und Fertig bis" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Collections and finish by"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Collections et prêt pour"
+          }
+        }
+      }
+    },
+    "Sammlungen und Fertig bis · PRO" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Collections and finish by · PRO"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Collections et prêt pour · PRO"
+          }
+        }
+      }
+    },
+    "Wiederkehrende Backpläne" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recurring bake plans"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plans de cuisson récurrents"
+          }
+        }
+      }
+    },
+    "Wiederkehrende Backpläne gehören zu BakePlanner Pro." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recurring bake plans are part of BakePlanner Pro."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les plans de cuisson récurrents font partie de BakePlanner Pro."
           }
         }
       }

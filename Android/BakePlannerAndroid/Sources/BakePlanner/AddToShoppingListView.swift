@@ -31,7 +31,7 @@ struct AddToShoppingListView: View {
                         .font(AppFont.caption)
                 }
                 // What the pantry covers stays off the list, as on the iPhone.
-                if !model.pantryItems.isEmpty {
+                if BakePro.shared.isUnlocked(.pantry) && !model.pantryItems.isEmpty {
                     Toggle("Vorrat abziehen", isOn: Binding(
                         get: { model.deductsPantry },
                         set: { model.deductsPantry = $0 }

@@ -67,3 +67,18 @@ Seit 26.11.2026 hat die Kaufseite **Code einlösen** (Apples Einlöse-Blatt, `Pr
 - Preisempfehlung vom 12.11.2026: Einmalkauf 9,99 € (untere Grenze 7,99 €), Familienfreigabe an, Small Business Program beantragen; auch mit Pro eine Fair-Use-Grenze für Cloud-Importe (z. B. 100 im Monat) erwägen.
 - Neue Pro-Funktion einführen: Fall in `ProFeature` (Paket, `BakePlannerCore/Sources/BakePlannerCore/ProAccess.swift`) anlegen **mit `introducedBuild` = erster Store-Build, der sie enthält**, Titel/Beschreibung/Symbol in der App-Erweiterung (`BakePlanner/BackPlaner/Utilities/ProFeature.swift`), Texte de/en/fr, Gate (`ProGate`/`ProLockedScreen`), Kaufseiten-Reihenfolge prüfen, Handbuch Kapitel 14 ergänzen.
 - **Seit 12.11.2026 liegt die Entscheidung im Paket:** `ProFeature`, `MonetizationConfig` (inkl. Lesen des Firestore-Dokuments) und `ProAccess.resolve(config:purchased:originalAppVersion:) -> ProResolution` in `ProAccess.swift`, Tests in `ProAccessTests`. Die iOS-App (`Entitlements`) reicht nur noch StoreKit-Kauf und `originalAppVersion` hinein; Android kann dieselbe Funktion mit Play Billing und dem Datum der Erstinstallation aufrufen (Plan in `docs/bakeplanner/Android-Uebergabe.md`).
+
+## Android (seit 27.11.2026)
+
+BakePlanner für Android hat Pro mit **Google Play Billing**: Einmalprodukt `pro`, Kauf, Wiederherstellen, ausstehende Zahlungen, Promo-Codes aus der Play Console (kommen als Kauf an). Gebaut im übersetzten Modul `Android/PlayBilling` (`PlayStorePurchase`, Billing 7.1.1) und in der App in `BakePro.swift` (Schalter, Kauf, Entscheidung über `ProAccess.resolve` aus dem Paket) und `ProPaywall.swift` (Kaufseite, „PRO“-Marke, gesperrte Bildschirme). Gesperrt werden die elf Pro-Funktionen, die es auf Android gibt (`ProFeature.android`); niemand bekommt etwas „vererbt“ (`originalAppVersion` ist auf Android nil).
+
+**Eigener Schalter:** Android liest `config/monetizationAndroid` (gleiche Felder wie `config/monetization`). So schaltet Android Pro ein, ohne das iPhone zu sperren, solange dessen Kauf in App Store Connect noch fehlt. Fehlt das Dokument, ist alles frei.
+
+Einschalten, in dieser Reihenfolge:
+1. Play Console → Einrichtung → Zahlungsprofil (setzt Gewerbe und Steuernummer voraus).
+2. Play Console → BakePlanner → Monetarisieren → Produkte → In-App-Produkte: Produkt-ID **`pro`**, Name und Beschreibung de/en/fr, Preis **9,99 €** (Empfehlung vom 12.11.2026), aktivieren.
+3. Zum Testen vorher: Play Console → Einstellungen → Lizenztests, das eigene Google-Konto eintragen; die App muss aus Google Play installiert sein (ein von Hand installiertes APK sieht das Produkt nicht, die Kaufseite zeigt dann „Preis nicht verfügbar“).
+4. Firestore → `config/monetizationAndroid` anlegen: erst `storeVisible: true` (Kaufseite sichtbar, nichts gesperrt), dann `proRequired: true` (Pro-Funktionen gesperrt).
+5. Codes zum Verschenken: Play Console → Monetarisieren → Promo-Codes, für das Produkt `pro`; eingelöst wird im Play Store unter „Zahlungen und Abos“.
+
+Offen: Die Functions prüfen Play-Käufe noch nicht; die Android-App bleibt deshalb in `appIdsWithoutMonthlyLimit` und hat kein Monatslimit für Cloud-Importe. CookPlanner für Android bleibt vorerst ganz frei.

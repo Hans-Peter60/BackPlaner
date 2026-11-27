@@ -68,13 +68,18 @@ struct RecipeDetailView: View {
             ToolbarItem(placement: .primaryAction) {
                 Menu {
                     Button {
-                        recipeToExport = [recipeID]
+                        proGated(.recipeSharing) { recipeToExport = [recipeID] }
                     } label: {
-                        Label("Rezept sichern", systemImage: "square.and.arrow.up")
+                        Label(BakePro.shared.title(String(localized: "Rezept sichern", bundle: .module), for: .recipeSharing),
+                              systemImage: "square.and.arrow.up")
                     }
                     // The page at the amount shown, as the iPhone shares it.
                     if let recipe {
-                        Button("Rezept teilen") {
+                        Button(BakePro.shared.title(String(localized: "Rezept teilen", bundle: .module), for: .pdfExport)) {
+                            guard BakePro.shared.isUnlocked(.pdfExport) else {
+                                BakePro.shared.offer(.pdfExport)
+                                return
+                            }
                             sharingFailed = !RecipePDFSharing.share(
                                 RecipePrintData(data: recipe.content, scale: scale, bakersPercentages: model.showsBakersPercentages))
                         }
@@ -313,7 +318,9 @@ struct RecipeDetailView: View {
                 }
 
                 // What of it is in the house, at the amount chosen above.
-                PantryCheckCard(model: model, recipe: recipe.content, scale: scale)
+                if BakePro.shared.isUnlocked(.pantry) {
+                    PantryCheckCard(model: model, recipe: recipe.content, scale: scale)
+                }
 
                 // At the amount chosen above, as on the iPhone.
                 Button {
@@ -325,9 +332,10 @@ struct RecipeDetailView: View {
                 .tint(Palette.accent(colorScheme))
 
                 Button {
-                    addsToShoppingList = true
+                    proGated(.shoppingList) { addsToShoppingList = true }
                 } label: {
-                    Label("Rezept zur Einkaufsliste hinzufügen", systemImage: "cart")
+                    Label(BakePro.shared.title(String(localized: "Rezept zur Einkaufsliste hinzufügen", bundle: .module), for: .shoppingList),
+                          systemImage: "cart")
                 }
                 .buttonStyle(.bordered)
                 .tint(Palette.accent(colorScheme))

@@ -1309,7 +1309,7 @@ BakePlanner gibt es auch für Android-Telefone und -Tablets. Rezepte, Planung, R
 - **Gerätewechsel zwischen iPhone und Android** geht über dieselbe Datei in beide Richtungen. Was nicht mitkommt: gesetzte Pläne und Erinnerungen (auf dem neuen Gerät neu planen), eigene Einheiten (neu anlegen) und Einstellungen; der Vorrat kommt mit – Posten, die der Vorrat des neuen Geräts dem Namen nach noch nicht hat, werden ergänzt.
 - **Fotos** für Rezeptbild und Backhistorie werden auf Android schon beim Auswählen auf Bildschirmgröße verkleinert, nicht erst in der Sicherungsdatei.
 - **Rezept-Datenbank und Konto** sind dieselben wie auf dem iPhone. **Mit Apple anmelden** öffnet die Apple-Anmeldung im Browser und kehrt danach in die App zurück; ein auf dem iPhone veröffentlichtes Rezept lässt sich so auch vom Android-Gerät aus bearbeiten.
-- **Pro gibt es auf Android nicht:** Alle Funktionen sind frei, es gibt nichts zu kaufen.
+- **BakePlanner Pro auf Android** ist ein eigener Kauf über Google Play. Er umfasst die Pro-Funktionen, die es auf Android gibt; ein Kauf auf dem iPhone gilt dort nicht und umgekehrt. Einzelheiten im [Handbuch für Android](android-manual-de.html).
 
 ### Oberfläche
 
@@ -1347,7 +1347,7 @@ BakePlanner gibt es auch für Android-Telefone und -Tablets. Rezepte, Planung, R
 | Anstellgut-Diagramm (Tagebuch → Diagramm) | [Kapitel 9](#9-rezept-bearbeiten) | Fehlt; die Reifezeit-Schätzung im Tagebuch ist vorhanden |
 | Kalender beim Planen prüfen | [Kapitel 14](#14-einstellungen) | Fehlt |
 | Backhistorie aus Fotos | [Kapitel 12](#12-backhistorie) | Vorhanden über das Foto-Symbol der Backhistorie, mit einem Unterschied: Android schlägt das Rezept nur nach dem **Titel oder der Beschreibung des Fotos** vor, nicht nach der Ähnlichkeit mit dem Rezeptbild. Der Rezeptname sollte also im Foto stehen (Google Fotos → Info → Beschreibung); Datum und Titel liest Android aus JPEG-Dateien |
-| BakePlanner Pro | [Kapitel 14](#14-einstellungen) | Alles frei |
+| BakePlanner Pro | [Kapitel 14](#14-einstellungen) | Eigener Kauf über Google Play, ohne Widgets, Live-Aktivität, Backjahr-Buch, freihändigen Backmodus, Anstellgut-Diagramm und Kalenderprüfung, die Android nicht hat |
 | Rezept nach Bäckerprozent anlegen | [Kapitel 8](#8-neues-rezept-anlegen) | Vorhanden: **+ → Nach Bäckerprozent** mit Rezeptname, Mehl gesamt oder Teiggewicht, Komponenten und Zutaten in Prozent; **Weiter** öffnet den Rezept-Editor mit den Gramm |
 | Statistik der Backhistorie | [Kapitel 12](#12-backhistorie) | Vorhanden: **Backhistorie → Darstellung → Statistik** mit denselben Kennzahlen und Abschnitten wie auf dem iPhone; die Diagramme sind einfache Balken und Punkte ohne Achsenbeschriftung. Das **Backjahr-Buch** fehlt noch |
 | Backtag planen (Mehr → Backtag planen) | [Kapitel 10](#10-geplante-schritte-liste-und-timeline) | Vorhanden: **Mehr (⋯) → Backtag planen** mit Rezeptauswahl, Wunschzeit, Backöfen, „Backtag berechnen“, Hinweisen je Brot (Nacht, Handarbeit, Ofen, Vorrat) und „Alle planen“; die Zeilen zeigen die Hinweise als Text ohne Symbole |

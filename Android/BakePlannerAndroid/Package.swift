@@ -21,6 +21,7 @@ let package = Package(
         .package(path: "../BakePlannerSpeech"),
         // Reading camera photos and shared files behind content:// addresses.
         .package(path: "../BakePlannerMedia"),
+        .package(path: "../PlayBilling"),
         // The public recipes: Firebase's Android SDK behind the iOS SDK's API.
         .package(url: "https://github.com/skiptools/skip-firebase.git", from: "0.21.0"),
     ],
@@ -32,6 +33,7 @@ let package = Package(
             .product(name: "BakePlannerStorage", package: "BakePlannerStorage"),
             .product(name: "BakePlannerSpeech", package: "BakePlannerSpeech"),
             .product(name: "BakePlannerMedia", package: "BakePlannerMedia"),
+            .product(name: "PlayBilling", package: "PlayBilling"),
             .product(name: "SkipFirebaseCore", package: "skip-firebase"),
             .product(name: "SkipFirebaseAuth", package: "skip-firebase"),
             .product(name: "SkipFirebaseAppCheck", package: "skip-firebase"),

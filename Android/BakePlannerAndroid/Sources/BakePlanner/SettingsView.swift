@@ -44,6 +44,8 @@ struct SettingsView: View {
     @State var pickedBackupURL: URL?
     @State var pickedBackupName: String?
     @State var pickedBackupType: String?
+    @State var pro = BakePro.shared
+    @State var showsPro = false
 
     enum AccountOutcome: Equatable {
         case signInFailed(String)
@@ -55,6 +57,24 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
+            // BakePlanner Pro, once the purchase is offered (or made).
+            if pro.storeVisible {
+                Section {
+                    Button {
+                        showsPro = true
+                    } label: {
+                        HStack {
+                            Text(verbatim: "BakePlanner Pro")
+                                .foregroundStyle(Color.primary)
+                            Spacer()
+                            Text(pro.purchased ? String(localized: "Freigeschaltet", bundle: .module) : String(localized: "Mehr erfahren", bundle: .module))
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                } footer: {
+                    Text(String(localized: "Einkaufslisten, Vorrat, Backtag, Sammlungen, Statistik, Ofenprofile und mehr – einmal kaufen, kein Abo.", bundle: .module))
+                }
+            }
             // The app's language is chosen in Android's settings (Android 13
             // and later, locales_config.xml); this row leads there.
             Section {
@@ -145,7 +165,17 @@ struct SettingsView: View {
 
             // The ovens one bakes in; with profiles the preheating times and
             // the number of ovens come from them, so those rows go below.
-            OvenProfilesSection()
+            if BakePro.shared.isUnlocked(.ovenProfiles) {
+                OvenProfilesSection()
+            } else {
+                Section {
+                    Text(String(localized: "Ofenprofile gehören zu BakePlanner Pro: jeder Ofen mit seinen Vorheizzeiten, ob er heißer oder kälter läuft, und dem Umluft-Abschlag.", bundle: .module))
+                        .font(AppFont.footnote)
+                        .foregroundStyle(.secondary)
+                } header: {
+                    Text("Backöfen")
+                }
+            }
 
             Section {
                 if OvenProfileFile.profiles.isEmpty {
@@ -237,6 +267,9 @@ struct SettingsView: View {
             }
         }
         .navigationTitle("Einstellungen")
+        .appSheet(isPresented: $showsPro) {
+            ProPaywallView()
+        }
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button("Fertig") {
