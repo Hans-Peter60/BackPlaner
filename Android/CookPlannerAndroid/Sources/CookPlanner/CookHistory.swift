@@ -2,22 +2,49 @@ import BakePlannerCore
 import SkipKit
 import SwiftUI
 
-/// "Gekocht": every cook on the stopwatch and every one entered by hand,
-/// by month, newest first (the iPhone's CookHistoryView, list layout).
+/// The four ways "Gekocht" shows the records, as on the iPhone.
+enum CookHistoryLayout: String, CaseIterable {
+    case list, gallery, hitList, statistics
+
+    var title: String {
+        switch self {
+        case .list: return String(localized: "Liste", bundle: .module)
+        case .gallery: return String(localized: "Galerie", bundle: .module)
+        case .hitList: return String(localized: "Hit-Liste", bundle: .module)
+        case .statistics: return String(localized: "Statistik", bundle: .module)
+        }
+    }
+}
+
+/// "Gekocht": every cook on the stopwatch and every one entered by hand
+/// (the iPhone's CookHistoryView): the list by month, a gallery of the
+/// photos, the hit list by stars, the statistics; a search by dish and a
+/// lowest star rating.
 struct CookHistoryView: View {
     let library: CookLibrary
     @State var log = CookRunLog.shared
     @State var addsEntry = false
-    @State var showsStatistics = false
     @State var showsYearbook = false
+    @State var searchText = ""
+    @State var layout = CookHistoryLayout(rawValue: SettingsFile.text("history.layout") ?? "") ?? .list
+    @State var minimumRating = SettingsFile.integer("history.minimumRating", default: 0)
     @Environment(\.colorScheme) var colorScheme
+
+    /// The records the search and the stars leave, newest first.
+    private var shownRuns: [KitchenCookRun] {
+        let needle = searchText.trimmingCharacters(in: .whitespaces)
+        return log.runs.filter { run in
+            (needle.isEmpty || run.dishName.range(of: needle, options: [.caseInsensitive, .diacriticInsensitive]) != nil)
+                && (minimumRating == 0 || (run.rating ?? 0) >= minimumRating)
+        }
+    }
 
     /// The records by month, newest first.
     private var months: [RunMonth] {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = .current
         var groups: [Date: [KitchenCookRun]] = [:]
-        for run in log.runs {
+        for run in shownRuns {
             let parts = calendar.dateComponents([.year, .month], from: run.startedAt)
             let month = calendar.date(from: parts) ?? run.startedAt
             groups[month, default: []].append(run)
@@ -27,7 +54,9 @@ struct CookHistoryView: View {
 
     var body: some View {
         ZStack {
-            WarmBackground().ignoresSafeArea()
+            // Not under the safe area: the search field sits there, and the
+            // warm ground would cover it (as in the dish list).
+            WarmBackground()
             if log.runs.isEmpty {
                 VStack(spacing: 10) {
                     Text(String(localized: "Noch nichts gekocht", bundle: .module))
@@ -42,36 +71,59 @@ struct CookHistoryView: View {
                 .padding(24)
             } else {
                 VStack(spacing: 0) {
-                Picker(String(localized: "Darstellung", bundle: .module), selection: $showsStatistics) {
-                    Text(String(localized: "Liste", bundle: .module)).tag(false)
-                    Text(String(localized: "Statistik", bundle: .module)).tag(true)
-                }
-                .pickerStyle(.segmented)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
-                if showsStatistics {
-                    CookStatisticsView(runs: log.runs)
-                } else {
-                List {
-                    ForEach(months, id: \.id) { group in
-                        Section(group.month.formatted(.dateTime.month(.wide).year().locale(AppSettings.locale))) {
-                            ForEach(group.runs, id: \.id) { run in
-                                NavigationLink {
-                                    CookRunDetailView(runID: run.id)
-                                } label: {
-                                    RunRow(run: run)
-                                }
-                            }
+                    Picker(String(localized: "Darstellung", bundle: .module), selection: $layout) {
+                        ForEach(CookHistoryLayout.allCases, id: \.self) { layout in
+                            Text(layout.title).tag(layout)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .onChange(of: layout) { _, layout in
+                        SettingsFile.set(layout.rawValue, forKey: "history.layout")
+                    }
+                    if shownRuns.isEmpty {
+                        VStack(spacing: 8) {
+                            Text(String(localized: "Keine passenden Einträge", bundle: .module))
+                                .font(.headline)
+                            Text(String(localized: "Passe die Suche oder die Sterne an.", bundle: .module))
+                                .font(.subheadline)
+                                .foregroundStyle(Palette.subtitle(colorScheme))
+                        }
+                        .padding(24)
+                        .frame(maxHeight: .infinity, alignment: .top)
+                    } else {
+                        switch layout {
+                        case .list: list
+                        case .gallery: gallery
+                        case .hitList: hitList
+                        case .statistics: CookStatisticsView(runs: shownRuns)
                         }
                     }
                 }
-                .scrollContentBackground(.hidden)
-                }
-                }
             }
         }
+        .searchable(text: $searchText, prompt: String(localized: "Gericht suchen", bundle: .module))
         .navigationTitle(String(localized: "Gekocht", bundle: .module))
         .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                // Skip's menus show no pickers: a button per choice, the
+                // chosen one marked.
+                Menu {
+                    Button((minimumRating == 0 ? "✓ " : "") + String(localized: "Alle", bundle: .module)) {
+                        setMinimumRating(0)
+                    }
+                    ForEach([1, 2, 3, 4, 5], id: \.self) { stars in
+                        Button((minimumRating == stars ? "✓ " : "") + String(localized: "Ab \(stars) Sternen", bundle: .module)) {
+                            setMinimumRating(stars)
+                        }
+                    }
+                } label: {
+                    Text(minimumRating == 0 ? "☆" : "★ \(minimumRating)+")
+                        .foregroundStyle(Palette.accentText(colorScheme))
+                }
+                .accessibilityLabel(Text(String(localized: "Mindestbewertung", bundle: .module)))
+            }
             ToolbarItem(placement: .primaryAction) {
                 Menu {
                     Button(String(localized: "Gekocht eintragen", bundle: .module)) { addsEntry = true }
@@ -88,6 +140,148 @@ struct CookHistoryView: View {
         .appSheet(isPresented: $addsEntry) {
             CookEntryAddView(library: library)
         }
+    }
+
+    private func setMinimumRating(_ stars: Int) {
+        minimumRating = stars
+        SettingsFile.set(stars, forKey: "history.minimumRating")
+    }
+
+    private var list: some View {
+        List {
+            ForEach(months, id: \.id) { group in
+                Section(group.month.formatted(.dateTime.month(.wide).year().locale(AppSettings.locale))) {
+                    ForEach(group.runs, id: \.id) { run in
+                        NavigationLink {
+                            CookRunDetailView(runID: run.id)
+                        } label: {
+                            HStack(spacing: 12) {
+                                RunThumbnail(run: run, size: 56)
+                                RunRow(run: run)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .scrollContentBackground(.hidden)
+    }
+
+    /// The records with a photo, as tiles with the dish's name.
+    private var gallery: some View {
+        let withPhotos = shownRuns.filter { $0.photoFileName != nil }
+        return ScrollView {
+            if withPhotos.isEmpty {
+                VStack(spacing: 8) {
+                    Text(String(localized: "Noch keine Fotos", bundle: .module))
+                        .font(.headline)
+                    Text(String(localized: "Ein Foto hängst Du im Eintrag unter „Wie war’s?“ an.", bundle: .module))
+                        .font(.subheadline)
+                        .foregroundStyle(Palette.subtitle(colorScheme))
+                        .multilineTextAlignment(.center)
+                }
+                .padding(24)
+            } else {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 110), spacing: 6)], spacing: 6) {
+                    ForEach(withPhotos, id: \.id) { run in
+                        NavigationLink {
+                            CookRunDetailView(runID: run.id)
+                        } label: {
+                            ZStack(alignment: .bottomLeading) {
+                                RunThumbnail(run: run, size: 110)
+                                Text(run.dishName)
+                                    .font(.caption2)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(Color.white)
+                                    .lineLimit(2)
+                                    .padding(4)
+                                    .frame(width: 110, alignment: .leading)
+                                    .background(Color.black.opacity(0.45))
+                            }
+                            .frame(width: 110, height: 110)
+                            .clipShape(RoundedRectangle(cornerRadius: 14))
+                        }
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+            }
+        }
+    }
+
+    /// The dishes by their stars, best first.
+    private var hitList: some View {
+        let statistics = KitchenCookStatistics(runs: shownRuns)
+        return List {
+            if statistics.hitList.isEmpty {
+                Text(String(localized: "Vergib im Eintrag Sterne, dann steht hier, was am besten ankam.", bundle: .module))
+                    .foregroundStyle(Palette.subtitle(colorScheme))
+            }
+            ForEach(Array(statistics.hitList.enumerated()), id: \.element.id) { index, dish in
+                HStack(spacing: 12) {
+                    Text(verbatim: "\(index + 1).")
+                        .font(.title3)
+                        .fontWeight(.bold)
+                        .foregroundStyle(index < 3 ? Palette.accentText(colorScheme) : Palette.subtitle(colorScheme))
+                        .frame(width: 34, alignment: .trailing)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(dish.name)
+                            .fontWeight(.semibold)
+                            .lineLimit(2)
+                        HStack(spacing: 8) {
+                            if let average = dish.averageRating {
+                                Text(starsText(Int(average.rounded())))
+                                    .foregroundStyle(Palette.accentText(colorScheme))
+                                Text(average.formatted(.number.precision(.fractionLength(1)).locale(AppSettings.locale)))
+                            }
+                            Text(String(localized: "\(dish.count)× gekocht", bundle: .module))
+                        }
+                        .font(.footnote)
+                        .foregroundStyle(Palette.subtitle(colorScheme))
+                    }
+                }
+            }
+        }
+        .scrollContentBackground(.hidden)
+    }
+}
+
+/// A record's photo as a square, or a plain tile without one. Small
+/// copies are kept per file, so a gallery does not decode every photo
+/// at full size on each redraw.
+struct RunThumbnail: View {
+    let run: KitchenCookRun
+    let size: CGFloat
+    @Environment(\.colorScheme) var colorScheme
+
+    var body: some View {
+        if let image = RunThumbnails.image(for: run) {
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFill()
+                .frame(width: size, height: size)
+                .clipShape(RoundedRectangle(cornerRadius: size > 80 ? 14 : 10))
+        } else {
+            RoundedRectangle(cornerRadius: size > 80 ? 14 : 10)
+                .fill(Palette.accentText(colorScheme).opacity(0.12))
+                .frame(width: size, height: size)
+                .overlay(Text(verbatim: "🍳").font(.system(size: size * 0.4)))
+        }
+    }
+}
+
+@MainActor
+enum RunThumbnails {
+    private static var cache: [String: UIImage] = [:]
+
+    static func image(for run: KitchenCookRun) -> UIImage? {
+        guard let name = run.photoFileName else { return nil }
+        if let image = cache[name] { return image }
+        guard let data = CookRunLog.shared.photoData(of: run),
+              let small = PhotoShrinker.thumbnail(data, edge: 320),
+              let image = UIImage(data: small) else { return nil }
+        cache[name] = image
+        return image
     }
 }
 

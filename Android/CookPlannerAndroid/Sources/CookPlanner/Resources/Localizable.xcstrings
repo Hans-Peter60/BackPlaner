@@ -630,6 +630,23 @@
         }
       }
     },
+    "Ab %lld Sternen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld stars and up"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À partir de %lld étoiles"
+          }
+        }
+      }
+    },
     "Abbrechen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1905,6 +1922,23 @@
         }
       }
     },
+    "Ein Foto hängst Du im Eintrag unter „Wie war’s?“ an." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add a photo in the entry under “How was it?”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoutez une photo dans l’entrée sous « C’était comment ? »."
+          }
+        }
+      }
+    },
     "Ein Gericht, eine Person, %lld Minuten" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2432,6 +2466,23 @@
         }
       }
     },
+    "Galerie" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gallery"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galerie"
+          }
+        }
+      }
+    },
     "Gang hinzufügen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2683,6 +2734,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Supprimer le plat ?"
+          }
+        }
+      }
+    },
+    "Gericht suchen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search dish"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher un plat"
           }
         }
       }
@@ -3044,6 +3112,23 @@
         }
       }
     },
+    "Hit-Liste" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hit list"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Palmarès"
+          }
+        }
+      }
+    },
     "Höchstens %lld Min." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3210,6 +3295,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Maintenant :"
+          }
+        }
+      }
+    },
+    "Keine passenden Einträge" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No matching entries"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune entrée correspondante"
           }
         }
       }
@@ -3792,6 +3894,23 @@
         }
       }
     },
+    "Mindestbewertung" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minimum rating"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Note minimale"
+          }
+        }
+      }
+    },
     "Mindestens %lld Min." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4149,6 +4268,23 @@
         }
       }
     },
+    "Noch keine Fotos" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No photos yet"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas encore de photos"
+          }
+        }
+      }
+    },
     "Noch nichts gekocht" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4451,6 +4587,23 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Huiles, matières grasses & liquides"
+          }
+        }
+      }
+    },
+    "Passe die Suche oder die Sterne an." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adjust the search or the stars."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifiez la recherche ou les étoiles."
           }
         }
       }
@@ -5131,6 +5284,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Écart"
+          }
+        }
+      }
+    },
+    "Vergib im Eintrag Sterne, dann steht hier, was am besten ankam." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Give stars in the entries, and this shows what went down best."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Donnez des étoiles dans les entrées : ici apparaît ce qui a le mieux plu."
           }
         }
       }
