@@ -2806,6 +2806,23 @@
         }
       }
     },
+    "Hände" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hands"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mains"
+          }
+        }
+      }
+    },
     "Hände %lld Min." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3435,6 +3452,23 @@
         }
       }
     },
+    "läuft allein" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "runs on its own"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "se fait seul"
+          }
+        }
+      }
+    },
     "Läuft von allein" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3720,6 +3754,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Au moins %lld min"
+          }
+        }
+      }
+    },
+    "Minute %lld bis %lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minute %lld to %lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minute %lld à %lld"
           }
         }
       }
@@ -4863,6 +4914,23 @@
         }
       }
     },
+    "Tippen für Details" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap for details"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touchez pour les détails"
+          }
+        }
+      }
+    },
     "Training" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -5305,6 +5373,23 @@
         }
       }
     },
+    "Zeitachse" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timeline"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chronologie"
+          }
+        }
+      }
+    },
     "Zeitbudget" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -5318,6 +5403,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Temps imparti"
+          }
+        }
+      }
+    },
+    "Zeitplan" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timeline"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déroulé"
           }
         }
       }
