@@ -37,6 +37,7 @@ struct HelpLinksTests {
     func cookPlanner() {
         #expect(HelpLinks.cookPlannerSupport(for: "fr").absoluteString == HelpLinks.site + "cookplanner.html#fr")
         #expect(HelpLinks.cookPlannerPrivacy(for: "de").absoluteString == HelpLinks.site + "cookplanner-privacy.html#de")
+        #expect(HelpLinks.cookPlannerManual(for: "de").absoluteString == HelpLinks.site + "cookplanner-manual-de.html")
         #expect(HelpLinks.cookPlannerAndroidManual(for: "en").absoluteString == HelpLinks.site + "cookplanner-android-manual-en.html")
     }
 }

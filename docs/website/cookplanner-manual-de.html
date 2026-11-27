@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CookPlanner – Benutzerhandbuch</title>
+<style>
+  :root {
+    --bg-top: #FAEDD1;
+    --bg-bottom: #EDCC9E;
+    --card: #FFFFFF;
+    --title: #593314;
+    --text: #2A1A0A;
+    --subtitle: #734D29;
+    --accent: #945B29;
+    --rule: #E6D3B8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-top: #291F17;
+      --bg-bottom: #17120D;
+      --card: #332921;
+      --title: #F5E6CC;
+      --text: #F2E8DA;
+      --subtitle: #D1B899;
+      --accent: #E3934F;
+      --rule: #4A3C30;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0 1rem 4rem;
+    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+    background: linear-gradient(var(--bg-top), var(--bg-bottom)) no-repeat;
+    background-attachment: fixed;
+  }
+  main { max-width: 44rem; margin: 0 auto; }
+  header { text-align: center; padding: 3rem 0 1rem; }
+  h1 { color: var(--title); font-size: 2.2rem; margin: 0 0 .3rem; }
+  .claim { color: var(--subtitle); margin: 0; }
+  nav { text-align: center; margin: 1.5rem 0 2rem; }
+  nav a {
+    display: inline-block; margin: .2rem .4rem; padding: .4rem .9rem;
+    color: var(--accent); text-decoration: none;
+    border: 1px solid var(--accent); border-radius: 999px;
+  }
+  nav a:hover, nav a:focus { text-decoration: underline; }
+  nav a[aria-current] { background: var(--accent); color: var(--card); }
+  article {
+    background: var(--card); border-radius: 16px;
+    padding: 1.5rem 1.75rem; margin-bottom: 1.5rem;
+  }
+  /* Only running text may break inside an overlong word; table cells wrap
+     at spaces, otherwise the browser squeezes the term column to a sliver. */
+  article p, article li, article figcaption { overflow-wrap: break-word; }
+  h2 { color: var(--title); font-size: 1.5rem; margin: 2rem 0 .6rem; }
+  h3 { color: var(--title); font-size: 1.15rem; margin: 1.6rem 0 .3rem; }
+  h4 { color: var(--title); font-size: 1rem; margin: 1.2rem 0 .3rem; }
+  article > h2:first-child { margin-top: 0; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--rule); margin: 2rem 0; }
+  code {
+    font: .9em ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: var(--bg-top); border-radius: 4px; padding: 0 .3em;
+  }
+  blockquote.note {
+    margin: 1rem 0; border-left: 4px solid var(--accent);
+    padding-left: 1rem; color: var(--subtitle);
+  }
+  blockquote.note p { margin: 0; }
+  .table-wrap { overflow-x: auto; margin: 1rem 0; }
+  table { border-collapse: collapse; width: 100%; font-size: .95em; }
+  th, td { text-align: left; vertical-align: top; padding: .45rem .6rem; border-bottom: 1px solid var(--rule); }
+  th { color: var(--title); }
+  col.first { width: var(--w); }
+  table.firm th:first-child, table.firm td:first-child { white-space: nowrap; }
+  @media (max-width: 480px) {
+    /* On a phone a one-line term column would leave no room for the
+       explanation, so the term may wrap at spaces and takes 40 %. */
+    table.firm th:first-child, table.firm td:first-child { white-space: normal; }
+    col.first { width: min(var(--w), 40%); }
+    /* Tables with three or more columns: smaller type, tighter padding and
+       hyphenation, so that the last column is not pushed off the screen. */
+    table.wide { font-size: .88em; }
+    table.wide th, table.wide td { padding: .35rem .4rem; hyphens: auto; }
+  }
+  figure { margin: 1.5rem 0; text-align: center; }
+  img.screenshot {
+    max-width: min(100%, 320px); height: auto;
+    border-radius: 12px; box-shadow: 0 3px 10px rgba(0,0,0,.15);
+  }
+  figcaption { color: var(--subtitle); font-size: .9em; margin-top: .5rem; }
+  footer { text-align: center; color: var(--subtitle); font-size: .9rem; }
+</style>
+</head>
+<body>
+<main id="top">
+
+<header>
+  <h1>CookPlanner – Benutzerhandbuch</h1>
+  <p class="claim">Stand: 27.11.2026 · App-Version 1.0</p>
+</header>
+
+<nav aria-label="Sprache wählen">
+  <a href="cookplanner.html#de">Hilfe und Kontakt</a>
+  <a href="cookplanner-manual-de.html" lang="de" aria-current="page">Deutsch</a>
+  <a href="cookplanner-manual-en.html" lang="en">English</a>
+  <a href="cookplanner-manual-fr.html" lang="fr">Français</a>
+  <a href="cookplanner-privacy.html">Datenschutz</a>
+  <a href="impressum.html">Impressum</a>
+</nav>
+
+<article>
+<hr>
+<h2 id="inhalt">Inhalt</h2>
+<ol><li><a href="#1-was-cookplanner-macht">Was CookPlanner macht</a></li><li><a href="#2-voraussetzungen">Voraussetzungen</a></li><li><a href="#3-grundbegriffe">Grundbegriffe</a></li><li><a href="#4-die-gerichte-liste">Die Gerichte-Liste</a></li><li><a href="#5-der-plan">Der Plan</a></li><li><a href="#6-gericht-anlegen-und-bearbeiten">Gericht anlegen und bearbeiten</a></li><li><a href="#7-importieren">Importieren</a></li><li><a href="#8-menü-zusammenstellen">Menü zusammenstellen</a></li><li><a href="#9-kochmodus">Kochmodus</a></li><li><a href="#10-mitteilungen-wecker-und-live-aktivität">Mitteilungen, Wecker und Live-Aktivität</a></li><li><a href="#11-gekocht">Gekocht</a></li><li><a href="#12-ablaufplan-als-pdf-und-kochjahr-buch">Ablaufplan als PDF und Kochjahr-Buch</a></li><li><a href="#13-siri-kurzbefehle-spotlight-und-tastatur">Siri, Kurzbefehle, Spotlight und Tastatur</a></li><li><a href="#14-einstellungen">Einstellungen</a></li><li><a href="#15-sicherung-icloud-und-gerätewechsel">Sicherung, iCloud und Gerätewechsel</a></li><li><a href="#16-cookplanner-pro">CookPlanner Pro</a></li><li><a href="#17-datenschutz">Datenschutz</a></li><li><a href="#18-häufige-fragen">Häufige Fragen</a></li></ol>
+<hr>
+<h2 id="1-was-cookplanner-macht">1. Was CookPlanner macht</h2>
+<p>Ein Gericht aus Fleisch, Beilage, Sauce und Garnitur, eine Person am Herd und eine feste Zeit: CookPlanner legt die Arbeitsschritte so, dass <strong>alles zugleich fertig wird</strong>, und sagt Dir vorher, ob die Zeit reicht. Die App heißt im Untertitel „Kochen gegen die Uhr“.</p>
+<ul><li>Jeder Schritt hat <strong>Handarbeit</strong> (Du bist gebunden) und eine Zeit, in der er <strong>von allein läuft</strong> (köcheln, backen, ruhen).</li><li>CookPlanner rechnet mit <strong>Deiner Küche</strong>: wie viele Herdplatten, wie viele Öfen und wie viel Zeit Du hast.</li><li>Das <strong>Urteil</strong> sagt klar, ob das Gericht ins Zeitbudget passt – und wenn nicht, warum und was helfen würde.</li><li>Im <strong>Kochmodus</strong> führt Dich die App mit einer Uhr Schritt für Schritt durch die Küche und plant nach jedem Haken neu. Mitteilungen, Wecker und die Live-Aktivität auf dem Sperrbildschirm sagen Dir Bescheid, auch wenn das iPhone gesperrt auf der Arbeitsfläche liegt.</li></ul>
+<p>Dazu kommen: Import aus Text, Fotos und Webseiten (auch direkt aus Safari über <strong>Teilen</strong>), Zutaten mit Portionen und Einkaufsliste, Menüs aus mehreren Gängen, ein Protokoll jedes Kochens mit Sternen, Notiz und Foto, gemessene Zeiten für den nächsten Plan, Vorlesen und Sprachbefehle, Siri und Kurzbefehle, der Ablaufplan als PDF, ein Kochjahr-Buch und der Abgleich über iCloud zwischen iPhone und iPad.</p>
+<h3 id="schnellstart-in-fünf-schritten-zum-ersten-kochen-gegen-die-uhr">Schnellstart: In fünf Schritten zum ersten Kochen gegen die Uhr</h3>
+<ol><li>Tippe in der Gerichte-Liste oben rechts auf den Knopf mit den Schiebereglern (<strong>Einstellungen</strong>) und stelle Dein Zeitbudget und Deine Küche ein (Platten, Öfen).</li><li>Tippe auf eines der <strong>Beispiele</strong> oder lege mit <strong>+ → Neues Gericht</strong> ein eigenes an.</li><li>Lies auf dem Plan das Urteil („Passt in 35 Minuten“ oder „Fehlen 9 Minuten“) und schau Dir den Zeitplan an.</li><li>Tippe unten auf dem Plan auf <strong>Kochen starten</strong>, wähle die Uhr (Challenge, Training oder Entspannt) und tippe auf <strong>Start</strong>.</li><li>Hake jeden Schritt mit dem großen Haken ab; bei Töpfen und Ofenschritten zeigt der Knopf eine Flamme und heißt „Steht, läuft von allein“. Am Ende <strong>Beenden → Beenden und Protokoll sichern</strong>.</li></ol>
+<figure><img class="screenshot" src="images/cookplanner/iphone/gerichte.png" alt="Die Gerichte-Liste mit Suchfeld, Budget-Zeile, Chips und den Beispielen" loading="lazy">
+<figcaption>Die Gerichte-Liste: oben Filter, + und Einstellungen, darunter Suche, Budget und Chips, dann die Gerichte mit ihrem Urteil.</figcaption>
+</figure>
+<hr>
+<h2 id="2-voraussetzungen">2. Voraussetzungen</h2>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 16ch"></colgroup>
+<thead><tr><th>Punkt</th><th>Wert</th></tr></thead>
+<tbody>
+<tr><td>Geräte</td><td>iPhone und iPad</td></tr>
+<tr><td>Betriebssystem</td><td>iOS 26 bzw. iPadOS 26 oder neuer</td></tr>
+<tr><td>Sprachen</td><td>Deutsch, Englisch, Französisch – die App folgt der Sprache des Geräts</td></tr>
+<tr><td>Darstellung</td><td>Hell- und Dunkelmodus</td></tr>
+<tr><td>Internet</td><td>Nur für den Import aus Text, Fotos und Webseiten (die Analyse läuft in der Cloud) und für den iCloud-Abgleich. Planen, Kochen, Protokolle und Sicherung gehen offline</td></tr>
+<tr><td>Anmeldung</td><td>Kein Konto bei CookPlanner. Für die Analyse meldet sich die App im Hintergrund anonym an</td></tr>
+<tr><td>iCloud</td><td>Optional: Mit derselben Apple-ID gleichen sich iPhone und iPad ab (<a href="#15-sicherung-icloud-und-gerätewechsel">Kapitel 15</a>)</td></tr>
+</tbody></table></div>
+<p>Die App fragt die folgenden Berechtigungen erst, wenn sie gebraucht werden:</p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Berechtigung</th><th>Wofür</th><th>Ohne sie</th></tr></thead>
+<tbody>
+<tr><td>Mitteilungen</td><td>„jetzt dran“ und „die Zeit ist um“ im Kochmodus</td><td>Der Kochmodus läuft, meldet sich aber bei gesperrtem iPhone nicht</td></tr>
+<tr><td>Wecker (AlarmKit)</td><td>Ein Wecker, wenn ein Topf oder der Ofen fertig ist – auch im Stummmodus und im Fokus</td><td>Statt des Weckers kommt eine Mitteilung</td></tr>
+<tr><td>Kamera</td><td><strong>Seiten scannen</strong> beim Import, <strong>Foto aufnehmen</strong> für ein Protokoll</td><td>Fotos lassen sich weiter aus der Mediathek wählen</td></tr>
+<tr><td>Mikrofon und Spracherkennung</td><td>Sprachbefehle im Kochmodus</td><td>Sprachbefehle bleiben aus</td></tr>
+</tbody></table></div>
+<p>Für <strong>Fotos auswählen</strong> braucht die App keine Berechtigung: Die Fotoauswahl von iOS gibt nur die Bilder heraus, die Du antippst.</p>
+<hr>
+<h2 id="3-grundbegriffe">3. Grundbegriffe</h2>
+<p><strong>Gericht</strong><br>Was am Ende auf dem Teller liegt, zum Beispiel „Perlhuhnbrust mit Rahm-Wirsing, Kräuterseitlingen und Verjus-Birne“. Ein Gericht hat einen Namen, optional eine Personenzahl, Zutaten und Schritte.</p>
+<p><strong>Komponente</strong><br>Ein Teil des Gerichts, der für sich gekocht wird – Fleisch, Wirsing, Pilze, Sauce. Im Plan bekommt jede Komponente ihre eigene Spalte, und die Handarbeit wird je Komponente gezählt.</p>
+<p><strong>Schritt</strong><br>Eine Arbeit mit Dauer: „Wirsing in Streifen schneiden“, „Perlhuhn anbraten“. Ein Schritt gehört zu einer Komponente, kann eine Herdplatte oder einen Ofen belegen und auf andere Schritte warten.</p>
+<p><strong>Hände und „läuft allein“</strong><br>Jeder Schritt hat zwei Zeiten: <strong>Hände</strong> – die Minuten, in denen Du gebunden bist – und <strong>danach allein</strong> – die Minuten, in denen der Topf köchelt oder der Ofen backt, ohne Dich. In der Zeit allein kannst Du anderes tun; genau das nutzt der Plan.</p>
+<p><strong>Zeitbudget</strong><br>Die Minuten, in denen alles fertig sein soll (Voreinstellung 35). Das Urteil misst jedes Gericht daran.</p>
+<p><strong>Platten und Öfen</strong><br>Wie viele Herdplatten und Öfen Deine Küche hat. Ein Schritt am Herd belegt eine Platte, ein Ofenschritt einen Ofen, jeweils für Hände und Zeit allein. Die Öfen gelten als vorgeheizt, wenn die Uhr startet.</p>
+<p><strong>Muss bald weitergehen</strong><br>Manche Ergebnisse vertragen kein Warten: Fleisch nach dem Anbraten wird gleich gewendet, geruhtes Fleisch soll nicht kalt werden. Mit „Muss bald weitergehen“ gibst Du an, wie lange ein Schritt höchstens liegen darf, bevor der nächste kommt.</p>
+<p><strong>Kette</strong><br>Die längste Folge von Schritten, die aufeinander warten. Kürzer als die Kette kann kein Plan werden, egal wie geschickt parallel gearbeitet wird.</p>
+<p><strong>Warten auf</strong><br>Ein Schritt beginnt erst, wenn die Schritte fertig sind, auf die er wartet. Ohne Angabe kann er sofort beginnen. Das Anrichten wartet typischerweise auf den letzten Schritt jeder Komponente.</p>
+<hr>
+<h2 id="4-die-gerichte-liste">4. Die Gerichte-Liste</h2>
+<p>Die App hat unten zwei Tabs: <strong>Gerichte</strong> und <strong>Gekocht</strong> (<a href="#11-gekocht">Kapitel 11</a>). Die Gerichte-Liste zeigt oben das Suchfeld, darunter „Ein Gericht, eine Person, 35 Minuten“ mit Deinem Budget, die Chips und dann zwei Abschnitte:</p>
+<ul><li><strong>Meine Gerichte</strong> – was Du angelegt, importiert oder als Menü gesichert hast.</li><li><strong>Beispiele</strong> – drei fertige Gerichte zum Ausprobieren. Sie lassen sich nicht ändern, aber als Vorlage übernehmen (<a href="#6-gericht-anlegen-und-bearbeiten">Kapitel 6</a>).</li></ul>
+<p>Jede Zeile zeigt den Namen, die Komponenten und das <strong>Urteil</strong> in Grün („Passt in 35 Minuten“) oder Rot („Fehlen 9 Minuten“). Lässt sich gar kein Plan rechnen – etwa weil das Gericht einen Ofen braucht und die Küche auf 0 Öfen steht –, steht dort der Grund. Ein Tipp öffnet den Plan (<a href="#5-der-plan">Kapitel 5</a>).</p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Geste</th><th>Bei eigenen Gerichten</th><th>Bei Beispielen</th></tr></thead>
+<tbody>
+<tr><td>Nach links wischen</td><td><strong>Löschen</strong></td><td>–</td></tr>
+<tr><td>Lange drücken</td><td><strong>Bearbeiten</strong>, <strong>Löschen</strong></td><td><strong>Als Vorlage übernehmen</strong></td></tr>
+</tbody></table></div>
+<h3 id="suche">Suche</h3>
+<p>Das Suchfeld (<strong>Gericht, Komponente oder Zutat</strong>) steht immer über der Liste. Gesucht wird in Gericht, Komponente und Zutat: „Wirsing“ findet auch ein Gericht, in dem Wirsing nur als Zutat vorkommt. Findet sich nichts, steht dort „Keine passenden Gerichte“.</p>
+<h3 id="chips">Chips</h3>
+<p>Die sechs festen Chips filtern mit einem Tipp, ein zweiter Tipp hebt den Filter wieder auf:</p>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 21ch"></colgroup>
+<thead><tr><th>Chip</th><th>Zeigt</th></tr></thead>
+<tbody>
+<tr><td>Passt ins Budget</td><td>Gerichte, die mit Deiner Küche ins Zeitbudget passen</td></tr>
+<tr><td>Schnell</td><td>Gerichte, deren Plan höchstens 30 Minuten dauert</td></tr>
+<tr><td>Ohne Ofen</td><td>Gerichte, die nur den Herd brauchen</td></tr>
+<tr><td>Lieblinge</td><td>Gerichte mit im Schnitt mindestens vier Sternen</td></tr>
+<tr><td>Noch nie gekocht</td><td>Gerichte ohne Protokoll</td></tr>
+<tr><td>Lange nicht gekocht</td><td>Gerichte, die seit 60 Tagen oder noch nie gekocht wurden</td></tr>
+</tbody></table></div>
+<h3 id="filter-und-eigene-sammlungen">Filter und eigene Sammlungen</h3>
+<p>Der Filter-Knopf oben links öffnet ein Menü mit mehreren Bedingungen; ist ein Filter aktiv, ist der Knopf ausgefüllt:</p>
+<ul><li><strong>Dauer:</strong> Alle, Bis 30 Minuten, 31 bis 45 Minuten, 46 bis 60 Minuten, Über eine Stunde.</li><li><strong>Geräte:</strong> Alle, Mit Ofen, Nur Herd, Ohne Hitze.</li><li><strong>Herkunft:</strong> Alle, Eigene, Importiert, Beispiele.</li><li><strong>Verlauf:</strong> Alle, Noch nie gekocht, Lange nicht gekocht, Lieblinge.</li><li>Schalter <strong>Passt ins Budget</strong> und <strong>Wenig Handarbeit</strong> (die Hände sind höchstens 60 Prozent des Plans gebunden).</li></ul>
+<p>Ist ein Filter gesetzt, stehen oben im Menü <strong>Filter zurücksetzen</strong> und <strong>Sammlung sichern</strong>. Mit <strong>Sammlung sichern</strong> gibst Du einen Namen ein, und die gewählten Filter erscheinen als eigener Chip hinter den sechs festen. Lange drücken auf diesen Chip bietet <strong>Umbenennen</strong> und <strong>Sammlung löschen</strong>. Eigene Sammlungen gehören zu CookPlanner Pro (<a href="#16-cookplanner-pro">Kapitel 16</a>); Suche, Filter und die festen Chips sind frei.</p>
+<h3 id="die-knöpfe-oben">Die Knöpfe oben</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 16ch"></colgroup>
+<thead><tr><th>Knopf</th><th>Einträge</th></tr></thead>
+<tbody>
+<tr><td>Filter (links)</td><td>Dauer, Geräte, Herkunft, Verlauf, Passt ins Budget, Wenig Handarbeit, Filter zurücksetzen, Sammlung sichern</td></tr>
+<tr><td>+</td><td>Neues Gericht, Aus Text importieren, Aus Fotos importieren, Aus Webseite importieren, Menü zusammenstellen</td></tr>
+<tr><td>Schieberegler</td><td>Einstellungen (<a href="#14-einstellungen">Kapitel 14</a>)</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="5-der-plan">5. Der Plan</h2>
+<p>Ein Tipp auf ein Gericht öffnet seinen <strong>Plan</strong>. Oben steht der Name, darunter folgen die Karten, ganz unten der Knopf <strong>Kochen starten</strong> (<a href="#9-kochmodus">Kapitel 9</a>). In der Leiste oben stehen, je nach Gericht:</p>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 12ch"></colgroup>
+<thead><tr><th>Knopf</th><th>Wirkung</th></tr></thead>
+<tbody>
+<tr><td>Korb</td><td><strong>Einkaufsliste</strong> (wenn das Gericht Zutaten hat)</td></tr>
+<tr><td>Drucker</td><td><strong>Ablaufplan als PDF</strong> (<a href="#12-ablaufplan-als-pdf-und-kochjahr-buch">Kapitel 12</a>)</td></tr>
+<tr><td>Teilen</td><td><strong>Gericht teilen</strong> als <code>.cookplanner</code>-Datei (nur eigene Gerichte, <a href="#15-sicherung-icloud-und-gerätewechsel">Kapitel 15</a>)</td></tr>
+<tr><td>Bearbeiten</td><td>Öffnet den Editor (nur eigene Gerichte)</td></tr>
+</tbody></table></div>
+<figure><img class="screenshot" src="images/cookplanner/iphone/plan.png" alt="Der Plan eines Beispiels mit Urteil, Zutaten und Handarbeit je Komponente" loading="lazy">
+<figcaption>Der Plan: oben das Urteil „Passt in 45 Minuten“ mit Begründung und Zahlen, darunter die Zutaten mit Menge und Einkaufsliste und die Handarbeit je Komponente.</figcaption>
+</figure>
+<h3 id="das-urteil">Das Urteil</h3>
+<p>Groß in Grün oder Rot: <strong>Passt in N Minuten</strong> oder <strong>Fehlen N Minuten</strong>. Darunter steht, warum:</p>
+<div class="table-wrap"><table>
+<colgroup><col class="first" style="--w: 38%"></colgroup>
+<thead><tr><th>Begründung</th><th>Bedeutung</th></tr></thead>
+<tbody>
+<tr><td>„N Min. Luft, N Min. ohne Handarbeit.“</td><td>Es passt; so viel Reserve bleibt, so lange hast Du die Hände frei</td></tr>
+<tr><td>„Die längste Kette dauert N Minuten …“</td><td>Die Kette ist länger als das Budget; parallel arbeiten hilft nicht, nur kürzere Schritte</td></tr>
+<tr><td>„Die Handarbeit allein dauert N Minuten …“</td><td>Eine Person reicht nicht; Schritte streichen oder vereinfachen</td></tr>
+<tr><td>„Kette … und Hände … passen einzeln, kollidieren aber …“</td><td>Hände oder Geräte reichen nicht für alles zugleich – mehr Platten oder Öfen oder mehr Zeit</td></tr>
+</tbody></table></div>
+<p>Die kleine Zeile darunter nennt die Dauer des Plans, die <strong>Kette</strong> und die <strong>Hände</strong> in Minuten. Lässt sich kein Plan rechnen, zeigt die Seite „Kein Plan“ mit dem Grund und bei eigenen Gerichten den Knopf <strong>Bearbeiten</strong>.</p>
+<h3 id="zutaten-und-portionen">Zutaten und Portionen</h3>
+<p>Die Karte zeigt, wie viele Zutaten das Gericht hat und zu welchen Komponenten sie gehören. Nennt das Rezept eine Personenzahl, stellst Du mit <strong>Für N Personen</strong> um (1 bis 24); sonst gibt es <strong>Menge ×0,5 bis ×4</strong>. Nur die Mengen ändern sich, <strong>die Zeiten bleiben gleich</strong>. Die Wahl gilt je Gericht für Plan, Kochmodus und Einkaufsliste und bleibt gespeichert.</p>
+<h3 id="einkaufsliste">Einkaufsliste</h3>
+<p><strong>Einkaufsliste</strong> (Knopf in der Karte oder Korb oben) öffnet die Zutaten nach Regalen (Milchprodukte &amp; Eier, Backzutaten, Obst &amp; Gemüse, Gewürze &amp; Kräuter …); gleiche Zutaten mehrerer Komponenten stehen in einer Zeile, die Mengen zusammengezählt. Hake ab, was Du schon im Haus hast; der Knopf <strong>…</strong> oben links bietet <strong>Alles im Haus</strong> und <strong>Nichts im Haus</strong>. <strong>Fehlendes teilen (N)</strong> unten schickt den Rest als Text weiter, eine Zutat je Zeile – etwa an Erinnerungen, Notizen oder eine Nachricht. Die Haken bleiben je Gericht gespeichert.</p>
+<figure><img class="screenshot" src="images/cookplanner/iphone/einkauf.png" alt="Die Einkaufsliste nach Regalen mit dem Knopf Fehlendes teilen" loading="lazy">
+<figcaption>Die Einkaufsliste: Zutaten nach Regalen, darunter klein die Komponenten; unten „Fehlendes teilen (20)“.</figcaption>
+</figure>
+<h3 id="so-passt-es">So passt es</h3>
+<p>Passt ein Gericht nicht und liegt es nicht an den Händen, prüft CookPlanner, ob kürzere Garzeiten helfen: Schritte mit einer <strong>Zeitspanne</strong> (<a href="#6-gericht-anlegen-und-bearbeiten">Kapitel 6</a>) werden am kurzen Ende geplant. Die Karte <strong>So passt es</strong> nennt jeden betroffenen Schritt („Wirsing schmoren: 12 statt 15 Minuten“) und sagt, ob es damit ins Budget passt oder wie viele Minuten auch dann noch fehlen. Das Gericht selbst bleibt unverändert.</p>
+<h3 id="handarbeit-je-komponente">Handarbeit je Komponente</h3>
+<p>Balken je Komponente, die längste oben: So siehst Du, welcher Teil des Gerichts Dich am meisten bindet.</p>
+<h3 id="zeitplan-zeitachse-oder-liste">Zeitplan: Zeitachse oder Liste</h3>
+<p>Die Karte <strong>Zeitplan</strong> zeigt den Plan wahlweise als <strong>Zeitachse</strong> oder <strong>Liste</strong> (Umschalter rechts in der Karte; die Wahl bleibt gespeichert).</p>
+<ul><li><strong>Zeitachse:</strong> je Komponente eine Spalte, die Zeit läuft von oben nach unten in Minuten. Volle Balken sind Handarbeit, gestreifte Balken laufen allein; ein Flammen-Symbol steht für Herd oder Ofen. Überlappen sich Schritte einer Komponente, stehen sie nebeneinander. <strong>Tippen für Details:</strong> Ein Tipp auf einen Balken öffnet ein kleines Fenster mit dem vollen Namen, der Komponente, „Minute 12 bis 27“, den Minuten Hände und allein und gegebenenfalls der Ofentemperatur.</li><li><strong>Liste:</strong> jeder Schritt mit seinen Minuten von–bis, Hand- und Herd- oder Ofen-Symbol, Komponente, Zeitspanne und Ofentemperatur, in der Reihenfolge des Plans.</li></ul>
+<figure><img class="screenshot" src="images/cookplanner/iphone/zeitachse.png" alt="Die Zeitachse mit Spalten je Komponente und der roten Linie für jetzt" loading="lazy">
+<figcaption>Die Zeitachse: eine Spalte je Komponente, Handarbeit voll, „läuft allein“ gestreift. Im Kochmodus markiert die rote Linie, wo Du gerade stehst.</figcaption>
+</figure>
+<h3 id="gekocht">Gekocht</h3>
+<p>Hast Du das Gericht schon im Kochmodus gekocht oder eingetragen, zeigt die Karte <strong>Gekocht</strong> die letzten fünf Male mit Datum, Sternen und gebrauchter Zeit; ein Tipp öffnet das Protokoll, lange drücken bietet <strong>Protokoll löschen</strong>. Gibt es gemessene Zeiten, erscheint <strong>Gemessene Zeiten für N Schritte übernehmen</strong>: Du siehst je Schritt die bisherige und die gemessene Zeit – den Median der abgehakten Zeiten aus den letzten bis zu fünf Durchgängen. Bei Töpfen und Ofenschritten bleibt die Handarbeit, nur die Zeit allein passt sich an; entspannt gekochte Durchgänge zählen nicht. <strong>Übernehmen</strong> schreibt die Zeiten ins Gericht; bei einem Beispiel heißt der Knopf <strong>Als eigenes Gericht</strong> und legt eine Kopie unter Meine Gerichte an. Das Messen ist frei, das Übernehmen gehört zu CookPlanner Pro.</p>
+<h3 id="warm-halten">Warm halten</h3>
+<p>Wird eine Komponente früh fertig und wartet zehn Minuten oder länger auf das Anrichten, nennt die Karte <strong>Warm halten</strong> sie mit der Wartezeit („Sauce wartet 12 Minuten“).</p>
+<hr>
+<h2 id="6-gericht-anlegen-und-bearbeiten">6. Gericht anlegen und bearbeiten</h2>
+<p><strong>+ → Neues Gericht</strong> öffnet den Editor leer, <strong>Bearbeiten</strong> auf dem Plan (oder lange drücken in der Liste) mit dem eigenen Gericht. Bei einem Beispiel legt <strong>Als Vorlage übernehmen</strong> (lange drücken in der Liste) eine Kopie an, die Du im Editor anpasst und als eigenes Gericht sicherst.</p>
+<p>Der Editor hat vier Abschnitte:</p>
+<ul><li><strong>Gericht:</strong> Name und Personenzahl (1 bis 12; <strong>Portionen nicht angegeben</strong>, wenn Du keine Zahl wählst).</li><li><strong>Zutaten:</strong> eine Zeile je Zutat, <strong>Zutat hinzufügen</strong> öffnet ein eigenes Blatt.</li><li><strong>Schritte:</strong> eine Zeile je Schritt mit Händen, Zeit allein, Gerät und dem, worauf er wartet; <strong>Schritt hinzufügen</strong> öffnet ein eigenes Blatt. Ab zwei Schritten steht rechts über der Liste <strong>Bearbeiten</strong>, um Schritte zu verschieben oder zu löschen.</li><li><strong>Plan:</strong> das Urteil, während Du tippst – so siehst Du sofort, was eine Änderung bewirkt.</li></ul>
+<p>Zutaten und Schritte löschst Du auch mit einem Wisch nach links. <strong>Sichern</strong> geht, sobald das Gericht einen Namen und mindestens einen Schritt hat. <strong>Abbrechen</strong> verwirft die Änderungen.</p>
+<h3 id="zutat">Zutat</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 19ch"></colgroup>
+<thead><tr><th>Feld</th><th>Bedeutung</th></tr></thead>
+<tbody>
+<tr><td>Name</td><td>Der Name, z. B. „Wirsing“</td></tr>
+<tr><td>Menge und Einheit</td><td>Wie im Rezept; der Knopf neben der Einheit bietet gängige Einheiten und <strong>Ohne Einheit</strong>. Ohne Menge für „Salz“ oder „Pfeffer“</td></tr>
+<tr><td>Komponente</td><td>Zu welchem Teil des Gerichts die Zutat gehört; eintippen oder mit <strong>Komponente wählen</strong> eine vorhandene nehmen</td></tr>
+<tr><td>Hinweis</td><td>z. B. „klein“ oder „kräftig gereift“</td></tr>
+</tbody></table></div>
+<p><strong>Zutat löschen</strong> entfernt sie. Die Zutaten bilden die Einkaufsliste; welche Du in einem Schritt in die Hand nimmst, wählst Du beim Schritt.</p>
+<h3 id="schritt">Schritt</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 25ch"></colgroup>
+<thead><tr><th>Feld</th><th>Bedeutung</th></tr></thead>
+<tbody>
+<tr><td>Was zu tun ist</td><td>Der Text des Schritts, z. B. „Perlhuhn auf der Haut anbraten“</td></tr>
+<tr><td>Komponente</td><td>Eintippen oder mit <strong>Komponente wählen</strong> eine vorhandene nehmen</td></tr>
+<tr><td>Hände</td><td>Minuten, in denen Du gebunden bist (0 bis 120)</td></tr>
+<tr><td>Danach allein</td><td>Minuten, in denen der Schritt ohne Dich läuft: kochen, backen, ruhen (0 bis 600)</td></tr>
+<tr><td>Zeitspanne</td><td>Nur mit Zeit allein: <strong>Mindestens</strong> und <strong>Höchstens</strong> Minuten, die die Garzeit dauern darf. „So passt es“ nutzt das kurze Ende</td></tr>
+<tr><td>Gerät</td><td><strong>Keins</strong>, <strong>Platte</strong> oder <strong>Ofen</strong>; beim Ofen die Temperatur (50 bis 300 °C in Zehnerschritten)</td></tr>
+<tr><td>Muss bald weitergehen</td><td>Schalter; dann „Liegt höchstens N Min.“ (0 bis 60): 0 Minuten für Wenden nach dem Anbraten, 3 für geruhtes Fleisch, 10 für eine warm gestellte Sauce</td></tr>
+<tr><td>Zutaten dieses Schritts</td><td>Haken bei den Zutaten, die hier verarbeitet werden; im Kochmodus stehen sie unter dem Schritt</td></tr>
+<tr><td>Wartet auf</td><td>Haken bei den Schritten, die vorher fertig sein müssen</td></tr>
+</tbody></table></div>
+<p>Ein neuer Schritt folgt zunächst dem vorherigen Schritt seiner Komponente, bis Du die Auswahl änderst. <strong>Auf alle Komponenten warten</strong> setzt die Haken beim letzten Schritt jeder Komponente – richtig für das Anrichten. <strong>Schritt löschen</strong> entfernt einen bestehenden Schritt.</p>
+<blockquote class="note"><p>Warten Schritte im Kreis aufeinander, sagt der Plan „Die Schritte warten im Kreis aufeinander“. Prüfe dann bei den Schritten die Angaben unter <strong>Wartet auf</strong>.</p></blockquote>
+<hr>
+<h2 id="7-importieren">7. Importieren</h2>
+<p>Statt ein Gericht abzutippen, lässt Du es aus einem Rezept zerlegen. Die Wege liegen unter <strong>+</strong>, dazu kommt das Teilen aus Safari:</p>
+<ul><li><strong>Aus Text importieren:</strong> Rezepttext ins Feld tippen oder mit <strong>Einfügen</strong> übernehmen (mindestens ein paar Zeilen) und <strong>Analysieren</strong> tippen.</li><li><strong>Aus Fotos importieren:</strong> <strong>Seiten scannen</strong> öffnet die Dokumentenkamera von iOS – sie findet die Seitenränder und nimmt mehrere Seiten nacheinander auf. <strong>Fotos auswählen</strong> nimmt bis zu vier Bilder aus der Mediathek. Der Text wird <strong>auf dem iPhone</strong> erkannt und im Feld angehängt, wo Du ihn prüfen und korrigieren kannst; die Fotos verlassen das Gerät nicht. Dann <strong>Analysieren</strong>. Beide Knöpfe gibt es auch beim Textimport, unter dem Textfeld.</li><li><strong>Aus Webseite importieren:</strong> die <strong>Adresse der Rezeptseite</strong> eingeben oder einfügen und <strong>Analysieren</strong> tippen. Die Seite wird auf dem Gerät geladen, nur der Rezepttext geht zur Analyse.</li><li><strong>Aus Safari teilen:</strong> Auf einer Rezeptseite in Safari (oder einer anderen App, die Links teilt) <strong>Teilen → CookPlanner</strong> wählen. Das Blatt „Rezept in CookPlanner importieren“ zeigt die Seite; <strong>Importieren</strong> öffnet CookPlanner, und die Analyse beginnt sofort. Lässt sich die App von dort nicht öffnen, öffne sie selbst – der Import startet dann von allein.</li></ul>
+<p>Die Analyse läuft bei einem Dienst von Google (Firebase). Sie zerlegt das Rezept in Schritte, schätzt Handarbeit und Zeit allein, schlägt Reihenfolge und Abhängigkeiten vor, erkennt Herd und Ofen und übernimmt die Zutaten samt Mengen. Das Ergebnis zeigt unter <strong>Gefunden</strong> den Namen, „N Schritte, M Komponenten“ und gegebenenfalls die Personenzahl, dazu <strong>Hinweise der Analyse</strong> zu Unsicherem.</p>
+<ul><li><strong>Prüfen und bearbeiten</strong> öffnet das Gericht im Editor (<a href="#6-gericht-anlegen-und-bearbeiten">Kapitel 6</a>). Erst mit <strong>Sichern</strong> landet es unter Meine Gerichte.</li><li><strong>Anderen Text analysieren</strong> bzw. <strong>Andere Seite analysieren</strong> verwirft das Ergebnis.</li></ul>
+<p>Pro Stunde ist die Zahl der Analysen begrenzt; ist sie erreicht, versuche es später noch einmal. Ist CookPlanner Pro im Angebot, gibt es ohne Pro eine feste Zahl kostenloser Analysen im Monat; die App sagt nach jeder Analyse, wie viele noch übrig sind (<a href="#16-cookplanner-pro">Kapitel 16</a>). Von Hand anlegen geht immer. Dauert eine Analyse zu lange, hilft es, ein langes Rezept in zwei Teilen zu importieren.</p>
+<hr>
+<h2 id="8-menü-zusammenstellen">8. Menü zusammenstellen</h2>
+<p><strong>+ → Menü zusammenstellen</strong> (auf dem iPad auch ⇧⌘N) macht aus mehreren Gerichten einen gemeinsamen Plan, etwa Vorspeise, Hauptgang und Dessert. Das Menü gehört zu CookPlanner Pro.</p>
+<ol><li>Gib dem Menü oben einen <strong>Namen</strong> (sonst heißt es „Menü“).</li><li>Wähle für jeden Gang ein <strong>Gericht</strong> – eigene Gerichte und Beispiele, keine anderen Menüs. Die Gänge heißen von selbst Vorspeise, Hauptgang und Dessert; jeden Namen kannst Du überschreiben. <strong>Gang hinzufügen</strong> ergänzt weitere Gänge (bis zu fünf), <strong>Entfernen</strong> streicht einen.</li><li>Gib zwischen den Gängen an, wie viele <strong>Minuten bis zum nächsten Gang</strong> vergehen (0 bis 90 in Fünferschritten), oder <strong>Zusammen mit dem nächsten Gang</strong>. Die Vorspeise kommt so viele Minuten vor dem Hauptgang auf den Tisch, und der Hauptgang wird gekocht, während die Gäste essen.</li><li>Unter <strong>Plan</strong> stehen schon das Urteil, die Begründung und „N Schritte, M Zutaten, Plan N Min.“.</li><li><strong>Sichern</strong> legt das Menü als eigenes Gericht unter Meine Gerichte an, mit Schritten wie „Vorspeise servieren“.</li></ol>
+<figure><img class="screenshot" src="images/cookplanner/iphone/menue.png" alt="Der Plan eines Menüs aus Vorspeise und Hauptgang" loading="lazy">
+<figcaption>Ein gesichertes Menü: „Passt in 120 Minuten“, die Zutaten und die Handarbeit je Komponente, jeweils mit dem Gang davor.</figcaption>
+</figure>
+<p>Das Menü kochst Du wie jedes Gericht; die Komponenten heißen dort „Vorspeise – Wirsingrolle“ oder „Hauptgang – Perlhuhnbrust“, und seine Zutaten ergeben eine gemeinsame Einkaufsliste.</p>
+<hr>
+<h2 id="9-kochmodus">9. Kochmodus</h2>
+<p><strong>Kochen starten</strong> unten auf dem Plan (auf dem iPad auch ⌘⏎) öffnet den Kochmodus bildschirmfüllend. Vor dem Start wählst Du die <strong>Uhr</strong>:</p>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 11ch"></colgroup>
+<thead><tr><th>Uhr</th><th>Was sie tut</th></tr></thead>
+<tbody>
+<tr><td>Challenge</td><td>Die Uhr zählt das Zeitbudget rückwärts, wie in der Sendung. Ist die Zeit um, zählt sie weiter, wie viel drüber</td></tr>
+<tr><td>Training</td><td>Die Uhr läuft ab 0:00 – so lernst Du, wie lange das Gericht wirklich dauert</td></tr>
+<tr><td>Entspannt</td><td>Keine Uhr, kein Überfällig: Die Schritte kommen der Reihe nach, nur Topf und Ofen behalten ihre Zeit</td></tr>
+</tbody></table></div>
+<p>Mit <strong>Start</strong> läuft die Uhr; beim ersten Mal fragt iOS nach Mitteilungen und Weckern (<a href="#10-mitteilungen-wecker-und-live-aktivität">Kapitel 10</a>). Die App merkt sich Deine letzte Wahl.</p>
+<figure><img class="screenshot" src="images/cookplanner/iphone/kochen.png" alt="Der Kochmodus mit Uhr, Vorlesen, Sprachbefehlen, Jetzt und Gleich" loading="lazy">
+<figcaption>Der Kochmodus: oben die Uhr (31:45), darunter Vorlesen und Sprachbefehle, die Karte „Jetzt“ mit Zutat, Restzeit und Haken und die Liste „Gleich“.</figcaption>
+</figure>
+<h3 id="was-der-bildschirm-zeigt">Was der Bildschirm zeigt</h3>
+<ul><li><strong>Uhr:</strong> je nach Modus Restzeit oder gelaufene Zeit, dazu „Budget 45 Min. · Plan fertig in Minute 44“; nach einer Neuplanung, ob Du früher oder später als geplant fertig wirst; nach Ablauf „Zeit um – 2:10 drüber“.</li><li><strong>Jetzt:</strong> der Schritt in Deinen Händen, groß, mit seinen Zutaten, der Komponente und der Restzeit („noch 3 Min.“, rot „überfällig“). Sind die Hände frei, steht dort „Hände frei, in N Min. weiter“; am Ende „Fertig, anrichten!“.</li><li><strong>Gleich:</strong> die nächsten drei Schritte mit ihren Zutaten und „in N Min.“.</li><li><strong>Läuft von allein:</strong> was gerade köchelt oder backt, mit der Restzeit. Nimmst Du einen Topf früher vom Herd, hakst Du ihn hier ab.</li><li><strong>Erledigt:</strong> „N von M Schritten“ und darunter jeder abgehakte Schritt mit der Uhrzeit der Stoppuhr, der neueste oben.</li></ul>
+<p>Auf dem iPad und anderen breiten Bildschirmen wird der aktuelle Schritt noch größer, damit Du ihn aus der Entfernung liest.</p>
+<h3 id="abhaken-haken-und-flamme">Abhaken: Haken und Flamme</h3>
+<ul><li>Der große <strong>Haken</strong> rechts in der Karte „Jetzt“ (<strong>Schritt erledigt</strong>) hakt einen Schritt ohne Zeit allein ab.</li><li>Bei Topf- und Ofenschritten zeigt der Knopf eine <strong>Flamme</strong> (<strong>Steht, läuft von allein</strong>): Die Hände sind fertig, der Topf steht auf dem Herd oder die Ofentür ist zu. Ab jetzt läuft die Zeit allein; ist sie um, ist der Schritt fertig.</li></ul>
+<p>Nach jedem Haken und jede Minute plant CookPlanner den Rest <strong>neu</strong>: Warst Du schneller, rückt alles vor; warst Du langsamer, verschiebt sich der Rest.</p>
+<h3 id="die-knöpfe-oben">Die Knöpfe oben</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 17ch"></colgroup>
+<thead><tr><th>Knopf</th><th>Wirkung</th></tr></thead>
+<tbody>
+<tr><td>Beenden (links)</td><td>Fragt „Kochen beenden?“: <strong>Beenden und Protokoll sichern</strong> legt das Kochen unter Gekocht ab, <strong>Beenden ohne Protokoll</strong> verwirft es, <strong>Weiterkochen</strong> kehrt zurück. Ist noch kein Schritt erledigt, gibt es nichts festzuhalten</td></tr>
+<tr><td>Zeitachse</td><td>Der laufende Plan als Diagramm mit einer roten Linie für <strong>jetzt</strong>; erledigte Schritte sind blass</td></tr>
+<tr><td>Rückgängig</td><td>Nimmt den letzten Haken zurück</td></tr>
+<tr><td>Pause / Weiter</td><td>Hält die Uhr an („Pause, die Uhr steht“) und lässt sie weiterlaufen</td></tr>
+</tbody></table></div>
+<p>Nach <strong>Beenden und Protokoll sichern</strong> öffnet sich das neue Protokoll sofort, damit Du Sterne und ein Foto vergeben kannst (<a href="#11-gekocht">Kapitel 11</a>).</p>
+<h3 id="vorlesen">Vorlesen</h3>
+<p>Mit dem Knopf <strong>Vorlesen</strong> spricht die App jeden neuen Schritt mit seinen Zutaten, der Ofentemperatur und den Minuten, meldet fertige Töpfe („Wirsing: die Zeit ist um.“) und am Ende „Fertig, anrichten!“. Die Einstellung bleibt gespeichert. Vorlesen gehört zu CookPlanner Pro.</p>
+<h3 id="sprachbefehle">Sprachbefehle</h3>
+<p>Mit dem Knopf <strong>Sprachbefehle</strong> hört der Kochmodus zu (beim ersten Mal fragt iOS nach Mikrofon und Spracherkennung). Darunter steht, welche Wörter gehen, und was zuletzt gehört wurde. Während die App selbst spricht, hört sie nicht zu; geht die App in den Hintergrund, endet das Zuhören. Die Spracherkennung läuft auf dem Gerät. Sprachbefehle gehören zu CookPlanner Pro.</p>
+<div class="table-wrap"><table>
+<colgroup><col class="first" style="--w: 38%"></colgroup>
+<thead><tr><th>Befehl</th><th>Wirkung</th></tr></thead>
+<tbody>
+<tr><td>„Erledigt“ (auch „Fertig“, „Abhaken“)</td><td>Hakt den Schritt in den Händen ab; bei einem Topf setzt er ihn auf</td></tr>
+<tr><td>„Steht“ (auch „Kocht“, „Im Ofen“, „Ist drin“)</td><td>Topf oder Ofen läuft, die Zeit allein beginnt</td></tr>
+<tr><td>„Zurück“ / „Rückgängig“</td><td>Nimmt den letzten Haken zurück</td></tr>
+<tr><td>„Vorlesen“ / „Nochmal“</td><td>Liest den aktuellen Schritt noch einmal</td></tr>
+<tr><td>„Was kommt“ / „Nächster Schritt“</td><td>Liest den nächsten Schritt</td></tr>
+<tr><td>„Zutaten“</td><td>Liest die Zutaten des aktuellen Schritts</td></tr>
+<tr><td>„Wie lange“</td><td>Restzeit des Schritts und des Plans</td></tr>
+<tr><td>„Pause“</td><td>Hält die Uhr an</td></tr>
+<tr><td>„Weitermachen“ / „Fortsetzen“</td><td>Lässt die Uhr weiterlaufen</td></tr>
+<tr><td>„Stopp“ / „Ruhe“</td><td>Beendet das Sprechen</td></tr>
+</tbody></table></div>
+<p>Die Befehle gelten in der Sprache der App; auf Englisch heißt es z. B. „Done“, „It’s on“, „What’s next“. Steht die Spracherkennung für die Sprache auf dem Gerät nicht bereit, sagt die App es.</p>
+<h3 id="bildschirm-und-neustart">Bildschirm und Neustart</h3>
+<p>Solange der Kochmodus offen ist, bleibt der Bildschirm an. Wird die App beendet (vom System, durch ein Update oder weggewischt), öffnet der nächste Start den Lauf wieder – bis zu sechs Stunden nach dem Start. Was Du inzwischen über Siri abgehakt hast, übernimmt der Kochmodus, sobald er wieder vorn ist.</p>
+<hr>
+<h2 id="10-mitteilungen-wecker-und-live-aktivität">10. Mitteilungen, Wecker und Live-Aktivität</h2>
+<p>Während Du kochst, hält CookPlanner Dich auf drei Wegen auf dem Laufenden – auch wenn das iPhone gesperrt in der Ecke liegt. Alle drei sind frei.</p>
+<h3 id="mitteilungen">Mitteilungen</h3>
+<ul><li><strong>„Komponente · jetzt dran“</strong> mit dem Schritt als Titel, wenn ein Schritt in die Hände kommt.</li><li><strong>„Komponente · die Zeit ist um“</strong>, wenn ein Topf oder der Ofen fertig ist (ohne Wecker, siehe unten).</li></ul>
+<p>Die Mitteilungen kommen mit Ton, auch wenn die App gerade vorn ist. Sie folgen jeder Neuplanung; geplant werden immer die nächsten bis zu 60. <strong>Pause</strong> und <strong>Beenden</strong> ziehen alle ausstehenden Mitteilungen zurück, ein neuer Lauf räumt die Banner des letzten weg.</p>
+<h3 id="wecker-für-topf-und-ofen">Wecker für Topf und Ofen</h3>
+<p>Ist in den Einstellungen <strong>Wecker für Topf und Ofen</strong> an (Voreinstellung), stellt CookPlanner über AlarmKit für jeden Topf- und Ofenschritt einen echten Wecker auf das Ende seiner Zeit: „Wirsing: Wirsing cremig garen · die Zeit ist um“ mit dem Knopf <strong>Stopp</strong>. Der Wecker klingelt auch, wenn das iPhone stumm ist oder ein Fokus läuft; für diesen Schritt gibt es dann keine zusätzliche Mitteilung. Die Wecker folgen dem Plan wie die Mitteilungen: Ein erledigter Schritt verliert seinen Wecker, ein verschobener bekommt die neue Zeit, <strong>Pause</strong> und <strong>Beenden</strong> nehmen alle zurück. Ohne Wecker kommt eine Mitteilung.</p>
+<p>Erlaubst Du weder Mitteilungen noch Wecker, zeigt der Kochmodus: „Mitteilungen und Wecker sind aus – gesperrt bleibt das iPhone still. Einschalten unter Einstellungen → CookPlanner.“</p>
+<h3 id="live-aktivität">Live-Aktivität</h3>
+<p>Sobald die Uhr läuft, steht das Gericht auf dem <strong>Sperrbildschirm</strong> und in der <strong>Dynamic Island</strong>:</p>
+<ul><li>der Name des Gerichts und der Countdown bis zum Anrichten,</li><li>was Du gerade tun sollst – den Schritt mit seiner Komponente, „Hände frei“ oder „Fertig, anrichten!“,</li><li>„Gleich 2:15 · nächster Schritt“ mit eigenem Countdown, oder wie viele Töpfe gerade von allein laufen,</li><li>wie viele Schritte erledigt sind („5 von 23“).</li></ul>
+<p>Ist die Zeit des nächsten Schritts gekommen, springt die Anzeige von selbst auf „Jetzt dran“ mit diesem Schritt. In der Pause steht „Pause, die Uhr steht“ mit den restlichen Minuten. Mit <strong>Beenden</strong> verschwindet die Live-Aktivität.</p>
+<hr>
+<h2 id="11-gekocht">11. Gekocht</h2>
+<p>Der Tab <strong>Gekocht</strong> sammelt jedes Kochen, das Du mit Protokoll beendet, von Hand eingetragen oder aus Fotos übernommen hast. Ist er noch leer, steht dort „Noch nichts gekocht“ mit dem Knopf <strong>Gekocht eintragen</strong>.</p>
+<figure><img class="screenshot" src="images/cookplanner/iphone/gekocht.png" alt="Der Tab Gekocht in der Darstellung Statistik" loading="lazy">
+<figcaption>Gekocht in der Darstellung Statistik: oben Filter, Suche, die vier Darstellungen und +, darunter die Zahlen, die letzten zwölf Monate und die am häufigsten gekochten Gerichte.</figcaption>
+</figure>
+<h3 id="darstellungen">Darstellungen</h3>
+<p>Der Umschalter unter dem Suchfeld wechselt zwischen vier Darstellungen; der Titel oben zeigt, welche gerade offen ist:</p>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 13ch"></colgroup>
+<thead><tr><th>Darstellung</th><th>Zeigt</th></tr></thead>
+<tbody>
+<tr><td>Liste</td><td>Die Protokolle nach Monat, neueste zuerst, mit Vorschaubild, Datum, Zeit, Sternen und Notiz</td></tr>
+<tr><td>Galerie</td><td>Die Fotos aller Protokolle</td></tr>
+<tr><td>Hit-Liste</td><td>Die Gerichte nach Sternen im Schnitt, mit „N× gekocht“ – was am besten ankam</td></tr>
+<tr><td>Statistik</td><td>Gekocht, Verschiedene Gerichte, Sterne im Schnitt, Gegen den Plan (Minuten langsamer oder schneller aus vollständigen Durchgängen mit der Stoppuhr), die letzten zwölf Monate als Balken, Am häufigsten gekocht</td></tr>
+</tbody></table></div>
+<p>Das Suchfeld (<strong>Gericht suchen</strong>) filtert nach dem Namen; der Filter-Knopf oben links wählt eine <strong>Mindestbewertung</strong> (Alle oder ab 1 bis 5 Sternen). In der Liste löschst Du einen Eintrag mit einem Wisch nach links. Die Statistik gehört zu CookPlanner Pro.</p>
+<h3 id="ein-protokoll">Ein Protokoll</h3>
+<p>Ein Tipp auf einen Eintrag öffnet ihn:</p>
+<ul><li><strong>Wie war’s?</strong> – fünf Sterne zum Antippen, eine Notiz („beim nächsten Mal weniger Salz“) und ein Foto: <strong>Foto aufnehmen</strong>, <strong>Foto wählen</strong> bzw. <strong>Anderes Foto</strong> oder <strong>Entfernen</strong>. Ein Tipp auf das Foto vergrößert es.</li><li><strong>Gebraucht</strong>, <strong>Geplant</strong> und <strong>Unterschied</strong>. Wurde entspannt gekocht, steht dort, dass die Zeiten nicht für die gemessenen Zeiten zählen; wurde vorzeitig beendet, wie viele Schritte erledigt waren.</li><li><strong>Schritte</strong> – je Schritt, wann er erledigt war, wie lange er gebraucht hat, was geplant war und der Unterschied.</li></ul>
+<p>Bei einem nachgetragenen Eintrag lässt sich das Datum (<strong>Gekocht am</strong>) ändern; er trägt den Vermerk „Ohne Stoppuhr eingetragen.“</p>
+<h3 id="das-menü-">Das Menü „+“</h3>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 22ch"></colgroup>
+<thead><tr><th>Eintrag</th><th>Wirkung</th></tr></thead>
+<tbody>
+<tr><td>Gekocht eintragen</td><td>Hast Du ohne Stoppuhr gekocht: Gericht wählen, Datum (<strong>Gekocht am</strong>), Sterne, Notiz und Foto, <strong>Sichern</strong>. Der Eintrag hat keine Zeiten</td></tr>
+<tr><td>Aus Fotos übernehmen</td><td>Macht aus alten Fotos fertiger Gerichte Einträge (siehe unten)</td></tr>
+<tr><td>Kochjahr-Buch</td><td>Das Jahr als PDF (<a href="#12-ablaufplan-als-pdf-und-kochjahr-buch">Kapitel 12</a>)</td></tr>
+</tbody></table></div>
+<h3 id="aus-fotos-übernehmen">Aus Fotos übernehmen</h3>
+<p>Wähle mit <strong>Fotos auswählen</strong> bis zu 30 Fotos aus der Mediathek. Datum und Titel kommen aus den Fotos: Steht der Name eines Gerichts im Titel, ist es schon gewählt; sonst wählst Du es je Foto. Datum und Gericht lassen sich je Foto ändern, <strong>Nicht übernehmen</strong> lässt ein Foto draußen. <strong>N übernehmen</strong> legt die Einträge mit ihren Fotos an.</p>
+<hr>
+<h2 id="12-ablaufplan-als-pdf-und-kochjahr-buch">12. Ablaufplan als PDF und Kochjahr-Buch</h2>
+<p>Beide gehören zu CookPlanner Pro.</p>
+<h3 id="ablaufplan-als-pdf">Ablaufplan als PDF</h3>
+<p>Der Drucker-Knopf oben auf dem Plan öffnet <strong>Ablaufplan als PDF</strong>. Das A4-Blatt zum Drucken, Aufhängen oder Verschicken enthält:</p>
+<ul><li>den Kopf mit Name, Urteil und Dauer,</li><li>die <strong>Zeitachse</strong> – je Komponente eine Zeile, Balken mit der Nummer des Schritts,</li><li>den <strong>Ablauf</strong> – jeder Schritt mit vollem Text, Minute, Händen, Zeit allein, Herd oder Ofen und seinen Zutaten,</li><li>die <strong>Zutaten</strong> je Komponente.</li></ul>
+<p>Mit <strong>Mit Startzeit</strong> und einem <strong>Start</strong> (Datum und Uhrzeit) steht jeder Schritt mit seiner Uhrzeit im Plan, und das Blatt zeigt „Fertig um 19:05“; ohne Startzeit zählen die Zeiten ab Minute 0. <strong>PDF teilen oder drucken</strong> öffnet das Teilen-Menü – zum Drucken, Sichern in Dateien oder Senden.</p>
+<h3 id="kochjahr-buch">Kochjahr-Buch</h3>
+<p><strong>Gekocht → + → Kochjahr-Buch</strong> macht aus einem Jahr ein PDF-Buch: ein Titelblatt mit Foto, das Jahr in Zahlen, die Monate mit ihren Fotos, die Lieblingsgerichte, was die Uhr Dich gelehrt hat, und eine Seite für die Vorsätze fürs nächste Jahr. Wähle <strong>Jahr</strong> und den <strong>Name auf dem Titelblatt</strong>; unter <strong>Inhalt</strong> siehst Du, wie viele Kochvorgänge, Kochtage, Fotos und Lieblingsgerichte hineinkommen. <strong>Kochjahr-Buch teilen</strong> gibt das PDF zum Drucken, Binden oder Verschicken weiter. Ohne Protokolle gibt es noch kein Buch.</p>
+<hr>
+<h2 id="13-siri-kurzbefehle-spotlight-und-tastatur">13. Siri, Kurzbefehle, Spotlight und Tastatur</h2>
+<h3 id="siri-und-kurzbefehle">Siri und Kurzbefehle</h3>
+<p>CookPlanner bringt vier Befehle mit, die ohne Einrichtung funktionieren. Jeder Satz nennt den Namen der App; Du findest sie auch in der App <strong>Kurzbefehle</strong>.</p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Befehl</th><th>Beispielsätze</th><th>Wirkung</th></tr></thead>
+<tbody>
+<tr><td>Was steht an</td><td>„Was steht in CookPlanner an“, „Nächster Schritt in CookPlanner“</td><td>Sagt, welcher Schritt gerade in der Hand ist und was als Nächstes kommt</td></tr>
+<tr><td>Schritt erledigt</td><td>„Schritt erledigt in CookPlanner“, „CookPlanner erledigt“, „CookPlanner steht“</td><td>Hakt den Schritt in der Hand ab; einen Topf oder den Ofen setzt es auf, seine Zeit läuft dann</td></tr>
+<tr><td>Wie lange noch</td><td>„Wie lange noch in CookPlanner“</td><td>Sagt, wie lange der Schritt in der Hand, die Töpfe und der ganze Plan noch brauchen</td></tr>
+<tr><td>Kochen starten</td><td>„Koche <em>Gericht</em> mit CookPlanner“, „Kochen starten in CookPlanner“</td><td>Öffnet das Gericht und startet den Kochmodus</td></tr>
+</tbody></table></div>
+<p>Die ersten drei laufen im Hintergrund, auch bei gesperrtem iPhone, und brauchen einen laufenden Kochmodus; sonst antwortet Siri „Gerade kochst Du nichts in CookPlanner.“ Siri ist frei.</p>
+<h3 id="spotlight">Spotlight</h3>
+<p>Deine Gerichte und die Beispiele stehen in der Spotlight-Suche von iOS, gefunden über den Namen, die Komponenten und die Zutaten. Ein Tipp auf einen Treffer öffnet den Plan des Gerichts. Neue, geänderte und gelöschte Gerichte folgen von selbst.</p>
+<h3 id="tastatur-auf-dem-ipad">Tastatur auf dem iPad</h3>
+<p>Mit angeschlossener Tastatur zeigt das iPad die Kürzel, wenn Du ⌘ gedrückt hältst:</p>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 9ch"></colgroup>
+<thead><tr><th>Kürzel</th><th>Wirkung</th></tr></thead>
+<tbody>
+<tr><td>⌘1 / ⌘2</td><td>Tab Gerichte / Gekocht</td></tr>
+<tr><td>⌘N</td><td>Neues Gericht</td></tr>
+<tr><td>⇧⌘N</td><td>Menü zusammenstellen</td></tr>
+<tr><td>⇧⌘F</td><td>Gericht suchen</td></tr>
+<tr><td>⌘,</td><td>Einstellungen</td></tr>
+<tr><td>⌘⏎</td><td>Kochen starten (auf dem Plan eines Gerichts)</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="14-einstellungen">14. Einstellungen</h2>
+<p>Der Knopf mit den Schiebereglern oben rechts in der Gerichte-Liste (auf dem iPad ⌘,) öffnet die Einstellungen; <strong>Fertig</strong> schließt sie.</p>
+<div class="table-wrap"><table class="wide">
+<thead><tr><th>Einstellung</th><th>Bereich</th><th>Voreinstellung</th></tr></thead>
+<tbody>
+<tr><td>Zeitbudget</td><td>10 bis 180 Minuten in Schritten von 5</td><td>35 Minuten</td></tr>
+<tr><td>Platten</td><td>1 bis 8</td><td>4</td></tr>
+<tr><td>Öfen</td><td>0 bis 3</td><td>1</td></tr>
+<tr><td>Wecker für Topf und Ofen</td><td>an oder aus</td><td>an</td></tr>
+</tbody></table></div>
+<p>Jede Änderung gilt sofort für alle Urteile und Pläne. Die Öfen sind vorgeheizt, wenn die Uhr startet. Weitere Einstellungen merkt sich die App selbst, wo Du sie triffst: die Darstellung des Zeitplans, die Uhr des Kochmodus, Vorlesen, Portionen und Einkaufshaken je Gericht, die Darstellung und Mindestbewertung unter Gekocht, die eigenen Sammlungen.</p>
+<p>Die Einstellungen haben außerdem diese Abschnitte:</p>
+<ul><li><strong>CookPlanner Pro</strong> – ganz oben, sobald der Kauf angeboten wird (<a href="#16-cookplanner-pro">Kapitel 16</a>).</li><li><strong>Sicherung</strong> – <strong>Gerichte und Protokolle sichern</strong> und <strong>Gerichte importieren</strong> (<a href="#15-sicherung-icloud-und-gerätewechsel">Kapitel 15</a>).</li><li><strong>Abgleich</strong> – der Stand von iCloud und <strong>Jetzt abgleichen</strong> (<a href="#15-sicherung-icloud-und-gerätewechsel">Kapitel 15</a>).</li><li><strong>Hilfe</strong> – öffnet im Browser dieses <strong>Benutzerhandbuch</strong>, die Seite <strong>Hilfe und Kontakt</strong> mit häufigen Fragen und der E-Mail-Adresse, die <strong>Datenschutzerklärung</strong> und das <strong>Impressum</strong>.</li></ul>
+<hr>
+<h2 id="15-sicherung-icloud-und-gerätewechsel">15. Sicherung, iCloud und Gerätewechsel</h2>
+<h3 id="abgleich-über-icloud">Abgleich über iCloud</h3>
+<p>Bist Du auf iPhone und iPad mit derselben Apple-ID bei iCloud angemeldet, gleichen sich <strong>eigene Gerichte, Kochprotokolle und Fotos</strong> von selbst ab – beim Start, wenn die App nach vorn kommt, und wenn ein anderes Gerät etwas geändert hat. Ebenso wandern die Einstellungen (Budget, Küche, Wecker, Uhr, Vorlesen, Darstellung des Zeitplans), die Portionen je Gericht und die eigenen Sammlungen mit. Ein laufendes Kochen bleibt auf dem Gerät, auf dem Du kochst. Haben zwei Geräte dasselbe geändert, gilt die spätere Änderung.</p>
+<p>Der Abschnitt <strong>Abgleich</strong> in den Einstellungen zeigt den Stand:</p>
+<div class="table-wrap"><table class="firm">
+<colgroup><col class="first" style="--w: 19ch"></colgroup>
+<thead><tr><th>Anzeige</th><th>Bedeutung</th></tr></thead>
+<tbody>
+<tr><td>Abgeglichen 18:42</td><td>Alles in Ordnung, letzter Abgleich um diese Uhrzeit</td></tr>
+<tr><td>Angemeldet</td><td>iCloud ist bereit, ein Abgleich steht noch aus</td></tr>
+<tr><td>Nicht angemeldet</td><td>Auf dem Gerät ist keine Apple-ID bei iCloud angemeldet; die Daten bleiben nur hier</td></tr>
+<tr><td>Nicht verfügbar</td><td>iCloud ist auf dem Gerät eingeschränkt</td></tr>
+<tr><td>Wird geprüft …</td><td>Die App fragt iCloud gerade</td></tr>
+</tbody></table></div>
+<p><strong>Jetzt abgleichen</strong> holt sofort, was andere Geräte geändert haben. Es gibt kein eigenes Konto und keinen Server von CookPlanner: Die Daten liegen in Deinem privaten iCloud-Speicher.</p>
+<p>Meldet sich auf dem Gerät ein <strong>anderes iCloud-Konto</strong> an, fragt die App, ob die hier gespeicherten Gerichte und Protokolle <strong>In das Konto übertragen</strong> werden sollen oder ob Du sie <strong>Nur hier behalten</strong> willst. Was im neuen Konto schon liegt, kommt in jedem Fall herunter.</p>
+<h3 id="sichern">Sichern</h3>
+<p><strong>Einstellungen → Gerichte und Protokolle sichern</strong> erzeugt eine Datei <code>….cookplanner</code> mit allen eigenen Gerichten, allen Protokollen und ihren Fotos und öffnet das Teilen-Menü – etwa <strong>In Dateien sichern</strong> für iCloud Drive oder eine Nachricht an Dich selbst. Die Beispiele sind nicht enthalten, sie bringt jede App mit.</p>
+<h3 id="ein-gericht-teilen">Ein Gericht teilen</h3>
+<p>Der Teilen-Knopf auf dem Plan eines eigenen Gerichts schickt nur dieses Gericht als <code>.cookplanner</code>-Datei weiter, etwa per AirDrop, Nachricht oder Mail.</p>
+<h3 id="importieren">Importieren</h3>
+<p>Eine <code>.cookplanner</code>-Datei öffnest Du auf zwei Wegen: mit <strong>Einstellungen → Gerichte importieren</strong> über die Dateiauswahl, oder mit einem Tipp auf die Datei in Mail, Nachrichten oder Dateien – dann öffnet sich CookPlanner von selbst. Die App übernimmt neue Gerichte und Protokolle mit Fotos; was schon da ist, bleibt unverändert. Danach meldet sie, wie viele Gerichte und Protokolle übernommen wurden und wie viele schon da waren. Eine Datei aus einer neueren Version von CookPlanner lehnt die App ab – dann zuerst die App aktualisieren.</p>
+<h3 id="neues-iphone-oder-android">Neues iPhone oder Android</h3>
+<ul><li><strong>Neues iPhone oder iPad:</strong> Mit derselben Apple-ID und iCloud kommen Gerichte und Protokolle von selbst. Ohne iCloud sicherst Du auf dem alten Gerät und importierst auf dem neuen.</li><li><strong>Android:</strong> CookPlanner gibt es auch für Android, mit demselben Dateiformat. Eine Sicherung vom iPhone lässt sich dort importieren und umgekehrt. Einen Abgleich zwischen iPhone und Android gibt es nicht.</li></ul>
+<blockquote class="note"><p>Ohne iCloud liegen Gerichte und Protokolle nur auf diesem Gerät; löschst Du die App, sind sie weg. Sichere dann vorher – und am besten regelmäßig.</p></blockquote>
+<hr>
+<h2 id="16-cookplanner-pro">16. CookPlanner Pro</h2>
+<p>CookPlanner Pro ist ein <strong>Einmalkauf</strong> – einmal kaufen, dauerhaft nutzen, kein Abo. Der Kauf gilt auf allen Geräten mit Deinem Apple-Konto.</p>
+<div class="table-wrap"><table>
+<colgroup><col class="first" style="--w: 38%"></colgroup>
+<thead><tr><th>Pro-Funktion</th><th>Was sie bietet</th></tr></thead>
+<tbody>
+<tr><td>Menü aus mehreren Gängen</td><td>Vorspeise, Hauptgang und Dessert als ein Plan (<a href="#8-menü-zusammenstellen">Kapitel 8</a>)</td></tr>
+<tr><td>Vorlesen und Sprachbefehle</td><td>Der Kochmodus liest vor und hört auf Zuruf (<a href="#9-kochmodus">Kapitel 9</a>)</td></tr>
+<tr><td>Kochjahr-Buch</td><td>Das Kochjahr als PDF-Buch (<a href="#12-ablaufplan-als-pdf-und-kochjahr-buch">Kapitel 12</a>)</td></tr>
+<tr><td>Kochstatistik</td><td>Die Darstellung Statistik unter Gekocht (<a href="#11-gekocht">Kapitel 11</a>)</td></tr>
+<tr><td>Eigene Sammlungen</td><td>Filter als eigener Chip sichern (<a href="#4-die-gerichte-liste">Kapitel 4</a>)</td></tr>
+<tr><td>Plan als PDF</td><td>Der Ablaufplan zum Drucken (<a href="#12-ablaufplan-als-pdf-und-kochjahr-buch">Kapitel 12</a>)</td></tr>
+<tr><td>Gemessene Zeiten übernehmen</td><td>Die gemessenen Zeiten ins Gericht schreiben (<a href="#5-der-plan">Kapitel 5</a>)</td></tr>
+<tr><td>Mehr Rezeptanalysen</td><td>Ohne Pro eine feste Zahl Analysen über die Cloud im Monat, mit Pro keine Monatsgrenze</td></tr>
+</tbody></table></div>
+<p><strong>Frei bleibt alles, was Du zum Planen und Kochen gegen die Uhr brauchst:</strong> Gerichte von Hand, aus Text, Fotos und Webseiten, der Plan mit Zeitachse und Urteil, Portionen, der Kochmodus in allen drei Uhr-Modi, Mitteilungen, Wecker und Live-Aktivität, die Einkaufsliste, das Protokoll mit dem Messen der Zeiten, Liste, Galerie und Hit-Liste unter Gekocht, Suche, Filter und die festen Chips, iCloud-Abgleich, Sicherung, Siri, Spotlight und die iPad-Tastatur.</p>
+<h3 id="kaufen-wiederherstellen-code-einlösen">Kaufen, wiederherstellen, Code einlösen</h3>
+<p>Sobald der Kauf angeboten wird, steht in den Einstellungen ganz oben <strong>CookPlanner Pro</strong> mit „Mehr erfahren“ (nach dem Kauf „Freigeschaltet“); ein Tipp öffnet die Kaufseite mit allen Pro-Funktionen. Ist eine Funktion ohne Pro gesperrt, trägt sie eine kleine Marke <strong>Pro</strong>, und ein Tipp auf sie öffnet dieselbe Kaufseite mit dieser Funktion zuerst. Dort gibt es:</p>
+<ul><li><strong>Pro freischalten</strong> mit dem Preis – der Kauf läuft über den App Store.</li><li><strong>Käufe wiederherstellen</strong> – etwa auf einem neuen Gerät; findet sich nichts, meldet die App „Für dieses Apple-Konto wurde kein Kauf gefunden.“</li><li><strong>Code einlösen</strong> – für einen Angebotscode, mit dem Du Pro geschenkt bekommst. Ein eingelöster Code gilt wie ein Kauf.</li></ul>
+<p>Nach dem Kauf steht dort „Pro ist freigeschaltet“.</p>
+<blockquote class="note"><p>Solange CookPlanner Pro nicht angeboten wird, ist der Abschnitt in den Einstellungen nicht zu sehen und <strong>alle Funktionen in diesem Handbuch sind frei nutzbar</strong>. Das gilt auch, wenn die App die Einstellungen für Pro noch nie laden konnte, etwa beim ersten Start ohne Internet.</p></blockquote>
+<hr>
+<h2 id="17-datenschutz">17. Datenschutz</h2>
+<ul><li><strong>Gerichte, Protokolle, Fotos und Einstellungen</strong> liegen auf Deinem Gerät und, wenn Du iCloud nutzt, in Deinem privaten iCloud-Speicher bei Apple. Der Entwickler hat keinen Zugriff darauf.</li><li><strong>Rezeptanalyse:</strong> Nur beim Import geht der Rezepttext an einen Dienst von Google (Firebase Cloud Functions mit KI-Analyse) – und erst, wenn Du <strong>Analysieren</strong> tippst oder beim Teilen aus Safari <strong>Importieren</strong>. Er wird für die Analyse verwendet, nicht für Werbung.</li><li><strong>Fotos</strong> für den Import verlassen das Gerät nicht: Der Text wird auf dem iPhone erkannt, nur der Text geht zur Analyse.</li><li><strong>Webseiten</strong> lädt die App auf dem Gerät; zur Analyse geht nur der Rezepttext.</li><li><strong>Anmeldung:</strong> Für die Analyse und um die Einstellungen für CookPlanner Pro zu lesen, meldet sich die App anonym bei Firebase an. Es gibt kein Konto, keinen Namen, keine E-Mail-Adresse. Eine Prüfung über Apple (App Attest) stellt sicher, dass die Anfrage von der echten App kommt.</li><li><strong>Sprachbefehle</strong> nutzen die Spracherkennung von iOS auf dem Gerät; CookPlanner speichert nichts davon. <strong>Vorlesen</strong> nutzt die Sprachausgabe von iOS.</li><li><strong>Käufe</strong> wickelt der App Store ab; CookPlanner erfährt nur, ob Pro gekauft ist.</li><li>Keine Werbung, kein Tracking.</li></ul>
+<hr>
+<h2 id="18-häufige-fragen">18. Häufige Fragen</h2>
+<p><strong>Warum steht beim Gericht „Fehlen N Minuten“?</strong><br>Lies die Begründung auf dem Plan. Ist die Kette zu lang, helfen nur kürzere Schritte oder ein größeres Budget; ist die Handarbeit zu viel, Schritte vereinfachen; kollidieren Hände oder Geräte, helfen mehr Platten oder Öfen in den Einstellungen. Schau auch auf die Karte <strong>So passt es</strong>.</p>
+<p><strong>Das Gericht hat gar keinen Plan, nur einen roten Satz.</strong><br>Meist braucht es einen Ofen oder eine Platte, und die Küche steht in den Einstellungen auf 0. Oder Schritte warten im Kreis aufeinander – dann die Angaben unter <strong>Wartet auf</strong> prüfen.</p>
+<p><strong>Kann ich ein Beispiel ändern?</strong><br>Nicht direkt. Lange drücken auf das Beispiel in der Liste und <strong>Als Vorlage übernehmen</strong> legt eine Kopie an, die Dir gehört.</p>
+<p><strong>Ändern sich die Zeiten, wenn ich für mehr Personen koche?</strong><br>Nein, nur die Mengen. Wenn Du merkst, dass es länger dauert, koche im Modus Training und übernimm danach die gemessenen Zeiten.</p>
+<p><strong>Bei gesperrtem iPhone meldet sich nichts.</strong><br>Prüfe in den iOS-Einstellungen unter <strong>CookPlanner</strong> die Mitteilungen und die Wecker. Ein Fokus kann Mitteilungen zurückhalten; der Wecker für Topf und Ofen klingelt trotzdem, wenn er in den Einstellungen der App an ist.</p>
+<p><strong>Ich habe den Kochmodus aus Versehen verlassen.</strong><br>Öffne die App wieder: Der Lauf geht weiter, bis zu sechs Stunden nach dem Start.</p>
+<p><strong>Die Sprachbefehle reagieren nicht.</strong><br>Prüfe in den iOS-Einstellungen unter <strong>CookPlanner</strong> Mikrofon und Spracherkennung und sprich die Befehle kurz und deutlich. Während die App vorliest, hört sie nicht zu, und im Hintergrund hört sie gar nicht zu.</p>
+<p><strong>Siri sagt „Gerade kochst Du nichts in CookPlanner.“</strong><br>„Was steht an“, „Schritt erledigt“ und „Wie lange noch“ brauchen einen laufenden Kochmodus. Starte zuerst das Kochen in der App oder mit „Kochen starten in CookPlanner“.</p>
+<p><strong>Der Import meldet einen Fehler.</strong><br>Prüfe die Internetverbindung. Bei „Das stündliche Analyse-Limit ist erreicht“ später noch einmal versuchen; bei einer Zeitüberschreitung ein langes Rezept in zwei Teilen importieren. Auf den Fotos nichts erkannt? Nimm <strong>Seiten scannen</strong> oder fotografiere bei mehr Licht und gerade von oben.</p>
+<p><strong>CookPlanner erscheint nicht im Teilen-Menü von Safari.</strong><br>Tippe im Teilen-Menü in der App-Reihe ganz rechts auf <strong>Mehr</strong> und schalte CookPlanner ein. Geteilt werden kann jede Seite mit einer Internetadresse.</p>
+<p><strong>Meine Gerichte sind auf dem iPad nicht da.</strong><br>Prüfe auf beiden Geräten unter <strong>Einstellungen → Abgleich</strong>, ob iCloud „Angemeldet“ oder „Abgeglichen“ zeigt und dieselbe Apple-ID angemeldet ist, und tippe auf <strong>Jetzt abgleichen</strong>.</p>
+<p><strong>Wie bringe ich meine Gerichte auf ein Android-Telefon?</strong><br>Mit <strong>Gerichte und Protokolle sichern</strong> auf dem iPhone und <strong>Gerichte importieren</strong> in CookPlanner für Android (<a href="#15-sicherung-icloud-und-gerätewechsel">Kapitel 15</a>).</p>
+</article>
+
+<footer>
+  <p><a href="#top">Nach oben</a> · <a href="cookplanner.html#de">Hilfe und Kontakt</a> · <a href="cookplanner-privacy.html">Datenschutz</a> · <a href="impressum.html">Impressum</a></p>
+</footer>
+
+</main>
+</body>
+</html>

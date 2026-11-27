@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """Builds the HTML pages of the user manuals for the BakePlanner website.
 
-Three manuals, each in German, English and French, in the look of
+Four manuals, each in German, English and French, in the look of
 ``website/index.html``:
 
 - BakePlanner (iPhone, iPad, Mac): the Markdown in this folder →
   ``website/manual-<lang>.html``
 - BakePlanner for Android: ``Android-*.md`` in this folder →
   ``website/android-manual-<lang>.html``
+- CookPlanner (iPhone, iPad): ``docs/cookplanner/*.md`` without the
+  ``Android-`` prefix → ``website/cookplanner-manual-<lang>.html``
 - CookPlanner for Android: ``docs/cookplanner/Android-*.md`` →
   ``website/cookplanner-android-manual-<lang>.html``
 
@@ -101,6 +103,17 @@ MANUAL_SETS = [
         "titles": {"de": "BakePlanner für Android – Benutzerhandbuch",
                    "en": "BakePlanner for Android – User Manual",
                    "fr": "BakePlanner pour Android – Manuel de l’utilisateur"},
+    },
+    {
+        "folder": DOCS.parent / "cookplanner",
+        "page": "cookplanner-manual",
+        "help": "cookplanner.html",
+        "privacy_page": "cookplanner-privacy.html",
+        "images": "images/cookplanner",
+        "sources": {"de": "Benutzerhandbuch.md", "en": "User-Manual.md", "fr": "Manuel-utilisateur.md"},
+        "titles": {"de": "CookPlanner – Benutzerhandbuch",
+                   "en": "CookPlanner – User Manual",
+                   "fr": "CookPlanner – Manuel de l’utilisateur"},
     },
     {
         "folder": DOCS.parent / "cookplanner",
