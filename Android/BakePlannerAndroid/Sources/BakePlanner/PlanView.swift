@@ -222,7 +222,8 @@ struct PlanView: View {
                     if let windowSuggestion {
                         Text("So passt es mit den Zeitfenstern der Schritte:")
                             .font(AppFont.caption)
-                        ForEach(Array(windowSuggestion.changes.enumerated()), id: \.offset) { _, change in
+                        ForEach(keyed(windowSuggestion.changes, "window")) { item in
+                            let change = item.value
                             Text("\(change.shortInstruction): \(Rational.displayHoursMinutes(change.to)) statt \(Rational.displayHoursMinutes(change.from))")
                         }
                         HStack {
@@ -292,7 +293,8 @@ struct PlanView: View {
                     Stepper(value: $proofTemperature, in: ProofTiming.temperatureRange) {
                         ValueLabel(title: "Raumtemperatur heute", value: "\(proofTemperature) °C")
                     }
-                    ForEach(Array(proofAdjustments.enumerated()), id: \.offset) { _, adjustment in
+                    ForEach(keyed(proofAdjustments, "proof")) { item in
+                        let adjustment = item.value
                         VStack(alignment: .leading, spacing: 2) {
                             // The phase's name on a line of its own, as on the iPhone.
                             Text(verbatim: adjustment.phase.title())
@@ -322,7 +324,8 @@ struct PlanView: View {
                         }
                     }
                     if !proofRecipeDurations.isEmpty {
-                        ForEach(Array(proofRecipeDurations.enumerated()), id: \.offset) { _, durations in
+                        ForEach(keyed(proofRecipeDurations, "history")) { item in
+                            let durations = item.value
                             Text("\(durations.phase.title()): \(BakeHistoryFacts.durationText(durations.minutes)) bei \(BakeHistoryFacts.temperatureText(durations.referenceTemperature, locale: AppSettings.locale)) \(ProofTiming.bakesText(durations.bakes)), im Rezept \(BakeHistoryFacts.durationText(durations.plannedMinutes))")
                         }
                         Button("Dauern aus den Backvorgängen ins Rezept übernehmen") {
@@ -339,7 +342,9 @@ struct PlanView: View {
                 if editsDurations {
                     // The recipe's own steps with a field each; the steps the
                     // plan adds (oven on, bake end) have no duration to change.
-                    ForEach(Array(workingRecipe.content.instructions.enumerated()), id: \.offset) { index, instruction in
+                    ForEach(keyed(workingRecipe.content.instructions, "duration")) { item in
+                        let index = item.offset
+                        let instruction = item.value
                         HStack(alignment: .top, spacing: 8) {
                             Text(verbatim: instruction.instruction)
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -358,7 +363,8 @@ struct PlanView: View {
                     }
                     .disabled(!durationsAreValid)
                 } else {
-                    ForEach(Array(plan.allSteps.enumerated()), id: \.offset) { _, step in
+                    ForEach(keyed(plan.allSteps, "step")) { item in
+                        let step = item.value
                         HStack(alignment: .top, spacing: 8) {
                             Text(verbatim: PlanText.dateTime(plan.date(of: step)))
                                 .font(AppFont.caption)
@@ -544,4 +550,18 @@ enum PlanText {
         formatter.setLocalizedDateFormatFromTemplate("HHmm")
         return formatter.string(from: date)
     }
+}
+
+/// A row of one of the planning sheet's lists, keyed by the list's name and
+/// its position. Android's Form is a single lazy list: two lists keyed by
+/// position alone both had a row 0, and Compose ended the app ("Key …
+/// was already used") as soon as "Fertig bis" brought a second list.
+struct KeyedItem<Value>: Identifiable {
+    let id: String
+    let offset: Int
+    let value: Value
+}
+
+func keyed<Value>(_ items: [Value], _ list: String) -> [KeyedItem<Value>] {
+    items.enumerated().map { KeyedItem(id: list + "-" + String($0.offset), offset: $0.offset, value: $0.element) }
 }
