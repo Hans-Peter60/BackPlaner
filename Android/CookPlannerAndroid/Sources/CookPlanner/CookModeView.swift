@@ -22,6 +22,7 @@ struct CookModeView: View {
     @State var handsDoneSeconds: [String: Int] = [:]
     @State var startSeconds: [String: Int] = [:]
     @State var live: KitchenSchedule?
+    @State var showsTimeline = false
     @State var now = Date()
     @State var clockMode = CookClockMode.stored
     @State var confirmsEnd = false
@@ -73,7 +74,16 @@ struct CookModeView: View {
                 }
             }
             .navigationTitle(String(localized: "Kochen", bundle: .module))
+            .appSheet(isPresented: $showsTimeline) {
+                CookTimelineSheet(layout: KitchenTimelineLayout(schedule: live ?? plan.schedule,
+                                                                components: plan.dish.components),
+                                  now: startedAt == nil ? nil : Double(elapsedSeconds) / 60,
+                                  finished: Set(finished.keys))
+            }
             .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Button(String(localized: "Zeitachse", bundle: .module)) { showsTimeline = true }
+                }
                 ToolbarItem(placement: .cancellationAction) {
                     Button(String(localized: "Beenden", bundle: .module)) {
                         if startedAt == nil {

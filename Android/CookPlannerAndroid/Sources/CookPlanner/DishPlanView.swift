@@ -16,6 +16,9 @@ struct DishPlanView: View {
     @State var shopping = false
     @State var showsLearned = false
     @State var printing = false
+    /// The plan as a list instead of the timeline, kept like the iPhone's
+    /// switch (settings.planAsList).
+    @State var planAsList = SettingsFile.flag("settings.planAsList", default: false)
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
 
@@ -248,12 +251,32 @@ struct DishPlanView: View {
         .cardStyle()
     }
 
-    /// Every step at its minute, in the order of the plan.
+    /// The plan as a timeline per component, or every step at its minute
+    /// in the order of the plan.
     private func stepsCard(_ plan: DishPlan) -> some View {
         let placements = plan.schedule.placements.sorted { ($0.start, $0.end) < ($1.start, $1.end) }
         return VStack(alignment: .leading, spacing: 10) {
-            Text(String(localized: "Ablauf", bundle: .module))
+            Text(String(localized: "Zeitplan", bundle: .module))
                 .font(.headline)
+            Picker(String(localized: "Darstellung", bundle: .module), selection: $planAsList) {
+                Text(String(localized: "Zeitachse", bundle: .module)).tag(false)
+                Text(String(localized: "Liste", bundle: .module)).tag(true)
+            }
+            .pickerStyle(.segmented)
+            .onChange(of: planAsList) { _, asList in
+                SettingsFile.set(asList, forKey: "settings.planAsList")
+            }
+            if !planAsList {
+                PlanTimelineView(layout: KitchenTimelineLayout(schedule: plan.schedule, components: plan.dish.components))
+            } else {
+                stepRows(placements)
+            }
+        }
+        .cardStyle()
+    }
+
+    private func stepRows(_ placements: [KitchenPlacement]) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
             ForEach(placements, id: \.id) { placement in
                 HStack(alignment: .top, spacing: 10) {
                     Text(verbatim: "\(placement.start)–\(placement.end)")
@@ -270,7 +293,6 @@ struct DishPlanView: View {
                 }
             }
         }
-        .cardStyle()
     }
 
     /// "Wirsing · Herd · 3 Min. Hände" – where and how long the hands work.
