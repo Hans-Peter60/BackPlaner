@@ -32,6 +32,9 @@ import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
 import androidx.core.app.ActivityCompat
 import androidx.work.Configuration
+import com.google.firebase.appcheck.FirebaseAppCheck
+import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
 
 internal val logger: SkipLogger = SkipLogger(subsystem = "cook.planner", category = "CookPlanner")
 
@@ -56,6 +59,32 @@ open class AndroidAppMain: Application, Configuration.Provider {
         logger.info("starting app")
         ProcessInfo.launch(applicationContext)
         AppDelegate.shared.onInit()
+        installAppCheck()
+    }
+
+    /// App Check proves to Firebase that requests come from the genuine
+    /// app. A copy from Google Play uses Play Integrity, which Play vouches
+    /// for; any other copy (a release APK put on the phone by hand, a debug
+    /// build) the debug provider, whose token is printed to the log on the
+    /// first start and works only once it is registered in the Firebase
+    /// console. Installed once the app's Swift has configured Firebase.
+    private fun installAppCheck() {
+        val fromPlay = try {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                packageManager.getInstallSourceInfo(packageName).installingPackageName == "com.android.vending"
+            } else {
+                @Suppress("DEPRECATION")
+                packageManager.getInstallerPackageName(packageName) == "com.android.vending"
+            }
+        } catch (error: Throwable) {
+            false
+        }
+        val factory = if (fromPlay) {
+            PlayIntegrityAppCheckProviderFactory.getInstance()
+        } else {
+            DebugAppCheckProviderFactory.getInstance()
+        }
+        FirebaseAppCheck.getInstance().installAppCheckProviderFactory(factory)
     }
 
     companion object {

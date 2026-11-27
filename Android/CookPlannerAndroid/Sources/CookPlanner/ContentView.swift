@@ -71,6 +71,8 @@ struct DishListView: View {
     @State var filter = KitchenDishFilter()
     @State var log = CookRunLog.shared
     @State var composesMenu = false
+    @State var showsImport = false
+    @State var importsFromWeb = false
     @State var showsFilter = false
     @State var collections = SavedCollectionStore.shared
     @Environment(\.colorScheme) var colorScheme
@@ -104,6 +106,14 @@ struct DishListView: View {
                     Button(String(localized: "Neues Gericht", bundle: .module)) {
                         editing = KitchenDish(name: "", createdAt: Date(), tasks: [])
                         showsEditor = true
+                    }
+                    Button(String(localized: "Aus Text importieren", bundle: .module)) {
+                        importsFromWeb = false
+                        showsImport = true
+                    }
+                    Button(String(localized: "Aus Webseite importieren", bundle: .module)) {
+                        importsFromWeb = true
+                        showsImport = true
                     }
                     Button(String(localized: "Menü zusammenstellen", bundle: .module)) {
                         composesMenu = true
@@ -144,6 +154,16 @@ struct DishListView: View {
         .appSheet(isPresented: $composesMenu) {
             MenuComposerView(library: library) { menu in
                 library.save(menu)
+            }
+        }
+        .appSheet(isPresented: $showsImport) {
+            DishImportView(fromWeb: importsFromWeb) { dish in
+                editing = dish
+                // The editor opens once the import sheet has gone.
+                Task {
+                    try? await Task.sleep(nanoseconds: 450_000_000)
+                    showsEditor = true
+                }
             }
         }
         .appSheet(isPresented: $showsEditor) {

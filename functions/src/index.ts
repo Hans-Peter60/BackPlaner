@@ -743,10 +743,15 @@ function monthKey(timestamp: Timestamp): string {
  */
 export const appIdsWithoutMonthlyLimit = new Set([
   "1:936649524074:android:b46e983de39481f7d65b13",
+  // CookPlanner on Android, until Play Billing is built.
+  "1:936649524074:android:edfa9138991dbf15d65b13",
 ]);
 
 /** CookPlanner's Firebase app ID (iOS), from App Check. */
 export const cookPlannerAppId = "1:936649524074:ios:73d0fac7786ca027d65b13";
+/** CookPlanner's Android app (package cook.planner). */
+export const cookPlannerAndroidAppId =
+  "1:936649524074:android:edfa9138991dbf15d65b13";
 
 /**
  * Whose switches and whose purchase count for a caller: CookPlanner has its
@@ -758,7 +763,7 @@ export function monetizationFor(appId: string | undefined): {
   document: string;
   product: ProProduct;
 } {
-  if (appId === cookPlannerAppId) {
+  if (appId === cookPlannerAppId || appId === cookPlannerAndroidAppId) {
     return {document: "config/cookplannerMonetization",
       product: cookPlannerPro};
   }
