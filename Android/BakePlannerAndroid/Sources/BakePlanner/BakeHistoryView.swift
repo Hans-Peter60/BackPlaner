@@ -87,7 +87,9 @@ struct BakeHistoryView: View {
                     } else if mode == 3 {
                         cloud
                     } else if mode == 4 {
-                        BakeStatisticsView(statistics: statistics(of: entries))
+                        ProLockedScreen(feature: .statistics) {
+                            BakeStatisticsView(statistics: statistics(of: entries))
+                        }
                             .listRowBackground(Color.clear)
                     } else if mode == 2 {
                         ForEach(hitList, id: \.id) { summary in
@@ -125,7 +127,7 @@ struct BakeHistoryView: View {
             ToolbarItem(placement: .primaryAction) {
                 // Old photos as bakes.
                 Button {
-                    importsPhotos = true
+                    proGated(.historyImport) { importsPhotos = true }
                 } label: {
                     Label("Backhistorie aus Fotos", systemImage: "photo.badge.plus")
                 }

@@ -50,19 +50,34 @@ struct RecipeFilterSheet: View {
                 Text("Facetten")
             }
 
-            Section {
-                Toggle("Fertig bis", isOn: Binding(
-                    get: { model.finishBy != nil },
-                    set: { model.finishBy = $0 ? FinishByPlanner.morningFinish(after: Date()) : nil }
-                ))
-                if let finishBy = model.finishBy {
-                    DatePicker("Fertig bis", selection: Binding(
-                        get: { finishBy },
-                        set: { model.finishBy = $0 }
-                    ), displayedComponents: [.date, .hourAndMinute])
+            if BakePro.shared.isUnlocked(.collections) {
+                Section {
+                    Toggle("Fertig bis", isOn: Binding(
+                        get: { model.finishBy != nil },
+                        set: { model.finishBy = $0 ? FinishByPlanner.morningFinish(after: Date()) : nil }
+                    ))
+                    if let finishBy = model.finishBy {
+                        DatePicker("Fertig bis", selection: Binding(
+                            get: { finishBy },
+                            set: { model.finishBy = $0 }
+                        ), displayedComponents: [.date, .hourAndMinute])
+                    }
+                } footer: {
+                    Text("Die Liste zeigt nur Rezepte, die bis dahin fertig werden, und bei jedem, wann Du anfangen musst. Vorheizzeit, Tagesbeginn und Tagesende kommen aus den Einstellungen.")
                 }
-            } footer: {
-                Text("Die Liste zeigt nur Rezepte, die bis dahin fertig werden, und bei jedem, wann Du anfangen musst. Vorheizzeit, Tagesbeginn und Tagesende kommen aus den Einstellungen.")
+            } else {
+                Section {
+                    Button(String(localized: "Sammlungen und Fertig bis · PRO", bundle: .module)) {
+                        dismiss()
+                        // The Pro page opens from the list once this sheet has gone.
+                        Task {
+                            try? await Task.sleep(nanoseconds: 450_000_000)
+                            BakePro.shared.offer(.collections)
+                        }
+                    }
+                } footer: {
+                    Text(String(localized: "Eigene Filter-Kombinationen als Chip sichern und mit „Fertig bis“ nur die Rezepte sehen, die bis dahin noch zu schaffen sind.", bundle: .module))
+                }
             }
 
             if filter.isActive || model.finishBy != nil {
@@ -74,7 +89,7 @@ struct RecipeFilterSheet: View {
                 }
             }
 
-            if filter.isActive && model.savedCollection(matching: filter) == nil {
+            if BakePro.shared.isUnlocked(.collections) && filter.isActive && model.savedCollection(matching: filter) == nil {
                 Section {
                     TextField("Name der Sammlung", text: $newName)
                     Button("Sichern") {

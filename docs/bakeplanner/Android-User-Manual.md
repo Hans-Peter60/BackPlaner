@@ -23,8 +23,9 @@ As of 27 Nov 2026 · Android version 2.4
 15. [Units and amounts](#15-units-and-amounts)
 16. [Data, backup and changing devices](#16-data-backup-and-changing-devices)
 17. [Privacy](#17-privacy)
-18. [Frequently asked questions](#18-frequently-asked-questions)
-19. [What only the iPhone has](#19-what-only-the-iphone-has)
+18. [BakePlanner Pro](#18-bakeplanner-pro)
+19. [Frequently asked questions](#19-frequently-asked-questions)
+20. [What only the iPhone has](#20-what-only-the-iphone-has)
 
 ---
 
@@ -39,7 +40,7 @@ BakePlanner is a baking planner for bread, rolls and pastries. What sets it apar
 
 On top of that: a shared public recipe database, your own recipes on the device, import from photos, web pages and text, shopping lists sorted by aisle, a pantry, a baking history with photos, measurements and statistics, a starter diary with a ripening estimate, recipe variants with a comparison, a bake mode that reads aloud, and four baker's calculators.
 
-**Everything is free on Android.** There is no Pro and nothing to buy.
+**Free, and BakePlanner Pro.** The core of the app is free: recipes, planning with reminders, bake mode with read aloud, baking history, the recipe database, the calculators and the backup. Some further features – such as shopping lists, the pantry, the baking day and oven profiles – are part of **BakePlanner Pro**, a one-time purchase through Google Play with no subscription (see [chapter 18](#18-bakeplanner-pro)).
 
 ### Quick start: your first baking plan in five steps
 
@@ -59,6 +60,7 @@ The first time you plan, Android asks whether BakePlanner may send notifications
 |------|-------|
 | Android | 9.0 or later; an app language separate from the system language from Android 13 |
 | Source | Google Play (currently as a closed test) |
+| Cost | Free; BakePlanner Pro as a one-time in-app purchase through Google Play (see [chapter 18](#18-bakeplanner-pro)) |
 | Size | About 55–60 MB download, about 190 MB installed – the app brings its own runtime |
 | Languages | German, English, French |
 | Appearance | Light and dark mode following the system setting, font size following Android's "Font size" setting |
@@ -122,12 +124,16 @@ After launch the app opens in the **Recipes** tab. The five tabs sit at the bott
 | **Timeline** | All scheduled steps as a timeline or a list, plus bake mode (see [chapter 9](#9-timeline-and-baking-day)) |
 | **Pantry** | What you have at home: flours, seeds, yeast with amount and best-before date (see [chapter 12](#12-pantry)) |
 
+**Shopping** and **Pantry** are part of BakePlanner Pro. Without Pro, both tabs show what the feature does and **Learn more** (see [chapter 18](#18-bakeplanner-pro)).
+
 At the top right of the **Recipes** tab there are two menus:
 
 | Menu | Entries |
 |------|---------|
 | **More** | **Settings**, **Import recipes** (read a backup file or a single saved recipe), **Export recipes** (your own recipes as a file), **Plan a baking day** and **Calculators** |
 | **+** (New recipe) | **By hand**, **Baker's percentages**, **From a web page**, **From photos**, **From text** (see [chapter 8](#8-creating-and-editing-a-recipe)) |
+
+Entries with the suffix **"· PRO"** – here **Plan a baking day · PRO** and **Baker’s percentages · PRO** – are part of BakePlanner Pro; as long as Pro isn't unlocked, they open the Pro page (see [chapter 18](#18-bakeplanner-pro)).
 
 The back arrow at the top left or Android's back gesture takes you back from any screen. Sheets such as the planning sheet or the editor close with **Cancel** or **Close** at the top left.
 
@@ -150,14 +156,14 @@ The public recipe database is shared by all BakePlanner users, on Android and on
 A public recipe opens as one continuous page: picture, name and description, amount and dough weight, total weight, the TA line, then total ingredients, components and processing steps. There are three buttons:
 
 - **Plan** – opens the planning sheet (see [chapter 7](#7-planning-bake-mode-and-reminders)).
-- **Add recipe to shopping list** – see [chapter 11](#11-shopping-lists).
+- **Add recipe to shopping list** – see [chapter 11](#11-shopping-lists). Part of BakePlanner Pro.
 - **Save as my own recipe** – creates a full copy, picture included, on your device. Only that copy can be edited. An existing copy stays as it is.
 
 ### More actions
 
 At the top right under **More actions**:
 
-- **Share recipe** – creates a PDF of the recipe at the chosen amount and opens Android's share menu.
+- **Share recipe** – creates a PDF of the recipe at the chosen amount and opens Android's share menu. Part of BakePlanner Pro (see [chapter 18](#18-bakeplanner-pro)).
 - **Report recipe** – with a reason (offensive, spam, copyright, other). The recipe is hidden **for all users at once** until an administrator has reviewed it.
 - **Block author** – all recipes by this author disappear from the list **on your device only**.
 - **Edit recipe** and **Delete my recipe** – only for recipes that come from your account. You edit the recipe in the database; your local version is not affected.
@@ -197,6 +203,8 @@ With a pantry you also get the switches **From the pantry** (only recipes whose 
 
 **Done by.** In the **Filter …** sheet, **Done by** sets the date and time the bread should be ready. The list then shows only the recipes that can still make it and writes the required start under each one: "Start today 17:45", "Start tomorrow 06:10", with "Steps at night" where it applies. The target sits as the first chip above the list; tap it to change it.
 
+> **Part of BakePlanner Pro:** your own collections and **Done by** (see [chapter 18](#18-bakeplanner-pro)). Without Pro, the **Filter …** sheet shows **Collections and finish by · PRO** instead of **Done by** and **Save collection**; saved collections and the Done-by chip disappear from the list. Saved collections are kept and come back with the purchase. Search, facets and the preset collections are free.
+
 ### Deleting a recipe
 
 Swipe one of your own recipes to the left in the list and confirm. Its baking history and starter diary go with it. Public recipes can't be deleted here.
@@ -211,8 +219,8 @@ From top to bottom:
 
 1. **Picture** with **Change picture**, **Camera** and **Remove picture**, below it the description and – if stored – the **Recipe link**.
 2. **Amount** (factor) and **Dough weight**, the **total weight**, the **preparation time** and the line **"TA 172 · hydration 72 %"**; tap it for the breakdown (see [chapter 15](#15-units-and-amounts)). Recipes planned regularly add "Next bake" or "Next feeding".
-3. **Pantry** – once there is anything in the pantry: "All 5 ingredients are in the pantry" or what is missing (see [chapter 12](#12-pantry)).
-4. **Plan** and **Add recipe to shopping list**.
+3. **Pantry** – with BakePlanner Pro, once there is anything in the pantry: "All 5 ingredients are in the pantry" or what is missing (see [chapter 12](#12-pantry)).
+4. **Plan** and **Add recipe to shopping list** (Pro).
 5. **Total ingredients**, **Components** and **Processing steps**. Flour and starter lines can be tapped (see [chapter 13](#13-calculators)).
 6. **Last time**, **Record a bake** and **Previous bakes** – for a starter, the **Starter Diary** instead.
 7. **Variants** – the recipes made from this one.
@@ -225,6 +233,8 @@ At the top right you find **Edit** (see [chapter 8](#8-creating-and-editing-a-re
 | **Share recipe** | Creates a PDF with picture, components, total ingredients and steps at the chosen amount and opens the share menu |
 | **Publish** | Puts the recipe into the recipe database (see below) |
 | **Create variant** | Creates a variant (see below) |
+
+**Back up recipe** and **Share recipe** are part of BakePlanner Pro (see [chapter 18](#18-bakeplanner-pro)); without Pro they carry the suffix "· PRO" and open the Pro page. All recipes at once are saved for free with **More → Export recipes**.
 
 **Publish** needs two things: **Sign in with Apple** under *Settings → Account* (otherwise "Sign-in required" appears) and a **recipe picture** (otherwise "Image required"). The first time, you accept the terms of use (see [chapter 17](#17-privacy)); then the question **Publish recipe?** follows with **Save publicly**. Afterwards the page says "Published" and the entry disappears: a recipe is published only once, and later changes go to the public version (see [chapter 5](#5-recipe-database)).
 
@@ -264,7 +274,7 @@ This is the heart of the app. **Plan** on the recipe page opens the planning she
 |---------|----------|
 | **Start from / Done by** | **Start from**: I begin at this time – when will I be done? **Done by**: I want to be done at this time – when do I have to start? |
 | **Date** and **Start time** | The reference time of the plan |
-| **Oven** and **Convection** | Only with two or more oven profiles (see [chapter 14](#14-settings)): the oven for this bread, preset with the one from the settings, and whether it bakes with convection |
+| **Oven** and **Convection** | Only with BakePlanner Pro and two or more oven profiles (see [chapter 14](#14-settings)): the oven for this bread, preset with the one from the settings, and whether it bakes with convection |
 | **Change durations** | Switch. When on, every step gets a duration field; **Apply duration** saves the new durations in the recipe |
 
 Change the time and watch the times under **Processing steps** adjust. Nothing is saved until you tap **Plan** at the top right.
@@ -361,6 +371,8 @@ For recipes from a message, a note or a page the web import can't read. Select t
 
 For those who think of recipes as a formula: you enter each ingredient as a share of the flour, and the app works out the grams.
 
+> Part of BakePlanner Pro (see [chapter 18](#18-bakeplanner-pro)). Without Pro, the entry in the **+** menu reads "Baker’s percentages · PRO" and opens the Pro page.
+
 1. Enter the **Recipe name**.
 2. **Target**: **Total flour** (say 500 g) or **Dough weight** (say 850 g) and the amount.
 3. **Components and ingredients** in percent; all percentages refer to the recipe's total flour, and the flours must add up to 100 percent. More components are added with **New component** and **Add**. The calculated grams appear next to every line.
@@ -376,7 +388,7 @@ The editor – "New recipe" when creating, "Edit" when changing – has these se
 - **Recipe image** – **Add picture** from the files or **Camera**. Photos are scaled down to screen size as soon as they are picked. Publishing needs a picture.
 - **Description**.
 - **Rating** – five stars; tapping the same star again takes the rating back. Below it **Tags, separated by commas**.
-- **Plan regularly** (for a starter **Refresh regularly**) with "every … days": after the last bake the app schedules the next date by itself, at the same time as the start of the first step. Such dates appear in the timeline only two days ahead; the reminders still come on time.
+- **Plan regularly** (for a starter **Refresh regularly**) with "every … days": after the last bake the app schedules the next date by itself, at the same time as the start of the first step. Such dates appear in the timeline only two days ahead; the reminders still come on time. Recurring bake plans are part of BakePlanner Pro (see [chapter 18](#18-bakeplanner-pro)): without Pro the switch is disabled, below it reads "Recurring bake plans are part of BakePlanner Pro.", and recipes with a rhythm aren't planned by themselves.
 - **Component** – a name per component and its ingredients with **Amount**, **Unit** and **Ingredient**. The amount may be a fraction ("1/2", "1 1/2"), the unit an abbreviation from [chapter 15](#15-units-and-amounts). **Add ingredient**, **Remove component**, below them **Add component**. Swipe an ingredient line to delete it.
 - **Processing steps** – per step the **No.**, the text and the duration in **Minutes** (also "1:30" or "1.5 h"). **Add step** counts on to the next whole number, **Add sub-step** creates a parallel step such as 3.1. Swipe to delete.
 
@@ -433,6 +445,8 @@ With no steps scheduled, the tab says "No scheduled steps – Open a recipe and 
 
 ### Plan a baking day
 
+> Part of BakePlanner Pro (see [chapter 18](#18-bakeplanner-pro)). Without Pro the entry reads "Plan a baking day · PRO" and opens the Pro page.
+
 **Recipes → More → Plan a baking day** plans several breads at once:
 
 1. Under **Recipes** you choose the breads; starter recipes aren't offered.
@@ -476,6 +490,8 @@ The entry ("Baking notes") has:
 
 **View → Statistics** adds up what the bakes currently shown – those already in the past – amount to: at the top **Loaves in total**, **This year**, **Per month** and the average rating, below that **Loaves per month**, **Baked most**, **Ratings**, **Final proof and room temperature** (one dot per bake) and **Crumb and oven spring**. The charts are plain bars and dots without axis labels. The more measurements you record, the more the statistics show.
 
+> The statistics are part of BakePlanner Pro (see [chapter 18](#18-bakeplanner-pro)). Without Pro, **Statistics** shows what it does and **Learn more**.
+
 ### Baking history from photos
 
 The photo symbol at the top of the **Baking history** tab brings old bread photos into the history:
@@ -485,9 +501,13 @@ The photo symbol at the top of the **Baking history** tab brings old bread photo
 3. Check every row: pick a date where it says "No date in the photo – choose one", pick or change the recipe. Rows marked "Already in the baking history on that day" are skipped.
 4. **Create** writes the entries with their photos.
 
+> Part of BakePlanner Pro (see [chapter 18](#18-bakeplanner-pro)). Without Pro the photo symbol opens the Pro page.
+
 ---
 
 ## 11. Shopping lists
+
+> Part of BakePlanner Pro (see [chapter 18](#18-bakeplanner-pro)). Without Pro, the **Shopping** tab shows what the feature does and **Learn more**; **Add recipe to shopping list** carries the suffix "· PRO".
 
 ### Putting ingredients on a list
 
@@ -524,6 +544,8 @@ In the **Shopping** tab each list shows "Shopping list of …", the recipes it c
 ## 12. Pantry
 
 The **Pantry** tab keeps track of what you have at home – by the same aisles as the shopping list.
+
+> Part of BakePlanner Pro (see [chapter 18](#18-bakeplanner-pro)). Without Pro, the **Pantry** tab shows what the feature does and **Learn more**. The **Pantry** card on the recipe page and **Deduct pantry** are then missing, and plans reserve nothing from the pantry. Items you entered are kept.
 
 ![Pantry on Android with items by aisle, amounts and best-before dates](images/android/vorrat.png)
 
@@ -577,6 +599,10 @@ Works out how much dough fits into a tin or basket: **Loaf tin** and **Round tin
 
 **Recipes → More → Settings.** The settings apply to this device only.
 
+### BakePlanner Pro
+
+At the very top is **BakePlanner Pro**, next to it **Learn more** or, after the purchase, **Unlocked**. A tap opens the Pro page with the purchase and **Restore Purchases** (see [chapter 18](#18-bakeplanner-pro)).
+
 ### General
 
 **Language** opens Android's "App language" setting (Android 13 and later). There you choose German, English or French independently of the device language; without a choice the app follows the system language. There is no language picker inside the app.
@@ -599,6 +625,8 @@ Works out how much dough fits into a tin or basket: **Loaf tin** and **Round tin
 ### Ovens
 
 Your ovens as profiles: **Name**, **Preheat time**, **Preheat time with baking stone**, the **Deviation** (whether the oven runs hotter or cooler than the dial shows) and the **Convection reduction**. **Planning with** is the oven the planning sheet and the baking day suggest; **Add oven** creates another one, **Delete oven** removes it. With oven profiles the oven steps name the dial setting ("Turn on the oven (250 °C, dial at 240 °C)"), and the number of ovens is the number of profiles. The recipe doesn't remember the oven; the one from the settings is always preset.
+
+> Oven profiles are part of BakePlanner Pro (see [chapter 18](#18-bakeplanner-pro)). Without Pro, **Ovens** shows only a note, and the app plans as if there were no oven profiles: with the preheat times and the number of **Ovens** from **Baking schedule**, with no oven choice in the planning sheet. Saved profiles are kept and apply again after the purchase.
 
 ### Baking schedule
 
@@ -722,7 +750,7 @@ Your own recipes, scheduled steps, shopping lists, baking history, starter diary
 
 - **Settings → Backup → Create full backup** writes all your recipes with their pictures, the baking history with photos, the starter diary and the pantry to one file. Put it in Google Drive, e-mail it to yourself or copy it to your computer.
 - **Recipes → More → Export recipes** saves a selection: tick recipes or **Select all**, optionally **With baking history, starter diary and pantry**, then **Export**. A few recipes without the switch make a hand-over to others.
-- **Back up recipe** under **More actions** on a recipe page writes a single recipe without baking history.
+- **Back up recipe** under **More actions** on a recipe page writes a single recipe without baking history. This is part of BakePlanner Pro; the full backup and **Export recipes** are free.
 
 Recipe pictures and baking photos are scaled down to screen size on Android as soon as they are picked, so even a backup with many photos stays manageable.
 
@@ -764,7 +792,67 @@ With **Decline** nothing is uploaded; the recipe stays local. Against unwanted c
 
 ---
 
-## 18. Frequently asked questions
+## 18. BakePlanner Pro
+
+BakePlanner Pro is a **one-time purchase** through Google Play – no subscription. The Pro page shows the price as Google Play states it for your country. Once bought, the features stay unlocked for good.
+
+### What's included
+
+| Feature | What it does | Where in the app |
+|---------|--------------|------------------|
+| **Share recipes as PDF** | Print or send a recipe at the amount shown as a PDF | Recipe page → **More actions** → **Share recipe**, also for public recipes (see [chapter 6](#6-my-recipes)) |
+| **Hand over recipes** | A single recipe as a file that can be imported again | Recipe page → **More actions** → **Back up recipe** |
+| **Recurring bake plans** | A recipe plans itself in its rhythm, such as feeding the starter | Recipe editor → **Plan regularly** or **Refresh regularly** (see [chapter 8](#8-creating-and-editing-a-recipe)) |
+| **Shopping lists** | Put a recipe's ingredients on a list, sorted by aisle, and tick them off | **Shopping** tab; recipe page → **Add recipe to shopping list** (see [chapter 11](#11-shopping-lists)) |
+| **Pantry** | Flours, seeds and yeast with amount and shelf life; purchases go in, plans reserve from it | **Pantry** tab; **Pantry** card on the recipe page; **Deduct pantry** (see [chapter 12](#12-pantry)) |
+| **Plan a baking day** | Several breads for one target time, fitting the ovens and the baking pause | **Recipes → More → Plan a baking day** (see [chapter 9](#9-timeline-and-baking-day)) |
+| **Collections and finish by** | Save your own filter combinations as a chip; see only the recipes that can still be done by a given time | **Filter …** sheet → **Save collection** and **Done by** (see [chapter 6](#6-my-recipes)) |
+| **Baking statistics** | The baking history as figures and charts: how often, what most, how rated | **Baking history** tab → **View** → **Statistics** (see [chapter 10](#10-baking-history)) |
+| **Recipe from baker's percentages** | A new recipe from shares of the flour; the app works out the grams | **+** → **Baker’s percentages** (see [chapter 8](#8-creating-and-editing-a-recipe)) |
+| **Oven profiles** | Each oven with preheat times, deviation and convection reduction; plan and oven steps use the chosen oven | **Settings → Ovens**; oven choice in the planning sheet and for the baking day (see [chapter 14](#14-settings)) |
+| **Baking history from photos** | Old bread photos become entries in the baking history | **Baking history** tab → photo symbol (see [chapter 10](#10-baking-history)) |
+
+### What stays free
+
+Everything else: your own recipes and their import from photos, web pages and text, recipe variants and the starter diary, planning with reminders including proofing today, the timeline, bake mode with read aloud, the baking history, the public recipe database including publishing, the four calculators, search, facets and the preset collections, and the backup: **Settings → Backup**, **More → Export recipes** and **More → Import recipes** – also for a single saved recipe someone sends you.
+
+### How to recognise Pro features
+
+- Menu entries and buttons carry the suffix **"· PRO"**: **Plan a baking day**, **Baker’s percentages**, **Back up recipe**, **Share recipe** and **Add recipe to shopping list**.
+- The **Shopping** and **Pantry** tabs and the **Statistics** view show what the feature does and **Learn more** instead of their content.
+- In the **Filter …** sheet, **Collections and finish by · PRO** replaces **Done by** and **Save collection**.
+- Other places are disabled or hidden without Pro: the **Plan regularly** switch, the oven profiles under **Settings → Ovens**, the **Pantry** card and **Deduct pantry**. The chapters on the individual features describe this in more detail.
+
+Tapping a locked feature opens the Pro page. What you have already created – shopping lists, pantry items, saved collections, oven profiles – stays stored without Pro and reappears as soon as Pro is unlocked.
+
+### Buying Pro
+
+1. Open **Settings → BakePlanner Pro** or tap a locked feature.
+2. The Pro page lists all features under **Included**, the one you tapped first.
+3. **Unlock Pro** shows the price from Google Play on the right. A tap opens Google Play's purchase dialog.
+4. After the purchase the page closes; the settings show **Unlocked**.
+
+If "Price unavailable" appears instead of the price, the app can't reach Google Play right now – check the internet connection and that Google Play is set up on the device. "The purchase isn’t possible right now. Please try again later." means the same.
+
+### Pending payment
+
+If you choose a payment method in Google Play that is only confirmed later, the Pro page reads "The payment is not complete yet. Pro is unlocked as soon as Google Play confirms it." There is nothing else to do: as soon as Google Play confirms the payment, the app unlocks Pro.
+
+### Restoring purchases
+
+The purchase belongs to your Google account and applies on every Android device where Google Play is signed in with that account – also after reinstalling. The app reads the purchase at launch and every time it comes to the foreground; without internet it remembers that Pro was bought. If the purchase is still missing, tap **Restore Purchases** on the Pro page.
+
+### Redeeming codes
+
+You redeem a promo code for BakePlanner Pro in the Play Store: profile picture → **Payments & subscriptions** → redeem code. The code arrives as a purchase; then open BakePlanner and Pro is unlocked. If it doesn't show straight away, **Restore Purchases** helps.
+
+### iPhone and Android
+
+Pro on the iPhone and Pro on Android are **separate purchases**: the App Store and Google Play don't know each other's purchases. A purchase on the iPhone does not apply on Android, and vice versa. The backup file carries recipes and data, but no purchase.
+
+---
+
+## 19. Frequently asked questions
 
 **No reminders arrive.**
 Check in Android's settings under *Apps → BakePlanner → Notifications* that notifications are allowed. Also check that there are steps in the timeline at all; times in the past get no reminder.
@@ -805,14 +893,24 @@ Water, salt and everything you make yourself are left out on purpose, as are ing
 **I changed the recipe, but the plan still shows the old version.**
 Scheduled steps are a snapshot. Tap **Plan again** in the timeline and choose **Replace existing plan**.
 
+**I bought BakePlanner Pro on the iPhone – why is it locked on Android?**
+Purchases in the App Store and in Google Play are separate; a purchase applies only on its own platform. For Android, you buy Pro under *Settings → BakePlanner Pro* (see [chapter 18](#18-bakeplanner-pro)).
+
+**I bought Pro, but the features are still locked.**
+Check that Google Play on this device is signed in with the Google account you bought with, and tap **Restore Purchases** on the Pro page. If it says the payment is not complete yet, the app is waiting for Google Play's confirmation.
+
+**How do I redeem a code for BakePlanner Pro?**
+In the Play Store under profile picture → **Payments & subscriptions** → redeem code. Then open BakePlanner; if needed, tap **Restore Purchases**.
+
 ---
 
-## 19. What only the iPhone has
+## 20. What only the iPhone has
 
 The iPhone version of BakePlanner can also do the following:
 
 | Feature | On Android |
 |---------|------------|
+| BakePlanner Pro, on the iPhone also with widgets and the Live Activity, the baking yearbook, hands-free bake mode, the starter diagram and the calendar check | BakePlanner Pro exists on Android too, as a separate purchase through Google Play (see [chapter 18](#18-bakeplanner-pro)); a purchase applies only on its own platform |
 | Sync through iCloud between all devices | No sync; backup file (see [chapter 16](#16-data-backup-and-changing-devices)) |
 | Automatic translation of public recipes and the "Translate recipe" menu | Stored translation or original language |
 | Translation of the ingredients on shopping lists | Not planned |

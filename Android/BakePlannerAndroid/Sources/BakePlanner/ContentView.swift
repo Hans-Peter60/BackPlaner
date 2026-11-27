@@ -7,6 +7,7 @@ import UIKit
 
 struct ContentView: View {
     @State var model = AppModel()
+    @State var pro = BakePro.shared
     /// The device's language (or the one chosen for the app in Android's
     /// settings). The app speaks it when BakePlanner has it, else English
     /// (AppSettings.appLocale): all views get that locale, and so does the
@@ -17,6 +18,11 @@ struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
+        // Read here, so a locked control's request reaches this view at
+        // once (through the binding alone the sheet came only with the next
+        // redraw, and without the feature it was asked for).
+        let showsOffer = pro.showsOffer
+        let offered = pro.offer
         TabView {
             NavigationStack {
                 RecipeListView(model: model)
@@ -26,7 +32,9 @@ struct ContentView: View {
             }
 
             NavigationStack {
-                ShoppingListsView(model: model)
+                ProLockedScreen(feature: .shoppingList) {
+                    ShoppingListsView(model: model)
+                }
             }
             .tabItem {
                 // Short: with five tabs Material's bar broke "Einkaufslisten"
@@ -53,7 +61,9 @@ struct ContentView: View {
             // in the house, last so the order of the other four stays.
             // "shippingbox" is a symbolset in Module.xcassets (Skip has none).
             NavigationStack {
-                PantryView(model: model, showsDone: false)
+                ProLockedScreen(feature: .pantry) {
+                    PantryView(model: model, showsDone: false)
+                }
             }
             .tabItem {
                 Label("Vorrat", systemImage: "shippingbox")
@@ -69,6 +79,9 @@ struct ContentView: View {
         // iPhone.
         .onChange(of: scenePhase) { _, phase in
             if phase == .active {
+                // Purchases (a code redeemed in the Play Store) and the
+                // switches read again.
+                pro.start()
                 // Plans that ended while the app was away are booked
                 // against the pantry; the list's readings start over, as
                 // time has moved on.
@@ -83,9 +96,19 @@ struct ContentView: View {
             // Public recipes show the translation of the app's language.
             Task { await model.loadPublicRecipes() }
         }
+        // Without Pro no "Fertig bis" narrows the list (it may have been
+        // set before Pro was required).
+        .onChange(of: pro.isUnlocked(.collections)) { _, open in
+            if !open { model.finishBy = nil }
+        }
+        // The Pro page, whichever locked control asked for it.
+        .appSheet(isPresented: Binding(get: { showsOffer }, set: { pro.showsOffer = $0 })) {
+            ProPaywallView(highlighted: offered)
+        }
         .task {
             let appLocale = AppSettings.appLocale(forDevice: locale)
             AppSettings.systemLocale = { appLocale }
+            pro.start()
             model.load()
             model.loadShoppingLists()
             model.loadBakeHistory()
@@ -234,8 +257,8 @@ struct RecipeListView: View {
                         exportsRecipes = true
                     }
                     .disabled(model.recipes.isEmpty)
-                    Button("Backtag planen") {
-                        showsBakingDay = true
+                    Button(BakePro.shared.title(String(localized: "Backtag planen", bundle: .module), for: .bakingDay)) {
+                        proGated(.bakingDay) { showsBakingDay = true }
                     }
                     .disabled(model.recipes.isEmpty)
                     // The four calculators on one page, as on the iPhone.
@@ -251,8 +274,8 @@ struct RecipeListView: View {
                     Button("Von Hand") {
                         createsRecipe = true
                     }
-                    Button("Nach Bäckerprozent") {
-                        createsFromFormula = true
+                    Button(BakePro.shared.title(String(localized: "Nach Bäckerprozent", bundle: .module), for: .bakersFormula)) {
+                        proGated(.bakersFormula) { createsFromFormula = true }
                     }
                     Button("Von einer Internetseite") {
                         importsFromWeb = true
@@ -433,7 +456,7 @@ struct RecipeListView: View {
     private var collectionChips: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
-                if let finishBy = model.finishBy {
+                if BakePro.shared.isUnlocked(.collections), let finishBy = model.finishBy {
                     chip(Text("Fertig bis \(RecipeFacetText.finish(finishBy))"), isOn: true) {
                         renamingCollection = nil
                         showsFilter = true
@@ -445,7 +468,7 @@ struct RecipeListView: View {
                         model.toggleCollection(collection)
                     }
                 }
-                ForEach(model.savedCollections, id: \.id) { saved in
+                ForEach(BakePro.shared.isUnlocked(.collections) ? model.savedCollections : [], id: \.id) { saved in
                     chip(Text(verbatim: saved.name), isOn: model.facetFilter == saved.filter) {
                         model.toggleSavedCollection(saved)
                     }

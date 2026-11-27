@@ -1312,7 +1312,7 @@ BakePlanner is also available for Android phones and tablets. Recipes, planning,
 - **Moving between iPhone and Android** works through the same file in both directions. What does not come along: scheduled plans and reminders (plan again on the new device), custom units (create them again) and settings; the pantry comes along – items the new device's pantry does not have by name are added.
 - **Photos** for the recipe picture and the baking history are scaled down to screen size on Android as soon as they are picked, not only in the backup file.
 - **Recipe database and account** are the same as on the iPhone. **Sign in with Apple** opens Apple's sign-in in the browser and returns to the app afterwards; a recipe published on the iPhone can then be edited from the Android device too.
-- **There is no Pro on Android:** every feature is free, there is nothing to buy.
+- **BakePlanner Pro on Android** is a separate purchase through Google Play. It covers the Pro features Android has; a purchase on the iPhone does not apply there, nor the other way round. Details in the [Android manual](android-manual-en.html).
 
 ### Interface
 
@@ -1350,7 +1350,7 @@ BakePlanner is also available for Android phones and tablets. Recipes, planning,
 | Starter diagram (diary → Diagram) | [chapter 9](#9-editing-a-recipe) | Missing; the ripening estimate in the diary is available |
 | Check calendar when planning | [chapter 14](#14-settings) | Missing |
 | Baking history from photos | [chapter 12](#12-baking-history) | Available via the photo symbol of the baking history, with one difference: Android proposes the recipe only by the **photo's title or description**, not by likeness to the recipe picture. The recipe name should therefore be in the photo (Google Photos → Info → Description); Android reads date and title from JPEG files |
-| BakePlanner Pro | [chapter 14](#14-settings) | Everything free |
+| BakePlanner Pro | [chapter 14](#14-settings) | A separate purchase through Google Play, without widgets, Live Activity, baking yearbook, hands-free bake mode, starter diagram and calendar check, which Android does not have |
 | Create recipe from baker's percentages | [chapter 8](#8-creating-a-new-recipe) | Available: **+ → By baker's percentages** with recipe name, total flour or dough weight, components and ingredients in percent; **Next** opens the recipe editor with the grams |
 | Baking-history statistics | [chapter 12](#12-baking-history) | Available: **Baking history → View → Statistics** with the same figures and sections as on the iPhone; the charts are plain bars and dots without axis labels. The **baking yearbook** is still missing |
 | Plan a baking day (More → Plan a baking day) | [chapter 10](#10-scheduled-steps-list-and-timeline) | Available: **More (⋯) → Plan a baking day** with recipe selection, target time, ovens, "Work out the baking day", notes per bread (night, hands-on, oven, pantry) and "Plan all"; the rows show the notes as text without symbols |

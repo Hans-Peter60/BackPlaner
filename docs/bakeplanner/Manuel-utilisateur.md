@@ -1312,7 +1312,7 @@ BakePlanner existe aussi pour les téléphones et tablettes Android. Recettes, p
 - **Le passage entre iPhone et Android** se fait par le même fichier dans les deux sens. Ce qui ne suit pas : les plans et rappels en cours (replanifiez sur le nouvel appareil), les unités personnalisées (à recréer) et les réglages ; la réserve suit – les articles que la réserve du nouvel appareil n’a pas encore par leur nom sont ajoutés.
 - **Les photos** de la recette et de l’historique de cuisson sont réduites à la taille de l’écran sur Android dès leur sélection, pas seulement dans le fichier de sauvegarde.
 - **Base de recettes et compte** sont les mêmes que sur l’iPhone. **Se connecter avec Apple** ouvre la connexion Apple dans le navigateur puis revient dans l’app ; une recette publiée depuis l’iPhone peut ainsi être modifiée aussi depuis l’appareil Android.
-- **Pas de Pro sur Android :** toutes les fonctions sont gratuites, il n’y a rien à acheter.
+- **BakePlanner Pro sur Android** est un achat distinct via Google Play. Il comprend les fonctions Pro qu’Android propose ; un achat sur l’iPhone n’y vaut pas, et inversement. Détails dans le [manuel Android](android-manual-fr.html).
 
 ### Interface
 
@@ -1350,7 +1350,7 @@ BakePlanner existe aussi pour les téléphones et tablettes Android. Recettes, p
 | Diagramme du levain (journal → Diagramme) | [chapitre 9](#9-modifier-une-recette) | Manque ; l’estimation de maturation du journal est disponible |
 | Vérifier l’agenda en planifiant | [chapitre 14](#14-réglages) | Manque |
 | Historique à partir de photos | [chapitre 12](#12-historique-de-cuisson) | Disponible via le symbole photo de l’historique, avec une différence : Android ne propose la recette que d’après le **titre ou la description de la photo**, pas d’après la ressemblance avec l’image de la recette. Le nom de la recette doit donc figurer dans la photo (Google Photos → Infos → Description) ; Android lit date et titre dans les fichiers JPEG |
-| BakePlanner Pro | [chapitre 14](#14-réglages) | Tout est gratuit |
+| BakePlanner Pro | [chapitre 14](#14-réglages) | Achat distinct via Google Play, sans widgets, Live Activity, livre de l’année, mode cuisson mains libres, diagramme du levain et contrôle du calendrier, qu’Android n’a pas |
 | Créer une recette en pourcentages boulanger | [chapitre 8](#8-créer-une-nouvelle-recette) | Disponible : **+ → En pourcentages boulanger** avec nom de recette, farine totale ou poids de pâte, composants et ingrédients en pourcentage ; **Suivant** ouvre l’éditeur de recette avec les grammes |
 | Statistiques de l’historique de cuisson | [chapitre 12](#12-historique-de-cuisson) | Disponible : **Historique de cuisson → Affichage → Statistiques** avec les mêmes chiffres et sections que sur l’iPhone ; les graphiques sont de simples barres et points sans légende d’axe. Le **livre de l’année de cuisson** manque encore |
 | Planifier une journée de cuisson (Plus → Planifier une journée de cuisson) | [chapitre 10](#10-étapes-planifiées-liste-et-timeline) | Disponible : **Plus (⋯) → Planifier une journée de cuisson** avec sélection des recettes, heure souhaitée, fours, « Calculer la journée de cuisson », remarques par pain (nuit, travail manuel, four, réserve) et « Tout planifier » ; les lignes affichent les remarques en texte, sans symboles |

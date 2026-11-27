@@ -17,7 +17,10 @@ import SwiftUI
 enum OvenProfileFile {
 
     static var profiles: [OvenProfile] {
-        get { OvenProfiles.decode(SettingsFile.value(forKey: AppSettingsKeys.ovenProfiles) as? String) }
+        get {
+            guard BakePro.ovenProfilesOpen else { return [] }
+            return OvenProfiles.decode(SettingsFile.value(forKey: AppSettingsKeys.ovenProfiles) as? String)
+        }
         set {
             // An empty string, not an empty array: "no profiles" means the
             // plain settings are in force.

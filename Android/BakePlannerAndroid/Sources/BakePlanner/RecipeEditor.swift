@@ -112,10 +112,16 @@ struct RecipeEditor: View {
                 Toggle(draft.isStarter ? LocalizedStringKey("Regelmäßig auffrischen") : LocalizedStringKey("Regelmäßig planen"),
                        isOn: Binding(get: { draft.recurrenceIntervalDays > 0 },
                                      set: { draft.recurrenceIntervalDays = $0 ? max(draft.recurrenceIntervalDays, 5) : 0 }))
+                .disabled(!BakePro.shared.isUnlocked(.recurringPlans))
                 if draft.recurrenceIntervalDays > 0 {
                     Stepper(value: $draft.recurrenceIntervalDays, in: 1...60) {
                         Text("alle \(draft.recurrenceIntervalDays) Tage")
                     }
+                    .disabled(!BakePro.shared.isUnlocked(.recurringPlans))
+                }
+            } footer: {
+                if !BakePro.shared.isUnlocked(.recurringPlans) {
+                    Text(String(localized: "Wiederkehrende Backpläne gehören zu BakePlanner Pro.", bundle: .module))
                 }
             }
 
