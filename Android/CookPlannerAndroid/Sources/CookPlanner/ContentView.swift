@@ -41,7 +41,10 @@ struct ContentView: View {
                     showsResumed = true
                 } else {
                     CookRunState.clear()
+                    CookReminders.cancelAll()
                 }
+            } else {
+                CookReminders.cancelAll()
             }
         }
         .appSheet(isPresented: $showsResumed, backDismissDisabled: true) {

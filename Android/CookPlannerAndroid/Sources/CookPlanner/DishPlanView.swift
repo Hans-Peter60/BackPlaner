@@ -45,11 +45,17 @@ struct DishPlanView: View {
                             .buttonStyle(.borderedProminent)
                             verdictCard(plan)
                             ingredientsCard(plan)
+                            if let fit = fit(for: plan) {
+                                fitCard(fit, plan: plan)
+                            }
                             if !CookRunLog.shared.runs(of: dishID).isEmpty {
                                 runsCard
                             }
                             componentsCard(plan)
                             stepsCard(plan)
+                            if !plan.schedule.waits(atLeast: 10).isEmpty {
+                                keepWarmCard(plan)
+                            }
                         } else {
                             Text(library.failure(for: dish) ?? "")
                                 .foregroundStyle(Palette.danger(colorScheme))
@@ -234,6 +240,57 @@ struct DishPlanView: View {
                 }
             }
         }
+        .cardStyle()
+    }
+
+    /// The dish cut within its steps' windows, when the plan does not fit
+    /// and cutting is what helps (as on the iPhone).
+    private func fit(for plan: DishPlan) -> KitchenFit? {
+        guard !plan.fits, plan.schedule.limit != .hands,
+              let fit = try? KitchenScheduler.fit(plan.dish.tasks, kitchen: plan.schedule.kitchen, budget: library.budget),
+              !fit.shortenings.isEmpty else { return nil }
+        return fit
+    }
+
+    /// "So passt es": which steps to cook at the short end of their window.
+    private func fitCard(_ fit: KitchenFit, plan: DishPlan) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(String(localized: "So passt es", bundle: .module))
+                .font(.headline)
+            ForEach(fit.shortenings, id: \.task) { cut in
+                if let task = plan.dish.tasks.first(where: { $0.id == cut.task }) {
+                    Text(String(localized: "\(task.name /*%@*/): \(cut.to) statt \(cut.from) Minuten", bundle: .module))
+                        .font(.subheadline)
+                }
+            }
+            if fit.schedule.fits {
+                Text(String(localized: "Mit diesen Garzeiten passt es in \(library.budget) Minuten", bundle: .module))
+                    .font(.subheadline)
+                    .foregroundStyle(Palette.good(colorScheme))
+            } else {
+                Text(String(localized: "Auch mit den kürzesten Garzeiten fehlen \(fit.schedule.shortfall) Minuten", bundle: .module))
+                    .font(.subheadline)
+                    .foregroundStyle(Palette.danger(colorScheme))
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .cardStyle()
+    }
+
+    /// "Warm halten": what is done early and waits ten minutes or more.
+    private func keepWarmCard(_ plan: DishPlan) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(String(localized: "Warm halten", bundle: .module))
+                .font(.headline)
+            ForEach(plan.schedule.waits(atLeast: 10), id: \.task) { wait in
+                if let task = plan.dish.tasks.first(where: { $0.id == wait.task }) {
+                    Text(String(localized: "\(task.name /*%@*/) wartet \(wait.minutes) Minuten", bundle: .module))
+                        .font(.subheadline)
+                        .foregroundStyle(Palette.subtitle(colorScheme))
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .cardStyle()
     }
 

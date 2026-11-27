@@ -73,14 +73,20 @@ enum CookReminders {
         }
     }
 
-    /// No more reminders for this plan: paused, ended, or a new run
-    /// begins. Every identifier its steps can have goes, not only the ones
-    /// this process set: a run taken up after the app was ended set its
-    /// banners in an earlier process.
+    /// No more reminders: paused, ended, or a new run begins. Every
+    /// pending one goes, not only this plan's: a run whose process was
+    /// ended (the app swiped away, an update installed) never reached
+    /// "Beenden", and its banners, or another dish's, would still come.
+    /// Only one run is under way at a time, and the app queues nothing else.
     static func cancel(schedule: KitchenSchedule) {
+        cancelAll()
+    }
+
+    /// At launch without a run to take up: banners left from an ended
+    /// process.
+    static func cancelAll() {
         signature = ""
-        let all = schedule.placements.flatMap { [prefix + "start." + $0.id, prefix + "end." + $0.id] }
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: Array(Set(all + scheduled)))
         scheduled = []
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
     }
 }
