@@ -347,12 +347,42 @@ struct KitchenSettingsView: View {
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
+                // The website's pages, in the app's language, in the browser —
+                // as BakePlanner has them. Privacy policy and legal notice have
+                // to be reachable from inside the app.
+                Section {
+                    helpLink(String(localized: "Benutzerhandbuch", bundle: .module), url: HelpLinks.cookPlannerAndroidManual)
+                    helpLink(String(localized: "Hilfe und Kontakt", bundle: .module), url: HelpLinks.cookPlannerSupport)
+                    helpLink(String(localized: "Datenschutzerklärung", bundle: .module), url: HelpLinks.cookPlannerPrivacy)
+                    helpLink(String(localized: "Impressum", bundle: .module), url: HelpLinks.imprint)
+                } header: {
+                    Text(String(localized: "Hilfe", bundle: .module))
+                } footer: {
+                    Text(String(localized: "Öffnet die Seiten im Browser.", bundle: .module))
+                }
             }
             .navigationTitle(String(localized: "Einstellungen", bundle: .module))
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button(String(localized: "Fertig", bundle: .module)) { dismiss() }
                 }
+            }
+        }
+    }
+}
+
+extension KitchenSettingsView {
+    /// A row that opens `url` in the browser.
+    func helpLink(_ title: String, url: URL) -> some View {
+        Button {
+            Task { _ = await UIApplication.shared.open(url) }
+        } label: {
+            HStack {
+                Text(title)
+                    .foregroundStyle(Color.primary)
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .foregroundStyle(.secondary)
             }
         }
     }

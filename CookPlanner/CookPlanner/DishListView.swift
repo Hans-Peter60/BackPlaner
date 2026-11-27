@@ -685,6 +685,25 @@ struct KitchenSettingsView: View {
                 } footer: {
                     Text("Wenn ein Topf oder der Ofen die Zeit erreicht hat, klingelt ein Wecker – auch wenn das iPhone stumm ist oder ein Fokus läuft. Ohne Wecker gibt es eine Mitteilung.")
                 }
+                // The help page, the privacy policy and the legal notice live
+                // on the website, so they can be corrected without an update;
+                // they open in Safari, as in BakePlanner. Privacy policy and
+                // legal notice have to be reachable from inside the app.
+                Section {
+                    Link(destination: HelpLinks.cookPlannerSupport) {
+                        Label("Hilfe und Kontakt", systemImage: "questionmark.circle")
+                    }
+                    Link(destination: HelpLinks.cookPlannerPrivacy) {
+                        Label("Datenschutzerklärung", systemImage: "hand.raised")
+                    }
+                    Link(destination: HelpLinks.imprint) {
+                        Label("Impressum", systemImage: "building.columns")
+                    }
+                } header: {
+                    Text("Hilfe")
+                } footer: {
+                    Text("Öffnet die Seiten im Browser.")
+                }
             }
             .fileImporter(isPresented: $choosingFile, allowedContentTypes: [.cookPlannerDishes, .json]) { result in
                 if case .success(let url) = result {

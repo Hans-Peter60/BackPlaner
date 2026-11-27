@@ -440,7 +440,7 @@ With **With clock times** and a **Start**, real times appear on the sheet (“St
 
 ![The settings](images/android/einstellungen.png)
 
-*The settings: time budget and kitchen.*
+*The settings: time budget, kitchen and help.*
 
 | Setting | Range | Default |
 |---|---|---|
@@ -449,6 +449,10 @@ With **With clock times** and a **Start**, real times appear on the sheet (“St
 | Ovens | 0 to 3 | 1 |
 
 Every change applies at once to all verdicts and plans. The ovens count as preheated when the clock starts. The app remembers further choices where you make them: the view of the timeline, the cook-mode clock, read aloud, servings and shopping ticks per dish, the view and minimum rating under Cooked, your own collections.
+
+### Help
+
+The **Help** section opens in your browser this **user manual**, the **Help and contact** page with frequent questions and the e-mail address, the **privacy policy** and the **legal notice** – each in the app's language.
 
 ---
 
