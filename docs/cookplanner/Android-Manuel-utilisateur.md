@@ -440,7 +440,7 @@ Avec **Avec les heures** et un **Départ**, de vraies heures figurent sur la feu
 
 ![Les réglages](images/android/einstellungen.png)
 
-*Les réglages : temps imparti et cuisine.*
+*Les réglages : temps imparti, cuisine et aide.*
 
 | Réglage | Plage | Par défaut |
 |---|---|---|
@@ -449,6 +449,10 @@ Avec **Avec les heures** et un **Départ**, de vraies heures figurent sur la feu
 | Fours | 0 à 3 | 1 |
 
 Chaque modification vaut aussitôt pour tous les verdicts et plans. Les fours sont considérés comme préchauffés quand le chrono démarre. L’application retient d’autres choix là où vous les faites : l’affichage du déroulé, l’horloge du mode cuisine, la lecture à voix haute, les portions et les coches de courses par plat, l’affichage et la note minimale sous Cuisiné, vos propres collections.
+
+### Aide
+
+La section **Aide** ouvre dans le navigateur ce **manuel de l’utilisateur**, la page **Aide et contact** avec les questions fréquentes et l’adresse e-mail, la **politique de confidentialité** et les **mentions légales** – chacun dans la langue de l’application.
 
 ---
 

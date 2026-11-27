@@ -440,7 +440,7 @@ Mit **Mit Uhrzeit** und einem **Start** stehen echte Uhrzeiten auf dem Blatt (�
 
 ![Die Einstellungen](images/android/einstellungen.png)
 
-*Die Einstellungen: Zeitbudget und Küche.*
+*Die Einstellungen: Zeitbudget, Küche und Hilfe.*
 
 | Einstellung | Bereich | Voreinstellung |
 |---|---|---|
@@ -449,6 +449,10 @@ Mit **Mit Uhrzeit** und einem **Start** stehen echte Uhrzeiten auf dem Blatt (�
 | Öfen | 0 bis 3 | 1 |
 
 Jede Änderung gilt sofort für alle Urteile und Pläne. Die Öfen gelten als vorgeheizt, wenn die Uhr startet. Weitere Einstellungen merkt sich die App selbst, wo Du sie triffst: die Darstellung des Zeitplans, die Uhr des Kochmodus, Vorlesen, Portionen und Einkaufshaken je Gericht, die Darstellung und Mindestbewertung unter Gekocht, die eigenen Sammlungen.
+
+### Hilfe
+
+Der Abschnitt **Hilfe** öffnet im Browser dieses **Benutzerhandbuch**, die Seite **Hilfe und Kontakt** mit häufigen Fragen und der E-Mail-Adresse, die **Datenschutzerklärung** und das **Impressum** – jeweils in der Sprache der App.
 
 ---
 

@@ -29,20 +29,13 @@ public enum HelpLinks {
         URL(string: "\(site)manual-\(languageCode).html")!
     }
 
-    /// The manual opened at its chapter "BakePlanner auf Android", which
-    /// names what differs from the iPhone. The Android app's help link.
-    public static var manualAndroidChapter: URL {
-        manualAndroidChapter(for: languageCode)
+    /// BakePlanner's own manual for the Android app.
+    public static var androidManual: URL {
+        androidManual(for: languageCode)
     }
 
-    public static func manualAndroidChapter(for languageCode: String) -> URL {
-        let anchor: String
-        switch languageCode {
-        case "de": anchor = "19-bakeplanner-auf-android"
-        case "fr": anchor = "19-bakeplanner-sur-android"
-        default: anchor = "19-bakeplanner-on-android"
-        }
-        return URL(string: "\(site)manual-\(languageCode).html#\(anchor)")!
+    public static func androidManual(for languageCode: String) -> URL {
+        URL(string: "\(site)android-manual-\(languageCode).html")!
     }
 
     public static var support: URL {
@@ -56,7 +49,38 @@ public enum HelpLinks {
     }
 
     /// The legal notice (Impressum) German law requires of a commercial app.
+    /// The same for both apps.
     public static var imprint: URL {
         URL(string: "\(site)impressum.html#\(languageCode)")!
+    }
+
+    // MARK: CookPlanner
+
+    /// CookPlanner's help page with its questions and the contact.
+    public static var cookPlannerSupport: URL {
+        cookPlannerSupport(for: languageCode)
+    }
+
+    public static func cookPlannerSupport(for languageCode: String) -> URL {
+        URL(string: "\(site)cookplanner.html#\(languageCode)")!
+    }
+
+    /// CookPlanner's own privacy policy, also the address for its store
+    /// listings.
+    public static var cookPlannerPrivacy: URL {
+        cookPlannerPrivacy(for: languageCode)
+    }
+
+    public static func cookPlannerPrivacy(for languageCode: String) -> URL {
+        URL(string: "\(site)cookplanner-privacy.html#\(languageCode)")!
+    }
+
+    /// The manual of CookPlanner's Android app.
+    public static var cookPlannerAndroidManual: URL {
+        cookPlannerAndroidManual(for: languageCode)
+    }
+
+    public static func cookPlannerAndroidManual(for languageCode: String) -> URL {
+        URL(string: "\(site)cookplanner-android-manual-\(languageCode).html")!
     }
 }

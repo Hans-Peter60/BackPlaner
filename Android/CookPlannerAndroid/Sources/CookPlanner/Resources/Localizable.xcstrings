@@ -1140,6 +1140,23 @@
         }
       }
     },
+    "Benutzerhandbuch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "User manual"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manuel de l’utilisateur"
+          }
+        }
+      }
+    },
     "Bestzeit %lld Min." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1476,6 +1493,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "C’était la dernière analyse de recette gratuite de ce mois. Avec CookPlanner Pro, il n’y a pas de limite mensuelle."
+          }
+        }
+      }
+    },
+    "Datenschutzerklärung" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy Policy"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Politique de confidentialité"
           }
         }
       }
@@ -3146,6 +3180,40 @@
         }
       }
     },
+    "Hilfe" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Help"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aide"
+          }
+        }
+      }
+    },
+    "Hilfe und Kontakt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Help and contact"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aide et contact"
+          }
+        }
+      }
+    },
     "Hinweis" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3261,6 +3329,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Importés"
+          }
+        }
+      }
+    },
+    "Impressum" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Legal Notice"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mentions légales"
           }
         }
       }
@@ -4536,6 +4621,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fours : %lld"
+          }
+        }
+      }
+    },
+    "Öffnet die Seiten im Browser." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens the pages in your browser."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvre les pages dans le navigateur."
           }
         }
       }

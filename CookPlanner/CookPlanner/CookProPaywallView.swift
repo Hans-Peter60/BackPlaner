@@ -167,7 +167,7 @@ struct CookProPaywallView: View {
                 } footer: {
                     VStack(alignment: .leading, spacing: 6) {
                         Text("Der Kauf gilt auf allen Geräten mit Deinem Apple-Konto. Alles, was Du zum Planen und Kochen gegen die Uhr brauchst, bleibt kostenlos: Gerichte, Plan, Kochmodus mit Wecker, Einkaufsliste, Verlauf und iCloud-Abgleich.")
-                        Link("Datenschutzerklärung", destination: URL(string: "https://hans-peter60.github.io/bakeplanner/cookplanner-privacy.html")!)
+                        Link("Datenschutzerklärung", destination: HelpLinks.cookPlannerPrivacy)
                     }
                 }
             }
