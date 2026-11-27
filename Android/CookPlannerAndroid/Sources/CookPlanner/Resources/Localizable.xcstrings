@@ -5713,6 +5713,23 @@
         }
       }
     },
+    "Zahl = Schritt im Ablauf" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Number = step in the sequence"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Numéro = étape du déroulé"
+          }
+        }
+      }
+    },
     "Zeit um – %@ drüber" : {
       "extractionState" : "manual",
       "localizations" : {

@@ -19,6 +19,11 @@ import android.graphics.pdf.PdfDocument
 ///         { "kind": "step", "number": "1", "time": "18:00–18:02", "text": "…", "details": "…", "ingredients": "…" },
 ///         { "kind": "photos", "paths": ["…", …], "captions": ["…", …] },
 ///         { "kind": "lines", "count": 12 },
+///         { "kind": "timeline", "minutes": 37,
+///           "ticks": [{ "minute": 0, "label": "18:00", "strong": 1 }, …],
+///           "lanes": [{ "name": "…", "color": [204, 107, 41], "tracks": 1,
+///                       "bars": [{ "start": 0, "handsEnd": 2, "end": 6, "track": 0, "number": "1" }, …] }, …],
+///           "legend": ["Hände", "läuft allein", "Zahl = Schritt im Ablauf"] },
 ///         { "kind": "space", "height": 12 },
 ///         { "kind": "page" } ] }
 public final class BlockPDF {
@@ -98,6 +103,7 @@ public final class BlockPDF {
                 case "step": drawStep(block)
                 case "photos": drawPhotos(block)
                 case "lines": drawLines(block["count"] as? Int ?? 10)
+                case "timeline": drawTimeline(block)
                 case "space": y += Float(block["height"] as? Int ?? 10)
                 case "page": begin()
                 default: break
@@ -184,6 +190,123 @@ public final class BlockPDF {
                 }
             }
             y = top + side + Float(8) + captionHeight
+        }
+
+        /// The plan as a chart, as on the iPhone's PDF: one row per
+        /// component, time running to the right, every bar from its start to
+        /// its end with its step number; the hands-on part filled, the part
+        /// that runs on its own light and striped. A legend beneath.
+        func drawTimeline(_ block: [String: Any]) {
+            guard let canvas else { return }
+            let lanes = block["lanes"] as? [Any] ?? []
+            let ticks = block["ticks"] as? [Any] ?? []
+            let legend = block["legend"] as? [Any] ?? []
+            let minutes = max(1, block["minutes"] as? Int ?? 1)
+            let labelWidth = Float(92)
+            let chartX = Self.margin + labelWidth
+            let chartWidth = contentWidth - labelWidth
+            let perMinute = chartWidth / Float(minutes)
+            let trackHeight = Float(15)
+            var laneHeights: [Float] = []
+            for item in lanes {
+                let lane = item as? [String: Any] ?? [:]
+                laneHeights.append(Float(max(1, lane["tracks"] as? Int ?? 1)) * trackHeight + Float(8))
+            }
+            var lanesHeight = Float(0)
+            for height in laneHeights { lanesHeight += height }
+            ensureRoom(Float(22) + lanesHeight + Float(18))
+            let page = self.canvas ?? canvas
+            let top = y
+
+            // Minute lines and their labels.
+            let line = android.graphics.Paint()
+            line.color = Self.rule
+            for item in ticks {
+                let tick = item as? [String: Any] ?? [:]
+                let minute = tick["minute"] as? Int ?? 0
+                let x = chartX + Float(minute) * perMinute
+                line.strokeWidth = (tick["strong"] as? Int ?? 0) == 1 ? Float(0.8) : Float(0.4)
+                page.drawLine(x, top + Float(16), x, top + Float(22) + lanesHeight, line)
+                let label = tick["label"] as? String ?? ""
+                let paint = paint(size: 7, bold: false, color: Self.muted)
+                page.drawText(label, x - paint.measureText(label) / Float(2), top + Float(10), paint)
+            }
+
+            var laneTop = top + Float(22)
+            for (index, item) in lanes.enumerated() {
+                let lane = item as? [String: Any] ?? [:]
+                let rgb = lane["color"] as? [Any] ?? []
+                let red = rgb.count > 0 ? (rgb[0] as? Int ?? 0) : 0
+                let green = rgb.count > 1 ? (rgb[1] as? Int ?? 0) : 0
+                let blue = rgb.count > 2 ? (rgb[2] as? Int ?? 0) : 0
+                drawAt(lane["name"] as? String ?? "", x: Self.margin, y: laneTop + Float(2), size: 8, bold: true, color: Self.ink, width: labelWidth - Float(6))
+                for barItem in lane["bars"] as? [Any] ?? [] {
+                    let bar = barItem as? [String: Any] ?? [:]
+                    let start = bar["start"] as? Int ?? 0
+                    let handsEnd = bar["handsEnd"] as? Int ?? start
+                    let end = bar["end"] as? Int ?? start
+                    let track = bar["track"] as? Int ?? 0
+                    let left = chartX + Float(start) * perMinute
+                    let width = max(Float(3), Float(end - start) * perMinute) - Float(1)
+                    let barTop = laneTop + Float(4) + Float(track) * trackHeight
+                    let rect = android.graphics.RectF(left, barTop, left + width, barTop + trackHeight - Float(3))
+                    let hands = min(max(Float(0), Float(handsEnd - start) * perMinute), width)
+                    let clip = android.graphics.Path()
+                    clip.addRoundRect(rect, Float(2.5), Float(2.5), android.graphics.Path.Direction.CW)
+                    page.save()
+                    page.clipPath(clip)
+                    let fill = android.graphics.Paint()
+                    fill.isAntiAlias = true
+                    if hands > Float(0) {
+                        fill.color = android.graphics.Color.argb(191, red, green, blue)
+                        page.drawRect(rect.left, rect.top, rect.left + hands, rect.bottom, fill)
+                    }
+                    if width - hands > Float(0.5) {
+                        let aloneLeft = rect.left + hands
+                        fill.color = android.graphics.Color.argb(46, red, green, blue)
+                        page.drawRect(aloneLeft, rect.top, rect.right, rect.bottom, fill)
+                        page.clipRect(aloneLeft, rect.top, rect.right, rect.bottom)
+                        let stripes = android.graphics.Paint()
+                        stripes.isAntiAlias = true
+                        stripes.color = android.graphics.Color.argb(140, red, green, blue)
+                        stripes.strokeWidth = Float(0.7)
+                        let height = rect.bottom - rect.top
+                        var stripe = aloneLeft - height
+                        while stripe < rect.right {
+                            page.drawLine(stripe, rect.bottom, stripe + height, rect.top, stripes)
+                            stripe += Float(4)
+                        }
+                    }
+                    page.restore()
+                    let border = android.graphics.Paint()
+                    border.isAntiAlias = true
+                    border.style = android.graphics.Paint.Style.STROKE
+                    border.strokeWidth = Float(0.6)
+                    border.color = android.graphics.Color.rgb(red, green, blue)
+                    page.drawRoundRect(rect, Float(2.5), Float(2.5), border)
+                    let number = bar["number"] as? String ?? ""
+                    if !number.isEmpty {
+                        let small = width < Float(12)
+                        let paint = paint(size: small ? 6 : 7, bold: true, color: Self.ink)
+                        page.drawText(number, rect.centerX() - paint.measureText(number) / Float(2), rect.top + (small ? Float(8) : Float(9)), paint)
+                    }
+                }
+                laneTop += laneHeights[index]
+            }
+
+            // The legend.
+            let legendY = laneTop + Float(4)
+            let swatch = android.graphics.Paint()
+            swatch.color = android.graphics.Color.argb(191, 204, 107, 41)
+            page.drawRect(chartX, legendY + Float(2), chartX + Float(12), legendY + Float(9), swatch)
+            swatch.color = android.graphics.Color.argb(46, 204, 107, 41)
+            page.drawRect(chartX + Float(80), legendY + Float(2), chartX + Float(92), legendY + Float(9), swatch)
+            let offsets = [Float(16), Float(96), Float(200)]
+            for index in 0..<min(3, legend.count) {
+                let paint = paint(size: 7, bold: false, color: Self.muted)
+                page.drawText(legend[index] as? String ?? "", chartX + offsets[index], legendY + Float(8), paint)
+            }
+            y = legendY + Float(22)
         }
 
         /// Ruled lines to write on, for the resolutions.

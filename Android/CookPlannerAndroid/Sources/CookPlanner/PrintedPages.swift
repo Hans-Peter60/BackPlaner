@@ -9,6 +9,7 @@ import SwiftUI
 /// (KitchenPlanSheet, KitchenYearbook), drawn by CookPlannerMedia
 /// (Android's PdfDocument) and handed to the share sheet through
 /// BakePlannerMedia's ContentFile.
+@MainActor
 enum PrintedPages {
 
     // MARK: Plan
@@ -29,6 +30,8 @@ enum PrintedPages {
             facts.append(String(localized: "Für \(servings) Personen", bundle: .module))
         }
         blocks.append(["kind": "meta", "text": facts.joined(separator: " · ")])
+        blocks.append(["kind": "heading", "text": String(localized: "Zeitachse", bundle: .module)])
+        blocks.append(timelineBlock(plan, sheet: sheet, start: start))
         blocks.append(["kind": "heading", "text": String(localized: "Ablauf", bundle: .module)])
         for step in sheet.steps {
             var details: [String] = []
@@ -64,6 +67,37 @@ enum PrintedPages {
 
     /// The years with records, newest first.
     @MainActor
+    /// The chart of the plan for BlockPDF: lanes per component in the
+    /// timeline's colours, bars with their step numbers, minute lines every
+    /// five minutes (ten for long plans) labelled with the clock time from
+    /// `start` or the minute.
+    private static func timelineBlock(_ plan: DishPlan, sheet: KitchenPlanSheet, start: Date?) -> [String: Any] {
+        let layout = KitchenTimelineLayout(schedule: plan.schedule, components: plan.dish.components)
+        let numbers = sheet.numbers
+        let every = layout.makespan > 60 ? 10 : 5
+        let ticks: [[String: Any]] = layout.ticks(every: every).map { minute in
+            let label = start.map {
+                $0.addingTimeInterval(TimeInterval(minute * 60)).formatted(.dateTime.hour().minute().locale(AppSettings.locale))
+            } ?? "\(minute)′"
+            return ["minute": minute, "label": label, "strong": minute % 15 == 0 ? 1 : 0]
+        }
+        var lanes: [[String: Any]] = []
+        for (index, lane) in layout.lanes.enumerated() {
+            let rgb = PlanTimelineView.palette[index % PlanTimelineView.palette.count]
+            let bars: [[String: Any]] = lane.bars.map { bar in
+                ["start": bar.placement.start, "handsEnd": bar.placement.handsEnd, "end": bar.placement.end,
+                 "track": bar.track, "number": numbers[bar.placement.id].map { String($0) } ?? ""]
+            }
+            lanes.append(["name": lane.component.isEmpty ? String(localized: "Ohne Komponente", bundle: .module) : lane.component,
+                          "color": [Int(rgb.red * 255), Int(rgb.green * 255), Int(rgb.blue * 255)],
+                          "tracks": lane.bars.map(\.tracks).max() ?? 1,
+                          "bars": bars])
+        }
+        return ["kind": "timeline", "minutes": layout.makespan, "ticks": ticks, "lanes": lanes,
+                "legend": [String(localized: "Hände", bundle: .module), String(localized: "läuft allein", bundle: .module),
+                           String(localized: "Zahl = Schritt im Ablauf", bundle: .module)]]
+    }
+
     static func yearbookYears() -> [Int] {
         KitchenYearbook.years(of: CookRunLog.shared.runs)
     }
