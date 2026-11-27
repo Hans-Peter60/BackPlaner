@@ -6,6 +6,7 @@ import {test} from "node:test";
 import assert from "node:assert/strict";
 import {
   appIdsWithoutMonthlyLimit,
+  cookPlannerAndroidAppId,
   cookPlannerAppId,
   monetizationFor,
   monthlyLimitFor,
@@ -48,4 +49,11 @@ test("CookPlanner is no longer exempt: its allowance applies without Pro", () =>
   assert.equal(monthlyLimitFor(5, false, cookPlannerAppId), 5);
   assert.equal(monthlyLimitFor(5, true, cookPlannerAppId), 0);
   assert.equal(monthlyLimitFor(0, false, cookPlannerAppId), 0);
+});
+
+test("CookPlanner on Android reads CookPlanner's switches and has no limit yet", () => {
+  const cook = monetizationFor(cookPlannerAndroidAppId);
+  assert.equal(cook.document, "config/cookplannerMonetization");
+  assert.equal(cook.product.productId, "de.hpm64625.CookPlanner.pro");
+  assert.equal(monthlyLimitFor(5, false, cookPlannerAndroidAppId), 0);
 });

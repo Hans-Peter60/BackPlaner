@@ -409,6 +409,23 @@
         }
       }
     },
+    "%lld Schritte, %lld Zutaten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld steps, %lld ingredients"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld étapes, %lld ingrédients"
+          }
+        }
+      }
+    },
     "%lld Schritte, %lld Zutaten, Plan %lld Min." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -664,6 +681,23 @@
         }
       }
     },
+    "Adresse der Rezeptseite" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Address of the recipe page"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adresse de la page de recette"
+          }
+        }
+      }
+    },
     "Alle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -800,6 +834,23 @@
         }
       }
     },
+    "Analysieren" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyse"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyser"
+          }
+        }
+      }
+    },
     "Auf alle Komponenten warten" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -847,6 +898,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "sur %lld passages"
+          }
+        }
+      }
+    },
+    "Aus Text importieren" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import from text"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importer depuis un texte"
+          }
+        }
+      }
+    },
+    "Aus Webseite importieren" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import from web page"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importer depuis une page web"
           }
         }
       }
@@ -1000,6 +1085,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "jusqu’à %lld min"
+          }
+        }
+      }
+    },
+    "Bitte prüfen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please check"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À vérifier"
           }
         }
       }
@@ -1225,6 +1327,23 @@
         }
       }
     },
+    "Das stündliche Analyse-Limit ist erreicht. Bitte später noch einmal." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The hourly analysis limit is reached. Please try again later."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La limite horaire d’analyses est atteinte. Réessayez plus tard."
+          }
+        }
+      }
+    },
     "Das war der letzte Schritt. Fertig, anrichten!" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1238,6 +1357,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "C’était la dernière étape. Fini, à table !"
+          }
+        }
+      }
+    },
+    "Das war die letzte kostenlose Rezeptanalyse dieses Monats. Mit CookPlanner Pro gibt es keine Monatsgrenze." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That was this month’s last free recipe analysis. With CookPlanner Pro there is no monthly limit."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C’était la dernière analyse de recette gratuite de ce mois. Avec CookPlanner Pro, il n’y a pas de limite mensuelle."
           }
         }
       }
@@ -1272,6 +1408,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Durée %lld min, temps depuis la minute 0"
+          }
+        }
+      }
+    },
+    "Der Analyse-Dienst hat die Anfrage nicht zugelassen. Bitte die App aktualisieren oder später noch einmal versuchen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The analysis service did not allow the request. Please update the app or try again later."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le service d’analyse n’a pas accepté la demande. Mettez l’app à jour ou réessayez plus tard."
           }
         }
       }
@@ -1344,6 +1497,23 @@
         }
       }
     },
+    "Der Text wird zur Analyse an einen Dienst von Google gesendet." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The text is sent to a Google service for analysis."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le texte est envoyé à un service Google pour analyse."
+          }
+        }
+      }
+    },
     "Dessert" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1357,6 +1527,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dessert"
+          }
+        }
+      }
+    },
+    "Die Analyse hat zu lange gedauert. Bitte noch einmal versuchen, bei langen Rezepten vielleicht in zwei Teilen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The analysis took too long. Please try again, for long recipes perhaps in two parts."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’analyse a pris trop de temps. Réessayez, pour les longues recettes peut-être en deux parties."
+          }
+        }
+      }
+    },
+    "Die Antwort der Analyse war unvollständig." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The analysis returned an incomplete answer."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La réponse de l’analyse était incomplète."
           }
         }
       }
@@ -1446,6 +1650,23 @@
         }
       }
     },
+    "Die kostenlosen Rezeptanalysen dieses Monats sind aufgebraucht. Von Hand anlegen geht weiter; mit CookPlanner Pro gibt es keine Monatsgrenze." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This month’s free recipe analyses are used up. Adding dishes by hand still works; with CookPlanner Pro there is no monthly limit."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les analyses de recettes gratuites de ce mois sont épuisées. La saisie à la main reste possible ; avec CookPlanner Pro, il n’y a pas de limite mensuelle."
+          }
+        }
+      }
+    },
     "Die längste Kette dauert %lld Minuten. Parallel arbeiten hilft nicht, nur kürzere Schritte." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1510,6 +1731,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Les étapes s’attendent en boucle. Vérifiez l’ordre des étapes."
+          }
+        }
+      }
+    },
+    "Die Seite wird auf diesem Gerät geladen; nur der Rezepttext geht zur Analyse an einen Dienst von Google." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The page is loaded on this device; only the recipe text goes to a Google service for analysis."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La page est chargée sur cet appareil ; seul le texte de la recette est envoyé à un service de Google pour l’analyse."
           }
         }
       }
@@ -2755,6 +2993,23 @@
         }
       }
     },
+    "Im Editor prüfen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check in the editor"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vérifier dans l’éditeur"
+          }
+        }
+      }
+    },
     "Im Plan geblieben" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2921,6 +3176,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pas d’horloge, rien en retard : les étapes viennent dans l’ordre, seuls les casseroles et le four gardent leur temps."
+          }
+        }
+      }
+    },
+    "Keine Verbindung zum Analyse-Dienst. Bitte die Internetverbindung prüfen und noch einmal versuchen." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No connection to the analysis service. Please check the internet connection and try again."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas de connexion au service d’analyse. Vérifiez la connexion Internet et réessayez."
           }
         }
       }
@@ -3639,6 +3911,23 @@
         }
       }
     },
+    "Noch %lld kostenlose Rezeptanalysen in diesem Monat." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld free recipe analyses left this month."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encore %lld analyses de recettes gratuites ce mois-ci."
+          }
+        }
+      }
+    },
     "noch %lld Min." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3686,6 +3975,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "encore %lld–%lld min"
+          }
+        }
+      }
+    },
+    "Noch eine kostenlose Rezeptanalyse in diesem Monat." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "One free recipe analysis left this month."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encore une analyse de recette gratuite ce mois-ci."
+          }
+        }
+      }
+    },
+    "Noch einmal" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recommencer"
           }
         }
       }
@@ -4196,6 +4519,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Recette pour %lld personnes · les temps restent les mêmes"
+          }
+        }
+      }
+    },
+    "Rezepttext hier einfügen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paste the recipe text here"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Collez ici le texte de la recette"
           }
         }
       }
@@ -4927,6 +5267,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "C’était comment ?"
+          }
+        }
+      }
+    },
+    "Wird analysiert …" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analysing …"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyse en cours…"
           }
         }
       }

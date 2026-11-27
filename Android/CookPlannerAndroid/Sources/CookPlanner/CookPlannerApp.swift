@@ -32,6 +32,8 @@ let logger: Logger = Logger(subsystem: "de.hpm64625.cookplanner", category: "Coo
     /* SKIP @bridge */public func onInit() {
         // Before any view reads a setting.
         SettingsFile.restore()
+        // Firebase for the recipe analysis; App Check follows in Main.kt.
+        DishImportClient.configure()
     }
 
     /* SKIP @bridge */public func onLaunch() {

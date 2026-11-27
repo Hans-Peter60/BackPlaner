@@ -4,6 +4,9 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.android.application)
     id("skip-build-plugin")
+    // Reads google-services.json (Firebase project back-planer, the
+    // CookPlanner Android app).
+    id("com.google.gms.google-services") version "4.4.2" apply true
 }
 
 skip {
@@ -87,4 +90,14 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
+}
+
+dependencies {
+    // App Check providers, installed by AndroidAppMain.installAppCheck
+    // (Main.kt): Play Integrity for a copy from Google Play, the debug
+    // provider for anything else. The BOM comes from the version catalog
+    // that skip-firebase's Core module declares.
+    implementation(platform(libs.firebase.bom))
+    implementation("com.google.firebase:firebase-appcheck-debug")
+    implementation("com.google.firebase:firebase-appcheck-playintegrity")
 }

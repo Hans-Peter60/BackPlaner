@@ -30,6 +30,8 @@ let package = Package(
         .package(path: "../BakePlannerSpeech"),
         // The plan and the yearbook as PDF (Android's PdfDocument).
         .package(path: "../CookPlannerMedia"),
+        // The recipe analysis: Firebase's Android SDK behind the iOS SDK's API.
+        .package(url: "https://github.com/skiptools/skip-firebase.git", from: "0.21.0"),
     ],
     targets: [
         .target(name: "CookPlanner", dependencies: [
@@ -40,6 +42,10 @@ let package = Package(
             .product(name: "BakePlannerMedia", package: "BakePlannerMedia"),
             .product(name: "BakePlannerSpeech", package: "BakePlannerSpeech"),
             .product(name: "CookPlannerMedia", package: "CookPlannerMedia"),
+            .product(name: "SkipFirebaseCore", package: "skip-firebase"),
+            .product(name: "SkipFirebaseAuth", package: "skip-firebase"),
+            .product(name: "SkipFirebaseAppCheck", package: "skip-firebase"),
+            .product(name: "SkipFirebaseFunctions", package: "skip-firebase"),
         ], resources: [.process("Resources")], plugins: [.plugin(name: "skipstone", package: "skip")]),
     ]
 )
