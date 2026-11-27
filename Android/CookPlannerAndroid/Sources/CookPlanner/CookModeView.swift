@@ -13,6 +13,10 @@ import SwiftUI
 struct CookModeView: View {
     let plan: DishPlan
     @State var startedAt: Date?
+    /// Set by "Beenden". Skip keeps a closed sheet's view alive, and its
+    /// clock with it: without this, the next minute's replanning queued
+    /// the ended run's banners again.
+    @State var hasEnded = false
     @State var pausedAt: Date?
     @State var pausedSeconds: Double = 0
     @State var finished: [String: Int] = [:]
@@ -125,7 +129,7 @@ struct CookModeView: View {
         .task {
             // The clock: a second at a time; the plan moves on each minute.
             var lastMinute = -1
-            while !Task.isCancelled {
+            while !Task.isCancelled && !hasEnded {
                 now = Date()
                 let minute = elapsedSeconds / 60
                 if minute != lastMinute {
@@ -556,7 +560,7 @@ struct CookModeView: View {
     /// minute, so it never came. As on the iPhone, where the app sleeps,
     /// the banners stay at the times they had when the phone went dark.
     private func syncReminders(minute: Int) {
-        guard let startedAt, pausedAt == nil, scenePhase == .active else { return }
+        guard let startedAt, !hasEnded, pausedAt == nil, scenePhase == .active else { return }
         CookReminders.sync(schedule: schedule, finished: finished, handsDone: handsDone, minute: minute,
                            clockStart: startedAt.addingTimeInterval(pausedSeconds))
     }
@@ -641,8 +645,13 @@ struct CookModeView: View {
 
     private func end(keepingRecord: Bool) {
         if keepingRecord { saveRun() }
+        hasEnded = true
         CookReminders.cancel(schedule: schedule)
         CookRunState.clear()
+        // What onDisappear would do; the sheet's view may stay alive.
+        UIApplication.shared.isIdleTimerDisabled = false
+        speaker.shutdown()
+        voice.stop()
         dismiss()
     }
 

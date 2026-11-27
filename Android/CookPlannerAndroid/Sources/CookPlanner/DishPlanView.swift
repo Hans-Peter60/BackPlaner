@@ -13,6 +13,9 @@ struct DishPlanView: View {
     @State var exportURL: URL?
     @State var showsExporter = false
     @State var cooking = false
+    /// New for every opening of the cook mode: Skip keeps a sheet's state
+    /// between openings, an ended run must not come back.
+    @State var cookID = UUID()
     @State var shopping = false
     @State var showsLearned = false
     @State var printing = false
@@ -36,6 +39,7 @@ struct DishPlanView: View {
                             .foregroundStyle(Palette.title(colorScheme))
                         if let plan = library.plan(for: dish) {
                             Button {
+                                cookID = UUID()
                                 cooking = true
                             } label: {
                                 Label(String(localized: "Kochen starten", bundle: .module), systemImage: "play.fill")
@@ -132,8 +136,10 @@ struct DishPlanView: View {
                 // A run of this dish still under way is taken up, not started anew.
                 if let state = CookRunState.load(), state.dishID == dishID, state.isResumable {
                     CookModeView(plan: plan, restoring: state)
+                        .id(cookID)
                 } else {
                     CookModeView(plan: plan)
+                        .id(cookID)
                 }
             }
         }
