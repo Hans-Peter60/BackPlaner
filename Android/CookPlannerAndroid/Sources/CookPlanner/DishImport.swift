@@ -144,7 +144,8 @@ struct DishImportView: View {
                     }
                     if !warnings.isEmpty {
                         Section(String(localized: "Bitte prüfen", bundle: .module)) {
-                            ForEach(warnings, id: \.self) { warning in
+                            // Keyed by position: the analysis may repeat a sentence.
+                            ForEach(Array(warnings.enumerated()), id: \.offset) { _, warning in
                                 Text(warning).font(.footnote)
                             }
                         }

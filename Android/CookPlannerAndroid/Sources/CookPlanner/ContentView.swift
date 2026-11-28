@@ -204,6 +204,17 @@ struct DishListView: View {
         // crashed the app (SIGTRAP in SkipBridge's Pair bridging, skip-kit
         // 1.1.6/1.1.7, 26.11.2026). The system's "save as" confirms itself.
         .withDocumentExporter(isPresented: $showsExporter, contentType: .data, documentURL: exportURL)
+        // The database's refusal, whenever the library hit one (load, save,
+        // import), so a change that was not kept never passes unnoticed.
+        .alert(String(localized: "Speichern nicht möglich", bundle: .module),
+               isPresented: Binding(get: { library.lastError != nil }, set: { if !$0 { library.lastError = nil } })) {
+            Button {
+            } label: {
+                Text(verbatim: "OK")
+            }
+        } message: {
+            Text(library.lastError ?? "")
+        }
         .alert(String(localized: "Gerichte", bundle: .module), isPresented: $showsReport) {
             Button {
             } label: {

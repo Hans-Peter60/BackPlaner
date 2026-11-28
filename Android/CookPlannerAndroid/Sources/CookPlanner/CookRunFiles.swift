@@ -174,8 +174,16 @@ final class CookRunLog {
     }
 
     init() {
-        if let data = try? Data(contentsOf: url), let decoded = try? KitchenCookRunFile.decode(data) {
-            runs = decoded.sorted { $0.startedAt > $1.startedAt }
+        guard let data = try? Data(contentsOf: url) else { return }
+        do {
+            runs = try KitchenCookRunFile.decode(data).sorted { $0.startedAt > $1.startedAt }
+        } catch {
+            // A file from a newer version or a damaged one: kept beside the
+            // fresh file, so the next record does not overwrite a year of
+            // cooking.
+            logger.error("could not read the cooking history: \(error)")
+            let aside = url.deletingPathExtension().appendingPathExtension("broken-\(Int(Date().timeIntervalSince1970)).json")
+            try? FileManager.default.moveItem(at: url, to: aside)
         }
     }
 

@@ -40,22 +40,38 @@ final class CookLibrary {
             }
             dishes = try store?.dishes() ?? []
         } catch {
-            lastError = error.localizedDescription
+            lastError = Self.describe(error)
             logger.error("could not read the dishes: \(error)")
         }
+    }
+
+    /// The database's refusal in the app's words; other errors as they are.
+    private static func describe(_ error: Error) -> String {
+        if case CookPlannerDatabaseError.newerSchema = error {
+            return String(localized: "Die Gerichte auf diesem Gerät stammen aus einer neueren Version von CookPlanner. Bitte die App aktualisieren.", bundle: .module)
+        }
+        return "\(error)"
     }
 
     /// Keeps a dish; false (with `lastError`) when the database refuses.
     @discardableResult
     func save(_ dish: KitchenDish) -> Bool {
+        // Without an open database nothing is kept: say so rather than
+        // pretend (the editor closed, the import counted, nothing stayed).
+        guard let store else {
+            if lastError == nil {
+                lastError = String(localized: "Die Gerichte-Datenbank lässt sich nicht öffnen; Änderungen werden nicht gespeichert.", bundle: .module)
+            }
+            return false
+        }
         do {
             var own = dish
             if own.source == .sample { own.source = .manual }
-            try store?.save(own)
-            dishes = try store?.dishes() ?? dishes
+            try store.save(own)
+            dishes = try store.dishes()
             return true
         } catch {
-            lastError = error.localizedDescription
+            lastError = Self.describe(error)
             return false
         }
     }
@@ -114,7 +130,9 @@ final class CookLibrary {
         }
         let result = KitchenDishTransfer.merge(file.kitchenDishes, into: dishes)
         var kept = 0
-        for dish in result.added where save(dish) { kept += 1 }
+        // Tidied first (duplicate step ids, dangling dependencies), as the
+        // editor does; the database would refuse them.
+        for dish in result.added where save(dish.consistent()) { kept += 1 }
         var sentence: String
         if kept == 0 && result.alreadyThere > 0 {
             sentence = String(localized: "Alle \(result.alreadyThere) Gerichte waren schon da.", bundle: .module)
