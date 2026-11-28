@@ -351,7 +351,9 @@ enum PantryText {
     /// A typed amount, with a comma or a point; nil when it is no number.
     static func parse(_ text: String) -> Double? {
         let cleaned = text.trimmingCharacters(in: .whitespaces).replacingOccurrences(of: ",", with: ".")
-        guard let value = Double(cleaned), value >= 0 else { return nil }
+        // Bounded: "inf" or "1e300" would be kept and trap every view that
+        // shows a need against the pantry.
+        guard let value = Double(cleaned), value.isFinite, value >= 0, value <= Plausible.maxGrams else { return nil }
         return value
     }
 }

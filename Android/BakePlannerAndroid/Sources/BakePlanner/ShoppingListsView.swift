@@ -201,8 +201,10 @@ struct ShoppingListDetailView: View {
         return List {
             if !list.recipeNames.isEmpty {
                 Section {
-                    ForEach(list.recipeNames, id: \.self) { name in
-                        Text(verbatim: name)
+                    // Two recipes may share a name; keyed by position so
+                    // the list never gets the same row key twice.
+                    ForEach(keyed(list.recipeNames, "recipe")) { item in
+                        Text(verbatim: item.value)
                     }
                 } header: {
                     Text("Rezepte")

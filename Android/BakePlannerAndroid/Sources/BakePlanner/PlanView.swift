@@ -25,6 +25,8 @@ struct PlanView: View {
     @State var showsOverlap = false
     @State var showsPlanChoice = false
     @State var showsSaved = false
+    /// While the plan is written: a second tap must not plan twice.
+    @State var isSaving = false
     /// What speaks against keeping the plan beside the recipe's earlier
     /// ones, for the second overlap question.
     @State var additionalOverlap = ""
@@ -392,7 +394,7 @@ struct PlanView: View {
                         choosePlan()
                     }
                 }
-                .disabled(recipe.content.instructions.isEmpty)
+                .disabled(recipe.content.instructions.isEmpty || isSaving)
             }
         }
         .alert("Backzeiten überschneiden sich", isPresented: $showsOverlap) {
@@ -508,6 +510,8 @@ struct PlanView: View {
     }
 
     private func save(replacing: Bool) {
+        guard !isSaving else { return }
+        isSaving = true
         let plan = self.plan
         let hints = model.issues(of: plan).filter { $0.severity == .hint }.map(\.message).joined(separator: "\n\n")
         summary = summaryText(of: plan, hints: hints)
@@ -516,12 +520,14 @@ struct PlanView: View {
             if let takeOver {
                 guard let copy = await takeOver() else {
                     outcome = .failed
+                    isSaving = false
                     showsSaved = true
                     return
                 }
                 recipeID = copy.id
             }
             outcome = await model.putIntoEffect(plan, recipeID: recipeID, servingScale: scale, replacing: replacing)
+            isSaving = false
             showsSaved = true
         }
     }

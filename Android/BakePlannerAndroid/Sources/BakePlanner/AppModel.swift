@@ -205,7 +205,11 @@ final class AppModel {
             loadError = nil
         } catch {
             logger.error("could not read the recipes: \(error)")
-            loadError = "\(error)"
+            if case BakePlannerDatabaseError.newerSchema = error {
+                loadError = String(localized: "Die Daten auf diesem Gerät stammen aus einer neueren Version von BakePlanner. Bitte die App aktualisieren.", bundle: .module)
+            } else {
+                loadError = "\(error)"
+            }
         }
     }
 
@@ -1079,8 +1083,12 @@ final class AppModel {
     /// recipe remembers its public id, as on the iPhone, and the public
     /// list is read again.
     func publish(recipeID: String) async -> String? {
-        guard var recipe = recipe(id: recipeID), let image = recipe.content.image,
-              let upload = PhotoShrinker.uploadPhoto(image) else { return nil }
+        guard var recipe = recipe(id: recipeID) else {
+            return String(localized: "Das Rezept wurde nicht gefunden.", bundle: .module)
+        }
+        guard let image = recipe.content.image, let upload = PhotoShrinker.uploadPhoto(image) else {
+            return String(localized: "Das Rezeptbild lässt sich nicht lesen. Bitte ein neues Bild wählen.", bundle: .module)
+        }
         do {
             let publicID = try await PublicRecipeService.publish(recipe.content, image: upload)
             recipe.firestoreId = publicID

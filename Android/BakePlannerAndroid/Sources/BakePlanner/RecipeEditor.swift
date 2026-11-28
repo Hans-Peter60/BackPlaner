@@ -507,7 +507,8 @@ struct StepDraft: Identifiable {
     /// The step number, nil for text that is none.
     var step: Double? {
         let trimmed = numberText.trimmingCharacters(in: .whitespaces).replacingOccurrences(of: ",", with: ".")
-        guard let value = Double(trimmed), value >= 0 else { return nil }
+        // Bounded as the store keeps it: "1e30" or "inf" would trap in Int().
+        guard let value = Double(trimmed), value.isFinite, value >= 0, value <= 999 else { return nil }
         return value
     }
 

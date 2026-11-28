@@ -10,6 +10,13 @@
 import Foundation
 import SkipSQLPlus
 
+/// Why the database could not be opened.
+public enum BakePlannerDatabaseError: Error, Equatable {
+    /// The file was written by a newer app: its schema version is beyond
+    /// what this build knows. Migrating would trap; the data is left as it is.
+    case newerSchema(found: Int, supported: Int)
+}
+
 public final class BakePlannerDatabase {
 
     let context: SQLContext
@@ -21,6 +28,14 @@ public final class BakePlannerDatabase {
             context = try SQLContext(path: path, flags: [.create, .readWrite], configuration: .plus)
         } else {
             context = SQLContext(configuration: .plus)
+        }
+        // An older APK over a newer database (a rollback, a tester build):
+        // SkipSQL's migrate loops from the file's version to ours and traps
+        // on the inverted range. Say so instead, and leave the file alone.
+        let found = Int(context.userVersion)
+        if found > Self.migrations.count {
+            try? context.close()
+            throw BakePlannerDatabaseError.newerSchema(found: found, supported: Self.migrations.count)
         }
         try context.exec(sql: "PRAGMA foreign_keys = ON")
         try context.migrate(migrations: Self.migrations)
