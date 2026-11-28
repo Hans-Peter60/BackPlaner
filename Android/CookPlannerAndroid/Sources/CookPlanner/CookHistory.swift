@@ -280,6 +280,8 @@ enum RunThumbnails {
         guard let data = CookRunLog.shared.photoData(of: run),
               let small = PhotoShrinker.thumbnail(data, edge: 320),
               let image = UIImage(data: small) else { return nil }
+        // Bounded: a long history must not keep every thumbnail forever.
+        if cache.count >= 200 { cache.removeAll() }
         cache[name] = image
         return image
     }
@@ -342,6 +344,9 @@ struct CookRunDetailView: View {
     @State var pickedURL: URL?
     @State var pickedName: String?
     @State var pickedType: String?
+    /// The record's photo, decoded once per file (not on every keystroke
+    /// of the note) and no larger than the screen needs.
+    @State var photo: UIImage?
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
 
@@ -349,7 +354,7 @@ struct CookRunDetailView: View {
         Form {
             if let run = log.run(id: runID) {
                 Section(String(localized: "Wie war’s?", bundle: .module)) {
-                    if let data = log.photoData(of: run), let image = UIImage(data: data) {
+                    if let image = photo {
                         Image(uiImage: image)
                             .resizable()
                             .scaledToFit()
@@ -413,6 +418,14 @@ struct CookRunDetailView: View {
             }
         }
         .onAppear { note = log.run(id: runID)?.note ?? "" }
+        .task(id: log.run(id: runID)?.photoFileName) {
+            guard let run = log.run(id: runID), let data = log.photoData(of: run) else {
+                photo = nil
+                return
+            }
+            let small = await Task.detached { PhotoShrinker.thumbnail(data, edge: 1200) }.value
+            photo = small.flatMap { UIImage(data: $0) }
+        }
         .onDisappear { saveNote() }
         .alert(String(localized: "Eintrag löschen?", bundle: .module), isPresented: $confirmsDeletion) {
             Button(String(localized: "Löschen", bundle: .module), role: .destructive) {

@@ -16,6 +16,8 @@ struct RecipeFileExporter: ViewModifier {
     /// before it is read.
     @State var outcome: Outcome = .saved
     @State var showsOutcome = false
+    /// While the file is written: a note on screen, and no second start.
+    @State var isExporting = false
 
     enum Outcome {
         case saved, failed
@@ -24,14 +26,28 @@ struct RecipeFileExporter: ViewModifier {
     func body(content: Content) -> some View {
         content
             .onChange(of: recipeIDs) { _, ids in
-                guard let ids else { return }
+                guard let ids, !isExporting else { return }
                 recipeIDs = nil
-                fileURL = model.exportFile(recipeIDs: ids, named: fileName, includingBakeHistory: includesBakeHistory)
-                if fileURL == nil {
-                    outcome = .failed
-                    showsOutcome = true
-                } else {
-                    showsExporter = true
+                isExporting = true
+                Task {
+                    fileURL = await model.exportFile(recipeIDs: ids, named: fileName, includingBakeHistory: includesBakeHistory)
+                    isExporting = false
+                    if fileURL == nil {
+                        outcome = .failed
+                        showsOutcome = true
+                    } else {
+                        showsExporter = true
+                    }
+                }
+            }
+            .overlay {
+                if isExporting {
+                    HStack(spacing: 10) {
+                        ProgressView()
+                        Text("Wird gesichert …")
+                    }
+                    .padding(20)
+                    .background(RoundedRectangle(cornerRadius: 12).fill(Color(white: 0.97)))
                 }
             }
             // No completion: handing SkipKit's Result back from Kotlin to

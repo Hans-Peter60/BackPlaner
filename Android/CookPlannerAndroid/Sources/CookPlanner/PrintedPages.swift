@@ -115,8 +115,10 @@ enum PrintedPages {
         try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         /// A run's photo as a small JPEG file, for the renderer.
         func photoPath(_ runID: String?) -> String? {
+            // The page shows a photo at a few centimetres; 600 pixels
+            // suffice, and a year of 2048-pixel bitmaps would not fit in memory.
             guard let runID, let run = log.run(id: runID), let data = log.photoData(of: run),
-                  let small = PhotoShrinker.pickedPhoto(data) else { return nil }
+                  let small = PhotoShrinker.thumbnail(data, edge: 600) else { return nil }
             let url = folder.appendingPathComponent(runID + ".jpg")
             guard (try? small.write(to: url)) != nil else { return nil }
             return url.path
