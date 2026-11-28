@@ -30,7 +30,10 @@ enum SettingsFile {
         do {
             values = try JSONDecoder().decode(Values.self, from: data)
         } catch {
+            // Kept beside the fresh file, not overwritten by the next save.
             logger.error("could not read the settings: \(error)")
+            let aside = url.deletingPathExtension().appendingPathExtension("broken-\(Int(Date().timeIntervalSince1970)).json")
+            try? FileManager.default.moveItem(at: url, to: aside)
         }
     }
 

@@ -1752,6 +1752,40 @@
         }
       }
     },
+    "Die Gerichte auf diesem Gerät stammen aus einer neueren Version von CookPlanner. Bitte die App aktualisieren." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The dishes on this device come from a newer version of CookPlanner. Please update the app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les plats de cet appareil proviennent d’une version plus récente de CookPlanner. Veuillez mettre à jour l’application."
+          }
+        }
+      }
+    },
+    "Die Gerichte-Datenbank lässt sich nicht öffnen; Änderungen werden nicht gespeichert." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The dish database cannot be opened; changes are not saved."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La base de données des plats ne peut pas être ouverte ; les modifications ne sont pas enregistrées."
+          }
+        }
+      }
+    },
     "Die gewählten Filter erscheinen als eigene Sammlung in der Leiste." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -5182,6 +5216,23 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Divers"
+          }
+        }
+      }
+    },
+    "Speichern nicht möglich" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cannot save"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrement impossible"
           }
         }
       }

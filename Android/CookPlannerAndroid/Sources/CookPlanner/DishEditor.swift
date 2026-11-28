@@ -481,6 +481,9 @@ struct IngredientDraft {
 
     /// "250", "0,5" – up to two decimals, the comma of the app's language.
     static func text(for amount: Double) -> String {
+        // An amount from a file or an old build may be anything; Int() of
+        // a huge or infinite value traps.
+        guard amount.isFinite, abs(amount) < 1e15 else { return "" }
         let rounded = (amount * 100).rounded() / 100
         var text = rounded == rounded.rounded() ? String(Int(rounded)) : String(rounded)
         if AppSettings.locale.decimalSeparator == "," { text = text.replacingOccurrences(of: ".", with: ",") }
@@ -489,7 +492,7 @@ struct IngredientDraft {
 
     var amount: Double? {
         let text = amountText.trimmingCharacters(in: .whitespaces).replacingOccurrences(of: ",", with: ".")
-        guard !text.isEmpty, let value = Double(text), value > 0 else { return nil }
+        guard !text.isEmpty, let value = Double(text), value.isFinite, value > 0, value <= 1_000_000 else { return nil }
         return value
     }
 
