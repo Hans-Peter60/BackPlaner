@@ -115,7 +115,7 @@ struct ValueLabel: View {
 
 /// "+20 g", "−20 g", "±0 g" — a true minus sign, not a hyphen.
 func gramsDeltaText(_ grams: Double) -> String {
-    let whole = Int(grams.rounded())
+    let whole = Plausible.roundedInt(grams)
     if whole == 0 { return "±0 g" }
     return whole > 0 ? "+\(whole) g" : "−\(-whole) g"
 }
@@ -250,7 +250,7 @@ struct FlourSubstitutionCalculator: View {
     @State var targetID = FlourSubstitution.flours(of: .spelt).first { $0.milling == .type(630) }?.id
         ?? FlourSubstitution.wheat550.id
 
-    private var grams: Double { Double(gramsText.filter(\.isNumber)) ?? 0 }
+    private var grams: Double { min(Double(gramsText.filter(\.isNumber).prefix(7)) ?? 0, Plausible.maxGrams) }
     private var source: FlourSubstitution.Flour {
         FlourSubstitution.catalog.first { $0.id == sourceID } ?? FlourSubstitution.wheat550
     }
@@ -364,7 +364,7 @@ struct StarterYieldCalculator: View {
     @State var sourceYield = 150
     @State var targetYield = AppSettings.storedStarterDoughYield
 
-    private var grams: Double { Double(gramsText.filter(\.isNumber)) ?? 0 }
+    private var grams: Double { min(Double(gramsText.filter(\.isNumber).prefix(7)) ?? 0, Plausible.maxGrams) }
     private var presets: [Int] { AppSettings.storedStarterDoughYieldPresets }
 
     var body: some View {
@@ -372,9 +372,9 @@ struct StarterYieldCalculator: View {
         let waterDelta = StarterYieldAdjustment.waterDelta(grams: grams, from: Double(sourceYield), to: Double(targetYield))
         Form {
             Section {
-                CalculatorResult(title: "Anstellgut einsetzen", value: "\(Int(starterAfter.rounded())) g") {
+                CalculatorResult(title: "Anstellgut einsetzen", value: "\(Plausible.roundedInt(starterAfter)) g") {
                     Text("Wasser im Teig: \(gramsDeltaText(waterDelta))")
-                    Text(verbatim: "\(Int(grams.rounded())) g TA \(sourceYield) → TA \(targetYield)")
+                    Text(verbatim: "\(Plausible.roundedInt(grams)) g TA \(sourceYield) → TA \(targetYield)")
                         .font(AppFont.footnote)
                         .foregroundStyle(.secondary)
                 }

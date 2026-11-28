@@ -255,6 +255,38 @@
         }
       }
     },
+    "Das Rezept wurde nicht gefunden." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recipe was not found."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La recette est introuvable."
+          }
+        }
+      }
+    },
+    "Das Rezeptbild lässt sich nicht lesen. Bitte ein neues Bild wählen." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The recipe picture cannot be read. Please choose a new picture."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’image de la recette ne peut pas être lue. Veuillez choisir une nouvelle image."
+          }
+        }
+      }
+    },
     "Der Kauf gilt auf allen Android-Geräten mit Deinem Google-Konto; einen Code löst Du im Play Store unter „Zahlungen und Abos“ ein. Ein Kauf auf dem iPhone gilt hier nicht. Alles andere in der App bleibt kostenlos: Rezepte, Zeitplan, Backmodus, Backhistorie, Rezept-Datenbank und die Rechner." : {
       "localizations" : {
         "en" : {
@@ -315,6 +347,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "L’historique de cuisson en chiffres et graphiques : combien de fois, quoi le plus, quelle note."
+          }
+        }
+      }
+    },
+    "Die Daten auf diesem Gerät stammen aus einer neueren Version von BakePlanner. Bitte die App aktualisieren." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The data on this device comes from a newer version of BakePlanner. Please update the app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les données de cet appareil proviennent d’une version plus récente de BakePlanner. Veuillez mettre à jour l’application."
           }
         }
       }

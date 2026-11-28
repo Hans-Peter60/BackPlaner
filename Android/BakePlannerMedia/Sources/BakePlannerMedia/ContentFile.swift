@@ -15,9 +15,14 @@ public final class ContentFile {
         #if SKIP
         let context = ProcessInfo.processInfo.androidContext
         let uri = android.net.Uri.parse(urlString)
-        guard let stream = context.contentResolver.openInputStream(uri) else { return nil }
-        defer { stream.close() }
-        return Data(platformValue: stream.readBytes())
+        // openInputStream throws for a file that is gone or not ours.
+        do {
+            guard let stream = try context.contentResolver.openInputStream(uri) else { return nil }
+            defer { stream.close() }
+            return Data(platformValue: stream.readBytes())
+        } catch {
+            return nil
+        }
         #else
         guard let url = URL(string: urlString) else { return nil }
         return try? Data(contentsOf: url)
