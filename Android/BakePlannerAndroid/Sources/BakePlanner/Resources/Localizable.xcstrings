@@ -832,6 +832,22 @@
         }
       }
     },
+    "Wird gesichert …" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saving …"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrement …"
+          }
+        }
+      }
+    },
     "alle %lld Tage" : {
       "extractionState" : "manual",
       "localizations" : {

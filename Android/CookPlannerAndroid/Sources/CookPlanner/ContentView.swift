@@ -68,6 +68,8 @@ struct DishListView: View {
     @State var pickedType: String?
     @State var exportURL: URL?
     @State var showsExporter = false
+    /// While a backup is written or read: a note on screen, no second start.
+    @State var busyNote: String?
     @State var report = ""
     @State var showsReport = false
     @State var searchText = ""
@@ -143,10 +145,14 @@ struct DishListView: View {
             ToolbarItem(placement: .primaryAction) {
                 Menu {
                     Button(String(localized: "Gerichte und Protokolle sichern", bundle: .module)) {
-                        exportURL = library.exportFile(of: library.ownDishes, includesRecords: true)
-                        if exportURL != nil { showsExporter = true }
+                        busyNote = String(localized: "Wird gesichert …", bundle: .module)
+                        Task {
+                            exportURL = await library.exportFile(of: library.ownDishes, includesRecords: true)
+                            busyNote = nil
+                            if exportURL != nil { showsExporter = true }
+                        }
                     }
-                    .disabled(library.ownDishes.isEmpty && CookRunLog.shared.runs.isEmpty)
+                    .disabled((library.ownDishes.isEmpty && CookRunLog.shared.runs.isEmpty) || busyNote != nil)
                     Button(String(localized: "Gerichte importieren", bundle: .module)) {
                         showsPicker = true
                     }
@@ -197,8 +203,22 @@ struct DishListView: View {
         .onChange(of: pickedURL) { _, url in
             guard let url else { return }
             pickedURL = nil
-            report = library.importFile(at: url)
-            showsReport = true
+            busyNote = String(localized: "Wird gelesen …", bundle: .module)
+            Task {
+                report = await library.importFile(at: url)
+                busyNote = nil
+                showsReport = true
+            }
+        }
+        .overlay {
+            if let busyNote {
+                HStack(spacing: 10) {
+                    ProgressView()
+                    Text(busyNote)
+                }
+                .padding(20)
+                .background(RoundedRectangle(cornerRadius: 12).fill(Palette.card(colorScheme)))
+            }
         }
         // No completion: handing SkipKit's Result back from Kotlin to Swift
         // crashed the app (SIGTRAP in SkipBridge's Pair bridging, skip-kit

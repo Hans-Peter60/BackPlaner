@@ -4,6 +4,13 @@ import Foundation
 import Observation
 import SkipFuse
 
+/// A value handed to another thread that the compiler cannot vouch for:
+/// used only for values no one touches meanwhile.
+struct UncheckedSendable<Value>: @unchecked Sendable {
+    let value: Value
+    init(_ value: Value) { self.value = value }
+}
+
 /// What the app shows, and where it keeps the user's recipes, shopping lists
 /// and bake history: one SQLite database in the app's own storage.
 @MainActor
@@ -874,7 +881,7 @@ final class AppModel {
     /// handed to the system's "save as". The full backup carries the bake
     /// history and the feeding diary along; a single recipe saved to pass
     /// on does not.
-    func exportFile(recipeIDs ids: [String], named name: String, includingBakeHistory: Bool) -> URL? {
+    func exportFile(recipeIDs ids: [String], named name: String, includingBakeHistory: Bool) async -> URL? {
         do {
             let file: RecipeExportFile
             if includingBakeHistory {
@@ -890,7 +897,12 @@ final class AppModel {
             try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
             let safeName = name.components(separatedBy: CharacterSet(charactersIn: "/\\:?*\"<>|")).joined(separator: "-")
             let url = folder.appendingPathComponent(safeName.isEmpty ? "Rezept" : safeName).appendingPathExtension("json")
-            try file.encoded().write(to: url, options: .atomic)
+            // Encoding the pictures as text and writing the file is the
+            // slow part; away from the main thread, so the screen stays alive.
+            let box = UncheckedSendable(file)
+            try await Task.detached {
+                try box.value.encoded().write(to: url, options: .atomic)
+            }.value
             return url
         } catch {
             logger.error("could not write a backup file: \(error)")

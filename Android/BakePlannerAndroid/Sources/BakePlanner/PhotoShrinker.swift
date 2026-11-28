@@ -1,9 +1,7 @@
+import BakePlannerMedia
 import Foundation
 #if canImport(UIKit)
 import UIKit
-#elseif os(Android)
-// SkipFuseUI brings UIImage along on Android.
-import SwiftUI
 #endif
 
 /// Photos as the app keeps them: no longer edge than looks sharp on the
@@ -21,10 +19,59 @@ enum PhotoShrinker {
     static let longestEdge = 2048.0
     static let jpegQuality = 0.8
 
+    // MARK: Pages for the cloud AI
+
+    /// What the Cloud Function analyzeRecipeImages accepts per page, as the
+    /// iPhone prepares its pages (FirebaseFunctionsClient): 2000 pixels on
+    /// the longer side, JPEG 0.72, at most 3 MB.
+    static let analysisLongestEdge = 2000.0
+    static let analysisJPEGQuality = 0.72
+    static let analysisMaximumBytes = 3 * 1024 * 1024
+
+    #if os(Android)
+    // On Android the pictures go through ImageScaler (BakePlannerMedia),
+    // which decodes them reduced instead of whole: a 50-megapixel camera
+    // JPEG would otherwise take 200 MB before it could be shrunk.
+    static func shrunk(_ data: Data) -> Data {
+        ImageScaler.jpeg(data: data, longestEdge: Int(longestEdge), quality: Int(jpegQuality * 100), alwaysEncode: false) ?? data
+    }
+
+    static func pickedPhoto(_ data: Data) -> Data? {
+        ImageScaler.jpeg(data: data, longestEdge: Int(longestEdge), quality: Int(jpegQuality * 100), alwaysEncode: true)
+    }
+
+    static func thumbnail(_ data: Data, edge: Double = 160) -> Data? {
+        ImageScaler.jpeg(data: data, longestEdge: Int(edge), quality: 70, alwaysEncode: true)
+    }
+
+    static func uploadPhoto(_ data: Data) -> Data? {
+        ImageScaler.jpeg(data: data, longestEdge: 1024, quality: 50, alwaysEncode: true)
+    }
+
+    /// A photo as the backup carries it, the iPhone's size for bake photos
+    /// in a backup: 1000 pixels, JPEG 0.7.
+    static func backupPhoto(_ data: Data) -> Data {
+        ImageScaler.jpeg(data: data, longestEdge: 1000, quality: 70, alwaysEncode: false) ?? data
+    }
+
+    static func analysisPhoto(_ data: Data) -> Data? {
+        var edge = analysisLongestEdge
+        var quality = analysisJPEGQuality
+        for _ in 0..<4 {
+            guard let jpeg = ImageScaler.jpeg(data: data, longestEdge: Int(edge), quality: Int(quality * 100), alwaysEncode: true) else {
+                return nil
+            }
+            if jpeg.count <= analysisMaximumBytes { return jpeg }
+            edge *= 0.75
+            quality = max(0.4, quality - 0.1)
+        }
+        return nil
+    }
+    #else
     /// The photo at most `longestEdge` pixels long, as JPEG. One already that
     /// small, or data that is no picture, stays exactly as it is.
     static func shrunk(_ data: Data) -> Data {
-        #if canImport(UIKit) || os(Android)
+        #if canImport(UIKit)
         guard let image = UIImage(data: data), let smaller = smallerImage(of: image) else { return data }
         return smaller.jpegData(compressionQuality: .init(jpegQuality)) ?? data
         #else
@@ -36,7 +83,7 @@ enum PhotoShrinker {
     /// HEIC, PNG or JPEG — and no longer than `longestEdge`. Nil for a file
     /// that is no picture.
     static func pickedPhoto(_ data: Data) -> Data? {
-        #if canImport(UIKit) || os(Android)
+        #if canImport(UIKit)
         guard let image = UIImage(data: data) else { return nil }
         let kept = smallerImage(of: image) ?? image
         return kept.jpegData(compressionQuality: .init(jpegQuality)) ?? data
@@ -48,7 +95,7 @@ enum PhotoShrinker {
     /// A small square-ish version for a list row, `edge` pixels on the
     /// longer side; nil for data that is no picture.
     static func thumbnail(_ data: Data, edge: Double = 160) -> Data? {
-        #if canImport(UIKit) || os(Android)
+        #if canImport(UIKit)
         guard let image = UIImage(data: data) else { return nil }
         let small = smallerImage(of: image, longestEdge: edge) ?? image
         return small.jpegData(compressionQuality: .init(0.7))
@@ -61,7 +108,7 @@ enum PhotoShrinker {
     /// size: 1024 pixels on the longer side, JPEG 0.5. Nil for data that
     /// is no picture.
     static func uploadPhoto(_ data: Data) -> Data? {
-        #if canImport(UIKit) || os(Android)
+        #if canImport(UIKit)
         guard let image = UIImage(data: data) else { return nil }
         let small = smallerImage(of: image, longestEdge: 1024) ?? image
         return small.jpegData(compressionQuality: .init(0.5))
@@ -70,21 +117,12 @@ enum PhotoShrinker {
         #endif
     }
 
-    // MARK: Pages for the cloud AI
-
-    /// What the Cloud Function analyzeRecipeImages accepts per page, as the
-    /// iPhone prepares its pages (FirebaseFunctionsClient): 2000 pixels on
-    /// the longer side, JPEG 0.72, at most 3 MB.
-    static let analysisLongestEdge = 2000.0
-    static let analysisJPEGQuality = 0.72
-    static let analysisMaximumBytes = 3 * 1024 * 1024
-
     /// A photographed page as it goes to the cloud AI: JPEG, no longer than
     /// `analysisLongestEdge`, and under the function's size limit — made
     /// smaller and coarser until it fits. Nil for data that is no picture,
     /// or one that will not fit even then.
     static func analysisPhoto(_ data: Data) -> Data? {
-        #if canImport(UIKit) || os(Android)
+        #if canImport(UIKit)
         guard let image = UIImage(data: data) else { return nil }
         var edge = analysisLongestEdge
         var quality = analysisJPEGQuality
@@ -103,7 +141,9 @@ enum PhotoShrinker {
         #endif
     }
 
-    #if canImport(UIKit) || os(Android)
+    #endif
+
+    #if canImport(UIKit)
     /// The image scaled down to `longestEdge`, keeping its proportions; nil
     /// when it is that small already.
     private static func smallerImage(of image: UIImage, longestEdge: Double = PhotoShrinker.longestEdge) -> UIImage? {

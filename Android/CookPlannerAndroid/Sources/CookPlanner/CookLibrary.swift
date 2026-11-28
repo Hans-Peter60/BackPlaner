@@ -97,32 +97,42 @@ final class CookLibrary {
     /// The file of `dishes` in the cache folder, for the system's "save
     /// as"; nil when it cannot be written. The format is the iPhone's
     /// (KitchenDishFile), so the file moves dishes between the platforms.
-    func exportFile(of dishes: [KitchenDish], includesRecords: Bool = false) -> URL? {
-        do {
-            let file = includesRecords
-                ? KitchenDishFile(dishes: dishes, runs: CookRunLog.shared.runs, photos: CookRunLog.shared.backupPhotos())
-                : KitchenDishFile(dishes: dishes)
-            let data = try file.encoded()
-            let folder = URL.cachesDirectory.appendingPathComponent("exports", isDirectory: true)
-            try? FileManager.default.removeItem(at: folder)
-            try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
-            // A backup is named by its date ("CookPlanner 2026-11-26"), even
-            // with one dish; a shared dish by its name.
-            let url = folder.appendingPathComponent(KitchenDishTransfer.fileName(for: includesRecords ? [] : dishes))
-            try data.write(to: url)
-            return url
-        } catch {
-            logger.error("could not write the dish file: \(error)")
-            return nil
-        }
+    func exportFile(of dishes: [KitchenDish], includesRecords: Bool = false) async -> URL? {
+        let runs = includesRecords ? CookRunLog.shared.runs : []
+        let rawPhotos = includesRecords ? CookRunLog.shared.backupPhotos() : [:]
+        let fileName = KitchenDishTransfer.fileName(for: includesRecords ? [] : dishes)
+        // The photos made small (the iPhone's backup size), the file
+        // encoded and written away from the main thread: a hundred photos
+        // held the screen for many seconds.
+        return await Task.detached { () -> URL? in
+            do {
+                let photos = rawPhotos.mapValues { PhotoShrinker.backupPhoto($0) }
+                let file = includesRecords
+                    ? KitchenDishFile(dishes: dishes, runs: runs, photos: photos)
+                    : KitchenDishFile(dishes: dishes)
+                let data = try file.encoded()
+                let folder = URL.cachesDirectory.appendingPathComponent("exports", isDirectory: true)
+                try? FileManager.default.removeItem(at: folder)
+                try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+                // A backup is named by its date ("CookPlanner 2026-11-26"), even
+                // with one dish; a shared dish by its name.
+                let url = folder.appendingPathComponent(fileName)
+                try data.write(to: url)
+                return url
+            } catch {
+                logger.error("could not write the dish file: \(error)")
+                return nil
+            }
+        }.value
     }
 
     /// Reads a .cookplanner file and keeps the dishes that are new; the
     /// sentence the alert shows. What is there already stays as it is.
-    func importFile(at url: URL) -> String {
+    func importFile(at url: URL) async -> String {
         let file: KitchenDishFile
         do {
-            file = try KitchenDishFile.decode(try Data(contentsOf: url))
+            // Read and decoded away from the main thread (the photos).
+            file = try await Task.detached { try KitchenDishFile.decode(try Data(contentsOf: url)) }.value
         } catch KitchenDishFileError.unsupportedVersion {
             return String(localized: "Die Datei stammt aus einer neueren Version von CookPlanner. Bitte die App aktualisieren.", bundle: .module)
         } catch {

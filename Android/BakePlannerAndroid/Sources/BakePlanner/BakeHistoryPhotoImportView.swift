@@ -204,8 +204,12 @@ struct BakeHistoryPhotoImportView: View {
         isReading = true
         let names = model.recipes.map { $0.content.name }
         for url in urls {
-            guard let data = try? Data(contentsOf: url) else { continue }
-            let meta = PhotoMetadata.read(data)
+            guard let raw = try? Data(contentsOf: url) else { continue }
+            // Date and title come from the file as it is; the picture is
+            // then made small at once, away from the main thread — forty
+            // camera files whole would be several hundred megabytes.
+            let meta = PhotoMetadata.read(raw)
+            let data = await Task.detached { PhotoShrinker.shrunk(raw) }.value
             var row = Row(data: data, date: meta.date, title: meta.title, recipeID: nil,
                           proposedByTitle: false, isDuplicate: false, include: false)
             if let title = meta.title, let match = BakeHistoryPhotoImport.bestMatch(title: title, recipeNames: names),
@@ -230,7 +234,7 @@ struct BakeHistoryPhotoImportView: View {
         for row in rows where row.include && !row.isDuplicate {
             guard let recipeID = row.recipeID, let date = row.date else { continue }
             if model.addBakeEntry(toRecipe: recipeID, date: date, comment: row.title ?? "",
-                                  images: [PhotoShrinker.shrunk(row.data)], facts: BakeHistoryFacts()) {
+                                  images: [row.data], facts: BakeHistoryFacts()) {
                 created += 1
             }
         }

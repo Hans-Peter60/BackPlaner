@@ -15,6 +15,8 @@ struct BakeHistoryView: View {
     @State var mode = 0
     /// The entries with their photos, read when gallery or cloud is shown.
     @State var entriesWithImages: [StoredBakeHistory] = []
+    /// The recipes' pictures for tiles without a photo, small.
+    @State var recipeThumbnails: [String: Data] = [:]
     /// The recipe to open from the photo cloud. Kept apart from the
     /// destination's visibility, as the dialogs' data is.
     @State var cloudRecipeID: String?
@@ -142,12 +144,12 @@ struct BakeHistoryView: View {
         // again after an entry was changed.
         .task(id: mode) {
             if mode == 1 || mode == 3 {
-                entriesWithImages = model.bakeHistoryWithImages()
+                await loadPictures()
             }
         }
         .onChange(of: model.bakeHistory.count) { _, _ in
             if mode == 1 || mode == 3 {
-                entriesWithImages = model.bakeHistoryWithImages()
+                Task { await loadPictures() }
             }
         }
         .navigationDestination(isPresented: $opensCloudRecipe) {
@@ -232,6 +234,34 @@ struct BakeHistoryView: View {
         })
     }
 
+    /// The photos of every entry and the pictures of their recipes, as
+    /// thumbnails: read on the main thread (the database lives there),
+    /// made small away from it. The tiles show 150 points; a few hundred
+    /// full photos would be hundreds of megabytes.
+    private func loadPictures() async {
+        let entries = model.bakeHistoryWithImages()
+        let recipeIDs = Set(entries.map(\.recipeID))
+        let pictures: [(String, Data)] = recipeIDs.compactMap { id in
+            model.recipe(id: id)?.content.image.map { (id, $0) }
+        }
+        let photos: [(String, [Data])] = entries.map { ($0.id, $0.images) }
+        let small = await Task.detached { () -> ([(String, [Data])], [String: Data]) in
+            let photos = photos.map { ($0.0, $0.1.compactMap { PhotoShrinker.thumbnail($0, edge: 480) }) }
+            var thumbnails = [String: Data]()
+            for (id, picture) in pictures {
+                if let thumbnail = PhotoShrinker.thumbnail(picture, edge: 480) { thumbnails[id] = thumbnail }
+            }
+            return (photos, thumbnails)
+        }.value
+        let byID = Dictionary(small.0, uniquingKeysWith: { first, _ in first })
+        entriesWithImages = entries.map { entry in
+            var copy = entry
+            copy.images = byID[entry.id] ?? []
+            return copy
+        }
+        recipeThumbnails = small.1
+    }
+
     // MARK: - Gallery
 
     /// Tiles with the first photo of each bake (or the recipe's picture),
@@ -250,7 +280,7 @@ struct BakeHistoryView: View {
                     } label: {
                         GalleryTile(entry: entry, recipeName: model.recipeName(id: entry.recipeID),
                                     photos: photos[entry.id] ?? [],
-                                    recipeImage: model.recipe(id: entry.recipeID)?.content.image)
+                                    recipeImage: recipeThumbnails[entry.recipeID])
                     }
                     .buttonStyle(.plain)
                     .frame(maxWidth: .infinity)
@@ -296,7 +326,7 @@ struct BakeHistoryView: View {
                         }
                     } label: {
                         CloudBubble(summary: summary, diameter: diameter,
-                                    recipeImage: (summary.id.base as? String).flatMap { model.recipe(id: $0)?.content.image })
+                                    recipeImage: (summary.id.base as? String).flatMap { recipeThumbnails[$0] })
                     }
                     .buttonStyle(.plain)
                     .position(x: originX + Double(placement.center.x) * scale,

@@ -86,8 +86,10 @@ struct DishPlanView: View {
                         }
                         Button(String(localized: "Teilen", bundle: .module)) {
                             if let dish = library.dish(id: dishID) {
-                                exportURL = library.exportFile(of: [dish])
-                                if exportURL != nil { showsExporter = true }
+                                Task {
+                                    exportURL = await library.exportFile(of: [dish])
+                                    if exportURL != nil { showsExporter = true }
+                                }
                             }
                         }
                         Button(String(localized: "Gericht löschen", bundle: .module), role: .destructive) {

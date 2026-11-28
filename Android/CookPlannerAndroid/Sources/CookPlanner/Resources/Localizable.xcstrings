@@ -5866,6 +5866,40 @@
         }
       }
     },
+    "Wird gelesen …" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reading …"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lecture …"
+          }
+        }
+      }
+    },
+    "Wird gesichert …" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saving …"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrement …"
+          }
+        }
+      }
+    },
     "Zahl = Schritt im Ablauf" : {
       "extractionState" : "manual",
       "localizations" : {

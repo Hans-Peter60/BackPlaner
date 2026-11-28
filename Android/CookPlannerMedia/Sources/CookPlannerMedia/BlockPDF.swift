@@ -359,7 +359,22 @@ public final class BlockPDF {
 
         /// The picture filling a rounded square.
         func drawImage(path: String, left: Float, top: Float, side: Float) {
-            guard let canvas, let bitmap = android.graphics.BitmapFactory.decodeFile(path) else { return }
+            guard let canvas else { return }
+            // Decoded reduced to what a square of `side` points needs (three
+            // pixels a point is plenty for print): every page's bitmaps stay
+            // in memory until the document is written.
+            let bounds = android.graphics.BitmapFactory.Options()
+            bounds.inJustDecodeBounds = true
+            android.graphics.BitmapFactory.decodeFile(path, bounds)
+            let longest = max(bounds.outWidth, bounds.outHeight)
+            let wanted = Int(side * Float(3))
+            var sample = 1
+            while longest > 0 && wanted > 0 && longest / (sample * 2) >= wanted {
+                sample *= 2
+            }
+            let options = android.graphics.BitmapFactory.Options()
+            options.inSampleSize = sample
+            guard let bitmap = android.graphics.BitmapFactory.decodeFile(path, options) else { return }
             let frame = android.graphics.RectF(left, top, left + side, top + side)
             let scale = max(side / Float(bitmap.width), side / Float(bitmap.height))
             let drawWidth = Float(bitmap.width) * scale
